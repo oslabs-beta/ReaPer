@@ -1,0 +1,14 @@
+# General
+.DS_Store
+
+# Dependencies
+node_modules
+
+# Output from webpack
+# Change this to actual file path
+build/
+
+package-lock.json
+
+# User VScode preferences
+.vscode
