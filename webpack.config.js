@@ -4,7 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: './src/app/index.js',
+  entry: path.resolve(__dirname, './src/app/index.js'),
   output: {
     path: path.resolve(__dirname, './dist/bundles'),
     filename: 'bundle.js',
@@ -15,7 +15,7 @@ module.exports = {
       chunkFilename: '[name].css',
     }),
     new CopyPlugin({
-      patterns: [{ from: './src/extension', to: './../' }],
+      patterns: [{ from: path.resolve(__dirname, './src/extension'), to: path.resolve(__dirname, './dist')}],
     }),
   ],
   module: {
