@@ -1,0 +1,1 @@
+function handleShown(){console.log("panel is being shown")}function handleHidden(){console.log("panel is being hidden")}console.log("Hey I am from devtools"),chrome.devtools.panels.create("Test Panel","","/devtools/panel/panel.html",(e=>{e.onShown.addListener(handleShown),e.onHidden.addListener(handleHidden)}));
