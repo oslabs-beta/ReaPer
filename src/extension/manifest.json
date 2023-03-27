@@ -1,0 +1,32 @@
+{
+    "description": "CHANGE THIS TEXT",
+    "manifest_version": 3,
+    "name": "ReaPer",
+    "version": "1.0.0",
+    "author": "ReaPer Team",
+    "icons": {
+    },
+    "background": {
+        "service_worker": "background_scripts/background.js"
+    },
+    "permissions": [
+        "contextMenus",
+        "tabs",
+        "activeTab",
+        "scripting"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "devtools_page": "/devtools/devtools.html",
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "contentScript.js"
+            ]
+        }
+    ]
+}
