@@ -1,11 +1,10 @@
 {
-    "description": "Adds a new panel to the developer tools. The panel contains buttons that demonstrate various basic features of the devtools API",
+    "description": "CHANGE THIS TEXT",
     "manifest_version": 3,
-    "name": "devtools_panels",
+    "name": "ReaPer",
     "version": "1.0.0",
-    "author": "Christophe Villeneuve",
+    "author": "ReaPer Team",
     "icons": {
-        "48": "pedroPascal-removebg-preview.png"
     },
     "background": {
         "service_worker": "background_scripts/background.js"

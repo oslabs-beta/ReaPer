@@ -1,1 +1,0 @@
-const sendMessageToBackground=e=>{console.log("content.js sending message to background script:",e),chrome.runtime.sendMessage({message:e})},handleMessageFromBackground=e=>(console.log("content.js received message from background:",e),!1);sendMessageToBackground("HELLO FROM CONTENT.JS"),chrome.runtime.onMessage.addListener(handleMessageFromBackground);

@@ -9,6 +9,9 @@
   "rules": {
     "indent": ["warn", 2],
     "arrow-parens": "off",
+    "consistent-return": "off",
+    "func-names": "off",
+    "radix": "off",
     "no-unused-vars": ["off", { "vars": "local" }],
     "space-infix-ops": "warn",
     "import/no-unresolved": "off",
@@ -26,5 +29,10 @@
   },
   "globals": {
 
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
