@@ -5,8 +5,7 @@
 node_modules
 
 # Output from webpack
-# Change this to actual file path
-build/
+dist/
 
 package-lock.json
 
