@@ -1,9 +1,14 @@
 import React from 'react';
+import MainNav from './components/MainNav';
+import ComponentTree from './components/ComponentTree';
 
 function App() {
-    return (
-        <div>
-            <h1>Hello world!</h1>
-        </div>
-    )
+  return (
+    <div>
+      {/* <MainNav /> */}
+      <ComponentTree />
+    </div>
+  );
 }
+
+export default App;
