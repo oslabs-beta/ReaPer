@@ -1,12 +1,12 @@
 import React from 'react';
 import MainNav from './components/MainNav';
-import ComponentTree from './components/ComponentTree';
+// import ComponentTree from '../components/ComponentTree';
 
 function App() {
   return (
     <div>
-      {/* <MainNav /> */}
-      <ComponentTree />
+      <MainNav />
+      {/* <ComponentTree /> */}
     </div>
   );
 }
