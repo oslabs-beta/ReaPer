@@ -72,3 +72,4 @@ chrome.runtime.onConnect.addListener(port => {
 Set up listener for messages from content script
 */
 chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
+

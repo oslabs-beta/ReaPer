@@ -4,4 +4,4 @@
 // update whenever the React app gets rendered
 const createRenderEvent = () => {
 
-}
+};
