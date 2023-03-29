@@ -1,28 +1,32 @@
+@import url('./reactflow-base.css');
+@import url('./reactflow-style.css');
+
 * {
-  margin: 0;
-  padding: 0;
-}
-#main-nav {
-  width: 2rem;
-  height: 100vh;
-  padding-top: 1rem;
-  padding-left: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
-  background-color: rgb(58, 58, 79);
-}
-
-.main-nav-btn {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: rgb(157, 179, 198);
-  align-items: center;
-}
-
-.main-nav-btn :hover {
-  box-shadow: 0 0 3px;
-  cursor: pointer;
-}
+    margin: 0;
+    padding: 0;
+  }
+  #main-nav {
+    width: 2rem;
+    height: 100vh;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    gap: 1rem;
+    background-color: rgb(58, 58, 79);
+  }
+  
+  .main-nav-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: rgb(157, 179, 198);
+    align-items: center;
+  }
+  
+  .main-nav-btn :hover {
+    box-shadow: 0 0 3px;
+    cursor: pointer;
+  }
