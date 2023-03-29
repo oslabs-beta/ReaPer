@@ -63,7 +63,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div id="container">
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
         <ComponentTree />

@@ -1,10 +1,22 @@
-@import url('./reactflow-base.css');
+/* @import url('./reactflow-base.css'); */
 @import url('./reactflow-style.css');
 
 * {
     margin: 0;
     padding: 0;
   }
+
+  #container {
+    display: flex;
+    /* width: 90%; */
+    /* flex-direction: row; */
+  }
+
+  #tree-component-container {
+    height: 50vh;
+    width: 50%;
+  }
+
   #main-nav {
     width: 2rem;
     height: 100vh;
@@ -13,7 +25,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    position: fixed;
+    /* position: fixed; */
     gap: 1rem;
     background-color: rgb(58, 58, 79);
   }
