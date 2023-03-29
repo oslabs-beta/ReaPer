@@ -4,7 +4,7 @@ import ComponentTree from './components/ComponentTree.jsx';
 
 function App() {
   return (
-    <div>
+    <div id="container">
       <MainNav />
       <ComponentTree />
     </div>
