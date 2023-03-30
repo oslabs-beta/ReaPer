@@ -9,19 +9,15 @@ import {
   faCircleQuestion,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/style.css';
-import { usePort } from '../contexts/PortContext';
+import Context from '../contexts/Context';
 
-const MainNav = () => {
-  const port = usePort();
 
-  function handleConnect() {
-    if (port) {
-      port.disconnect();
-    }
-  }
+const MainNav = (props) => {
+  const context = useContext(Context);
+
   return (
     <nav id='main-nav'>
-      <button type='button' className='main-nav-btn' onClick={handleConnect}>
+      <button type='button' className='main-nav-btn' onClick={() => props.handleRecordBtnClick()}>
         <FontAwesomeIcon icon={faCircle} />
       </button>
       <button type='button' className='main-nav-btn'>
