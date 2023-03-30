@@ -25,7 +25,7 @@ const setTab = (tabTitle, tabId) => {
  * @param msg (object)
  */
 const onMessageFromDevTool = msg => {
-  console.log('background.js received a message from the dev tool:', msg.message);
+  console.log('background.js received a message from the dev tool:', msg);
 };
 
 const sendMessageToDevTool = msg => {
