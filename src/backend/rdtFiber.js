@@ -1,11 +1,11 @@
-import ReaperSession from './ReaperSession';
-import RenderEvent from './RenderEvent';
+import ReaperSession from './reaperSession';
+import RenderEvent from './renderEvent';
 
 // Set global variable to use across functions
 // for access to React DevTools global hook for before and after record session
 let rdt;
 // for access to React devTools fiber root node
-let rdtFiberRootNode = null;
+// let rdtFiberRootNode = null;
 // for access to React devTools onCommitFiberRoot method to be initialized in connectToReact,
 // and to be mutated in intercept function, and again in endReaperSession
 let rdtOnCommitFiberRoot;
@@ -19,7 +19,7 @@ let sessionInProgress = false;
 // To be invoked in intercept function's return function
 const updateRenderEvent = (fiberRootNode) => {
   // intantiate RenderEvent
-  const newRenderEvent = new RenderEvent(rdtFiberRootNode);
+  const newRenderEvent = new RenderEvent(fiberRootNode);
   // add newRenderEvent to RenderEventList object on ReaperSession instantiation
   reaperSession.addRenderEvent(newRenderEvent);
 };
@@ -33,33 +33,31 @@ function connectToReact() {
   // check if RDT's global object is installed
   if (!rdt) return;
   // Pass error message to the frontend if React devTools is not present
-  // window.postMessage();*****
+  // TODO: use sendMessageToDevTool method
 
   // check if application is a React application by checking for a React instance
   const isReact = rdt.renderers.get(1);
   if (!isReact) return;
   // Pass error message to the frontend if user application is not a React app
-  // window.postMessage();******
+  // TODO: use sendMessageToDevTool method
 
   // get fiberNode information and intercept
-  if (isReact) {
-    rdtFiberRootNode = rdt.getFiberRoots(1).values().next().value;
+  // rdtFiberRootNode = rdt.getFiberRoots(1).values().next().value;
 
+  // intercept the original onCommitFiberRoot
+  const intercept = function (originalOnCommitFiberRootFn) {
     // preserve origial onCommitFiberRoot
-    rdtOnCommitFiberRoot = rdt.onCommitFiberRoot;
+    rdtOnCommitFiberRoot = originalOnCommitFiberRootFn;
 
-    // intercept the original onCommitFiberRoot
-    const intercept = function (rdtOnCommit) {
-      return function (...args) {
-        rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
-        // Invoke updateRenderEvent
-        updateRenderEvent(rdtFiberRootNode);
-        // return RDT's onCommitFiberRoot with its args
-        return rdtOnCommitFiberRoot(...args);
-      };
+    return function (...args) {
+      const rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
+      // Invoke updateRenderEvent
+      updateRenderEvent(rdtFiberRootNode);
+      // return RDT's onCommitFiberRoot with its args
+      return originalOnCommitFiberRootFn(...args);
     };
-    rdt.onCommitFiberRoot = intercept(rdt.onCommitFiberRoot);
-  }
+  };
+  rdt.onCommitFiberRoot = intercept(rdt.onCommitFiberRoot);
 }
 
 // When a user starts a record session startReaperSession will be invoked in the background script
