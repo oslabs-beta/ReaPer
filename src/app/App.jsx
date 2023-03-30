@@ -3,7 +3,7 @@ import MainNav from './components/MainNav';
 import Context from './contexts/Context';
 import createMessageObj from '../backend/helperFns';
 import types from '../backend/types';
-// import ComponentTree from '../components/ComponentTree';
+import ComponentTree from './components/ComponentTree.jsx';
 
 function App() {
   const appRef = useRef({});
@@ -63,10 +63,10 @@ function App() {
   };
 
   return (
-    <div>
+    <div id="container">
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        {/* <ComponentTree /> */}
+        <ComponentTree />
       </Context.Provider>
     </div>
   );
