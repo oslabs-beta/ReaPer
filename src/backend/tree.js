@@ -86,65 +86,67 @@ class Tree {
 }
 
 // function to create a tree
-const createTree = (fiberObj) => {
+export const createTree = (fiberObj) => {
   const tree = new Tree(fiberObj);
   return tree;
 }
 
 
-//hard coded tests
-const childNode5 = {
-  data: {
-    name: 'childNode5'
-  },
-  child: null,
-  sibling: null,
-  id: 5
-  
-}
-const childNode4 = {
-  data: {
-    name: 'childNode4'
-  },
-  child: null,
-  sibling: childNode5,
-  id: 4
-  
-}
-const childNode3 = {
-  data: {
-    name: 'childNode3'
-  },
-  child: childNode4,
-  sibling: null,
-  id: 3
-  
-}
-const childNode2 = {
-  data: {
-    name: 'childNode2'
-  },
-  child: null,
-  sibling: childNode3,
-  id: 2
-  
-}
-const childNode1 = {
-  data: {
-    name: 'childNode1'
-  },
-  child: null,
-  sibling: childNode2,
-  id: 1
-}
 
 
-const fiberRoot = {
-  data: {
-    name: 'fiberRoot'
-  },
-  child: childNode1,
-  sibling: null,
-  id: 0
-}
-console.log(createTree(fiberRoot))
+// //hard coded tests
+// const childNode5 = {
+//   data: {
+//     name: 'childNode5'
+//   },
+//   child: null,
+//   sibling: null,
+//   id: 5
+  
+// }
+// const childNode4 = {
+//   data: {
+//     name: 'childNode4'
+//   },
+//   child: null,
+//   sibling: childNode5,
+//   id: 4
+  
+// }
+// const childNode3 = {
+//   data: {
+//     name: 'childNode3'
+//   },
+//   child: childNode4,
+//   sibling: null,
+//   id: 3
+  
+// }
+// const childNode2 = {
+//   data: {
+//     name: 'childNode2'
+//   },
+//   child: null,
+//   sibling: childNode3,
+//   id: 2
+  
+// }
+// const childNode1 = {
+//   data: {
+//     name: 'childNode1'
+//   },
+//   child: null,
+//   sibling: childNode2,
+//   id: 1
+// }
+
+
+// const fiberRoot = {
+//   data: {
+//     name: 'fiberRoot'
+//   },
+//   child: childNode1,
+//   sibling: null,
+//   id: 0
+// }
+// console.log(createTree(fiberRoot))
