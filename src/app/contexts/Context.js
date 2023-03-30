@@ -1,33 +1,36 @@
-import React, { createContext, useContext, useRef } from 'react';
+import React from 'react';
 
-// Create a new context opj to store port connection
-export const PortContext = createContext(null);
+// Create a new context obj
+// Naming this generically so we can use it to store other things too (like ReaperSessions?)
+const Context = React.createContext({});
 
-// Get the current port connection
-export function usePort() {
-  // Declare a ref to hold the port connection
-  const portRef = useRef(null);
+export default Context;
 
-  // Check if the port connection has not yet been set
-  if (!portRef.current) {
-    // If not, set the port connection
-    portRef.current = chrome.runtime.connect();
-  }
-  return portRef.current;
-}
+// // Get the current port connection
+// export function usePort() {
+//   // Declare a ref to hold the port connection
+//   const portRef = useRef(null);
 
-// Disconnect the port connection
-export function useDisconnectPort() {
-  // Get the current port from PortContext with useContext
-  const port = useContext(PortContext);
+//   // Check if the port connection has not yet been set
+//   if (!portRef.current) {
+//     // If not, set the port connection
+//     portRef.current = chrome.runtime.connect();
+//   }
+//   return portRef.current;
+// }
 
-  // Disconnect the port connection
-  return function disconnectPort() {
-    if (port) {
-      port.disconnect();
-    }
-  };
-}
+// // Disconnect the port connection
+// export function useDisconnectPort() {
+//   // Get the current port from PortContext with useContext
+//   const port = useContext(PortContext);
+
+//   // Disconnect the port connection
+//   return function disconnectPort() {
+//     if (port) {
+//       port.disconnect();
+//     }
+//   };
+// }
 
 // import { createContext, useContext, useRef } from 'react';
 // // Create new context obj
