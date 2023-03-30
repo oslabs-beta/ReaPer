@@ -4,6 +4,7 @@ import Context from './contexts/Context';
 import createMessageObj from '../backend/helperFns';
 import types from '../backend/types';
 import ComponentTree from './components/ComponentTree.jsx';
+import RenderEvents from './components/RenderEvents';
 
 function App() {
   const appRef = useRef({});
@@ -17,7 +18,10 @@ function App() {
   // Use the useCallback hook here so we can cache the function definition
   // of sendMessageTobackground
   const sendMessageToBackground = useCallback((msgObj) => {
-    console.log('dev tool front end sending message to background script:', msgObj);
+    console.log(
+      'dev tool front end sending message to background script:',
+      msgObj
+    );
     if (appRef.current.port === null || appRef.current.port === undefined) {
       console.log('No port, exiting...');
       return;
@@ -63,12 +67,16 @@ function App() {
   };
 
   return (
-    <div id="container">
+    <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
+        <div className='render-events'>Rendered Events and Duration</div>
+        <div className='render-comp'>Rendered Components</div>
+        <div className='comp-ranked'>Components Ranked by Render Time</div>
         <ComponentTree />
       </Context.Provider>
     </div>
+    // <RenderEvents />
   );
 }
 

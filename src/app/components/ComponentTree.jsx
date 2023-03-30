@@ -4,8 +4,10 @@ import ReactFlow, {
   Controls,
   Background,
   useNodesState,
+  EdgeText,
   useEdgesState,
   addEdge,
+  edgeStyle,
 } from 'reactflow';
 
 // For testing purposes:
@@ -120,84 +122,85 @@ import ReactFlow, {
 // const testDataTree = createTree(fiberRoot);
 // console.log(testDataTree);
 
-const edges = [{
-  id: '1-2',
-  source: '1',
-  target: '2',
-  type: 'step',
-},
-{
-  id: '2-3',
-  source: '2',
-  target: '3',
-  type: 'step',
-},
-{
-  id: '2-4',
-  source: '2',
-  target: '4',
-  type: 'step',
-},
-{
-  id: '2-5',
-  source: '2',
-  target: '5',
-  type: 'step',
-},
-{
-  id: '3-6',
-  source: '3',
-  target: '6',
-  type: 'step',
-},
-{
-  id: '3-7',
-  source: '3',
-  target: '7',
-  type: 'step',
-},
-{
-  id: '3-8',
-  source: '3',
-  target: '8',
-  type: 'step',
-},
-{
-  id: '4-9',
-  source: '4',
-  target: '9',
-  type: 'step',
-},
-{
-  id: '4-10',
-  source: '4',
-  target: '10',
-  type: 'step',
-},
-{
-  id: '4-11',
-  source: '4',
-  target: '11',
-  type: 'step',
-},
-{
-  id: '5-12',
-  source: '5',
-  target: '12',
-  type: 'step',
-},
-{
-  id: '5-13',
-  source: '5',
-  target: '13',
-  type: 'step',
-},
-{
-  id: '5-14',
-  source: '5',
-  target: '14',
-  type: 'step',
-},
+const edges = [
+  {
+    id: '1-2',
+    source: '1',
+    target: '2',
+    type: 'step',
+  },
+  {
+    id: '2-3',
+    source: '2',
+    target: '3',
+    type: 'step',
+  },
+  {
+    id: '2-4',
+    source: '2',
+    target: '4',
+    type: 'step',
+  },
+  {
+    id: '2-5',
+    source: '2',
+    target: '5',
+    type: 'step',
+  },
+  {
+    id: '3-6',
+    source: '3',
+    target: '6',
+    type: 'step',
+  },
+  {
+    id: '3-7',
+    source: '3',
+    target: '7',
+    type: 'step',
+  },
+  {
+    id: '3-8',
+    source: '3',
+    target: '8',
+    type: 'step',
+  },
+  {
+    id: '4-9',
+    source: '4',
+    target: '9',
+    type: 'step',
+  },
+  {
+    id: '4-10',
+    source: '4',
+    target: '10',
+    type: 'step',
+  },
+  {
+    id: '4-11',
+    source: '4',
+    target: '11',
+    type: 'step',
+  },
+  {
+    id: '5-12',
+    source: '5',
+    target: '12',
+    type: 'step',
+  },
+  {
+    id: '5-13',
+    source: '5',
+    target: '13',
+    type: 'step',
+  },
+  {
+    id: '5-14',
+    source: '5',
+    target: '14',
+    type: 'step',
+  },
 ];
 
 const nodes = [
@@ -310,8 +313,22 @@ const ComponentTree = () => {
   // createNodesandEdges();
 
   return (
-    <div id="tree-component-container">
-      <ReactFlow nodes={nodes} edges={edges}>
+    <div id='tree-component-container'>
+      <p>Virtual DOM</p>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        edgeStyle={(id, type) => {
+          return {
+            strokeWidth: 2,
+            stroke: '#000',
+            transition: 'all 0.2s ease-in-out',
+            ':hover': {
+              stroke: 'blue',
+              strokeWidth: 4,
+            },
+          };
+        }}>
         <Background />
         <Controls />
         <MiniMap />
