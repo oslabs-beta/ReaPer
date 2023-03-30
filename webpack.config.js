@@ -15,7 +15,12 @@ module.exports = {
       chunkFilename: '[name].css',
     }),
     new CopyPlugin({
-      patterns: [{ from: path.resolve(__dirname, './src/extension'), to: path.resolve(__dirname, './dist')}],
+      patterns: [
+        {
+          from: path.resolve(__dirname, './src/extension'),
+          to: path.resolve(__dirname, './dist'),
+        },
+      ],
     }),
   ],
   module: {
@@ -31,10 +36,13 @@ module.exports = {
           options: {
             presets: [
               ['@babel/preset-env', { targets: 'defaults' }],
-              ['@babel/preset-react', {
-                targets: 'defaults',
-                plugins: ['@babel/plugin-proposal-class-properties'],
-              }],
+              [
+                '@babel/preset-react',
+                {
+                  targets: 'defaults',
+                  plugins: ['@babel/plugin-proposal-class-properties'],
+                },
+              ],
             ],
           },
         },
@@ -42,16 +50,13 @@ module.exports = {
       {
         test: /\.s?css/,
         exclude: /node_modules/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: 'ts-loader',
-      }
+      },
     ],
   },
   resolve: {
