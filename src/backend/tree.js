@@ -15,8 +15,10 @@ class TreeNode {
   }
 
   addChild(newNode) {
-    newNode.parent = this;
-    this.children.push(newNode);
+    if (newNode) {
+      newNode.parent = this;
+      this.children.push(newNode);
+    }
   }
 }
 
@@ -48,15 +50,15 @@ class Tree {
         }
         // Else, add the new TreeNode to the parent's children array
         else {
-          if (currFiberNode === parentTreeNode.data) {
-            // If the current FiberNode is the parent of the previous FiberNode in the queue,
-            // update the lastParentNode to the previous FiberNode's corresponding TreeNode
-            lastParentNode = parentTreeNode;
-          }
-          else if (currFiberNode === lastParentNode.data) {
-            // If the current FiberNode is the child of the last parent node, update the parentTreeNode
-            parentTreeNode = lastParentNode;
-          }
+          // if (currFiberNode === parentTreeNode.data) {
+          //   // If the current FiberNode is the parent of the previous FiberNode in the queue,
+          //   // update the lastParentNode to the previous FiberNode's corresponding TreeNode
+          //   lastParentNode = parentTreeNode;
+          // }
+          // else if (currFiberNode === lastParentNode.data) {
+          //   // If the current FiberNode is the child of the last parent node, update the parentTreeNode
+          //   parentTreeNode = lastParentNode;
+          // }
           parentTreeNode.addChild(newNode);
         }
 
@@ -85,6 +87,8 @@ class Tree {
         
 }
 
+
+
 // function to create a tree
 export const createTree = (fiberObj) => {
   const tree = new Tree(fiberObj);
@@ -94,59 +98,86 @@ export const createTree = (fiberObj) => {
 
 
 
-// //hard coded tests
-// const childNode5 = {
-//   data: {
-//     name: 'childNode5'
-//   },
-//   child: null,
-//   sibling: null,
-//   id: 5
+//hard coded tests
+const childNode8 = {
+  data: {
+    name: 'childNode8'
+  },
+  child: null,
+  sibling: null,
+  id: 8
   
-// }
-// const childNode4 = {
-//   data: {
-//     name: 'childNode4'
-//   },
-//   child: null,
-//   sibling: childNode5,
-//   id: 4
+}
+const childNode7 = {
+  data: {
+    name: 'childNode7'
+  },
+  child: null,
+  sibling: null,
+  id: 7
   
-// }
-// const childNode3 = {
-//   data: {
-//     name: 'childNode3'
-//   },
-//   child: childNode4,
-//   sibling: null,
-//   id: 3
+}
+const childNode6 = {
+  data: {
+    name: 'childNode6'
+  },
+  child: childNode8,
+  sibling: childNode7,
+  id: 6
   
-// }
-// const childNode2 = {
-//   data: {
-//     name: 'childNode2'
-//   },
-//   child: null,
-//   sibling: childNode3,
-//   id: 2
+}
+const childNode5 = {
+  data: {
+    name: 'childNode5'
+  },
+  child: null,
+  sibling: null,
+  id: 5
   
-// }
-// const childNode1 = {
-//   data: {
-//     name: 'childNode1'
-//   },
-//   child: null,
-//   sibling: childNode2,
-//   id: 1
-// }
+}
+const childNode4 = {
+  data: {
+    name: 'childNode4'
+  },
+  child: childNode6,
+  sibling: childNode5,
+  id: 4
+  
+}
+const childNode3 = {
+  data: {
+    name: 'childNode3'
+  },
+  child: childNode4,
+  sibling: null,
+  id: 3
+  
+}
+const childNode2 = {
+  data: {
+    name: 'childNode2'
+  },
+  child: null,
+  sibling: childNode3,
+  id: 2
+  
+}
+const childNode1 = {
+  data: {
+    name: 'childNode1'
+  },
+  child: null,
+  sibling: childNode2,
+  id: 1
+}
 
 
-// const fiberRoot = {
-//   data: {
-//     name: 'fiberRoot'
-//   },
-//   child: childNode1,
-//   sibling: null,
-//   id: 0
-// }
-// console.log(createTree(fiberRoot))
+const fiberRoot = {
+  data: {
+    name: 'fiberRoot'
+  },
+  child: childNode1,
+  sibling: null,
+  id: 0
+}
+console.log(createTree(fiberRoot))
