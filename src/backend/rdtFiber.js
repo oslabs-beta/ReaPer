@@ -1,20 +1,22 @@
 import ReaperSession from './ReaperSession';
 import RenderEvent from './RenderEvent';
 
-// For access to React DevTools global hook for before and after record session
+// Set global variable to use across functions
+// for access to React DevTools global hook for before and after record session
 let rdt;
-// For access to React devTools fiber root node in functions
+// for access to React devTools fiber root node
 let rdtFiberRootNode = null;
-// For access to React devTools onCommitFiberRoot method to be initialized in connectToReact,
+// for access to React devTools onCommitFiberRoot method to be initialized in connectToReact,
 // and to be mutated in intercept function, and again in endReaperSession
 let rdtOnCommitFiberRoot;
-// Will initialize on a ReaperSession instantiation, but also accessed elsewhere
+// to initialize on a ReaperSession instantiation and access method
 let reaperSession;
-// Verification for session in progress
+// verification for session in progress
 let sessionInProgress = false;
 
+// Instantiates RenderEvent to create a Tree of the Fiber Root Node
+// and add to reaperSession's renderEventList
 // To be invoked in intercept function's return function
-// Formerly named "function b"
 const updateRenderEvent = (fiberRootNode) => {
   // intantiate RenderEvent
   const newRenderEvent = new RenderEvent(rdtFiberRootNode);
@@ -22,10 +24,10 @@ const updateRenderEvent = (fiberRootNode) => {
   reaperSession.addRenderEvent(newRenderEvent);
 };
 
-// connect to React DevTools global hook
+// Connect to React DevTools global hook
 function connectToReact() {
   // __REACT_DEVTOOLS_GLOBAL_HOOK__ is a global object installed
-  // by React Devtools extension's content script that gives access to React fiber nodes
+  // by React Devtools (RDT) extension's content script that gives access to React fiber nodes
   rdt = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
   // check if RDT's global object is installed
@@ -46,23 +48,23 @@ function connectToReact() {
     // preserve origial onCommitFiberRoot
     rdtOnCommitFiberRoot = rdt.onCommitFiberRoot;
 
-    // intercept the original onCommitFiberRoot with middleware
+    // intercept the original onCommitFiberRoot
     const intercept = function (rdtOnCommit) {
       return function (...args) {
         rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
-        // invoke function B here
+        // Invoke updateRenderEvent
         updateRenderEvent(rdtFiberRootNode);
         // return RDT's onCommitFiberRoot with its args
         return rdtOnCommitFiberRoot(...args);
       };
     };
-    rdt.onCommitFiberRoot = intercept(rdt.onCommitFiberRoot); /// correct to intercept
+    rdt.onCommitFiberRoot = intercept(rdt.onCommitFiberRoot);
   }
 }
 
 // When a user starts a record session startReaperSession will be invoked in the background script
 export const startReaperSession = () => {
-  // check current value of sessionInProgress, if true don't do anything
+  // check current value of sessionInProgress
   if (!sessionInProgress) {
     sessionInProgress = true;
     reaperSession = new ReaperSession();
@@ -73,12 +75,11 @@ export const startReaperSession = () => {
 // This function undoes what intercept function does
 // It will be invoked once user stops recording session
 export const endReaperSession = () => {
-  // invoke
-  // check if sessionInProgress is already false, if false, don't do anything.
+  // check if sessionInProgress is already false
   if (sessionInProgress) {
     sessionInProgress = false;
-    // point React devTools's global hook's onCommitFiber method to intercept
-    // to point to the original function saved
+    // point React DevTools's global hook's onCommitFiber method from intercept's result
+    // to point to the original method saved globally
     rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
   }
 };
