@@ -9,116 +9,116 @@ import ReactFlow, {
 } from 'reactflow';
 
 // For testing purposes:
-import Tree from '../tree';
+// import Tree from '../tree';
 
-/**
- * Dummy data to be used for creating our tree traversal
- */
-const createTree = (fiberObj) => {
-  const tree = new Tree(fiberObj);
-  return tree;
-};
+// /**
+//  * Dummy data to be used for creating our tree traversal
+//  */
+// const createTree = (fiberObj) => {
+//   const tree = new Tree(fiberObj);
+//   return tree;
+// };
 
-const childNode13 = {
-  data: { name: 'Box 9' },
-  child: null,
-  sibling: null,
-  id: 13
-};
+// const childNode13 = {
+//   data: { name: 'Box 9' },
+//   child: null,
+//   sibling: null,
+//   id: 13
+// };
 
-const childNode12 = {
-  data: { name: 'Box 8' },
-  child: null,
-  sibling: childNode13,
-  id: 12
-};
+// const childNode12 = {
+//   data: { name: 'Box 8' },
+//   child: null,
+//   sibling: childNode13,
+//   id: 12
+// };
 
-const childNode11= {
-  data: { name: 'Box 7' },
-  child: null,
-  sibling: childNode12,
-  id: 11
-};
+// const childNode11= {
+//   data: { name: 'Box 7' },
+//   child: null,
+//   sibling: childNode12,
+//   id: 11
+// };
 
-const childNode10 = {
-  data: { name: 'Box 6' },
-  child: null,
-  sibling: null,
-  id: 10
-};
+// const childNode10 = {
+//   data: { name: 'Box 6' },
+//   child: null,
+//   sibling: null,
+//   id: 10
+// };
 
-const childNode9 = {
-  data: { name: 'Box 5' },
-  child: null,
-  sibling: childNode10,
-  id: 9
-};
+// const childNode9 = {
+//   data: { name: 'Box 5' },
+//   child: null,
+//   sibling: childNode10,
+//   id: 9
+// };
 
-const childNode8 = {
-  data: { name: 'Box 4' },
-  child: null,
-  sibling: childNode9,
-  id: 8
-};
+// const childNode8 = {
+//   data: { name: 'Box 4' },
+//   child: null,
+//   sibling: childNode9,
+//   id: 8
+// };
 
-const childNode7 = {
-  data: { name: 'Box 3' },
-  child: null,
-  sibling: null,
-  id: 7
-};
+// const childNode7 = {
+//   data: { name: 'Box 3' },
+//   child: null,
+//   sibling: null,
+//   id: 7
+// };
 
-const childNode6 = {
-  data: { name: 'Box 2' },
-  child: null,
-  sibling: childNode7,
-  id: 6
-};
+// const childNode6 = {
+//   data: { name: 'Box 2' },
+//   child: null,
+//   sibling: childNode7,
+//   id: 6
+// };
 
-const childNode5 = {
-  data: { name: 'Box 1' },
-  child: null,
-  sibling: childNode6,
-  id: 5
-};
+// const childNode5 = {
+//   data: { name: 'Box 1' },
+//   child: null,
+//   sibling: childNode6,
+//   id: 5
+// };
 
-const childNode4 = {
-  data: { name: 'Row 3' },
-  child: childNode11,
-  sibling: null,
-  id: 4
-};
+// const childNode4 = {
+//   data: { name: 'Row 3' },
+//   child: childNode11,
+//   sibling: null,
+//   id: 4
+// };
 
-const childNode3 = {
-  data: { name: 'Row 2' },
-  child: childNode8,
-  sibling: childNode4,
-  id: 3
-};
+// const childNode3 = {
+//   data: { name: 'Row 2' },
+//   child: childNode8,
+//   sibling: childNode4,
+//   id: 3
+// };
 
-const childNode2 = {
-  data: { name: 'Row 1' },
-  child: childNode5,
-  sibling: childNode3,
-  id: 2
-};
+// const childNode2 = {
+//   data: { name: 'Row 1' },
+//   child: childNode5,
+//   sibling: childNode3,
+//   id: 2
+// };
 
-const childNode1 = {
-  data: { name: 'Board' },
-  child: childNode2,
-  sibling: null,
-  id: 1
-};
+// const childNode1 = {
+//   data: { name: 'Board' },
+//   child: childNode2,
+//   sibling: null,
+//   id: 1
+// };
 
-const fiberRoot = {
-  data: { name: 'App' },
-  child: childNode1,
-  sibling: null,
-  id: 0
-};
+// const fiberRoot = {
+//   data: { name: 'App' },
+//   child: childNode1,
+//   sibling: null,
+//   id: 0
+// };
 
-const testDataTree = createTree(fiberRoot);
-console.log(testDataTree);
+// const testDataTree = createTree(fiberRoot);
+// console.log(testDataTree);
 
 const edges = [{
   id: '1-2',
