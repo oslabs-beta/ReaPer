@@ -4,10 +4,9 @@
     "name": "ReaPer",
     "version": "1.0.0",
     "author": "ReaPer Team",
-    "icons": {
-    },
+    "icons": {},
     "background": {
-        "service_worker": "background_scripts/background.js"
+        "service_worker": "background.js"
     },
     "permissions": [
         "contextMenus",
