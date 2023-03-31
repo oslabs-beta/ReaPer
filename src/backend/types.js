@@ -1,7 +1,6 @@
-const START_RECORDING = 'START_RECORDING';
-const END_RECORDING = 'END_RECORDING';
-
-export {
-  START_RECORDING,
-  END_RECORDING,
+const types = {
+  START_RECORDING: 'START_RECORDING',
+  END_RECORDING: 'END_RECORDING',
 };
+
+export default types;
