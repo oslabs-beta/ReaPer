@@ -7,18 +7,18 @@ import ReactFlow, {
   useEdgesState,
   addEdge,
 } from 'reactflow';
-import '../styles/style.css';
 
 const nodes = [
   {
     id: '1', // required
     position: { x: 0, y: 0 }, // required
+    data: { label: 'App' },
   },
 ];
 
 const ComponentTree = () => {
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{ height: '100vh' }}>
       <ReactFlow nodes={nodes}>
         <Background />
         <Controls />
