@@ -18,6 +18,7 @@ let sessionInProgress = false;
 // and add to reaperSession's renderEventList
 // To be invoked in intercept function's return function
 const updateRenderEvent = (fiberRootNode) => {
+  console.log('rdtFiber updateRenderEvent: received fiberRootNode', fiberRootNode);
   // intantiate RenderEvent
   const newRenderEvent = new RenderEvent(fiberRootNode);
   // add newRenderEvent to RenderEventList object on ReaperSession instantiation
@@ -31,13 +32,19 @@ function connectToReact() {
   rdt = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
 
   // check if RDT's global object is installed
-  if (!rdt) return;
+  if (!rdt) {
+    console.log('rdtFiber connectToReact(): React Dev Tools is not installed! Cannot connect.');
+    return;
+  }
   // Pass error message to the frontend if React devTools is not present
   // TODO: use sendMessageToDevTool method
 
   // check if application is a React application by checking for a React instance
   const isReact = rdt.renderers.get(1);
-  if (!isReact) return;
+  if (!isReact) {
+    console.log('rdtFiber connectToReact(): Application does not use React! Cannot connect.');
+    return;
+  }
   // Pass error message to the frontend if user application is not a React app
   // TODO: use sendMessageToDevTool method
 
@@ -62,8 +69,10 @@ function connectToReact() {
 
 // When a user starts a record session startReaperSession will be invoked in the background script
 export const startReaperSession = () => {
+  console.log('rdtFiber: startReaperSession() invoked');
   // check current value of sessionInProgress
   if (!sessionInProgress) {
+    console.log('rdtFiber startReaperSession: starting reaper session');
     sessionInProgress = true;
     reaperSession = new ReaperSession();
     connectToReact();
