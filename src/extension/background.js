@@ -1,3 +1,6 @@
+import { startReaperSession } from '../backend/rdtFiber';
+import types from '../backend/types';
+
 let currentTab;
 let bgPort;
 class Tab {
@@ -26,6 +29,16 @@ const setTab = (tabTitle, tabId) => {
  */
 const onMessageFromDevTool = msg => {
   console.log('background.js received a message from the dev tool:', msg);
+
+  switch (msg.type) {
+    case types.START_RECORDING:
+      startReaperSession();
+      break;
+    case types.END_RECORDING:
+      break;
+    default:
+      console.log('Background Script: ERROR - Unknown message type!', msg.type);
+  }
 };
 
 const sendMessageToDevTool = msg => {
