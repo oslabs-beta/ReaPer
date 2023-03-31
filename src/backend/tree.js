@@ -1,4 +1,3 @@
-
 // define structure of tree
 
 /* eslint-disable */
