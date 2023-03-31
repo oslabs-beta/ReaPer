@@ -5,6 +5,10 @@ import createMessageObj from '../backend/helperFns';
 import types from '../backend/types';
 import ComponentTree from './components/ComponentTree.jsx';
 import RenderEvents from './components/RenderEvents';
+import ComponentsRanked from './components/ComponentsRanked';
+import RenderedComponents from './components/RenderedComponents';
+import StartView from './components/StartView';
+import SessionProgress from './components/SessionProgress';
 
 function App() {
   const appRef = useRef({});
@@ -69,14 +73,15 @@ function App() {
   return (
     <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
-        <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        <div className='render-events'>Rendered Events and Duration</div>
-        <div className='render-comp'>Rendered Components</div>
-        <div className='comp-ranked'>Components Ranked by Render Time</div>
-        <ComponentTree />
+        {/* <StartView /> */}
+        <SessionProgress />
+        {/* <MainNav handleRecordBtnClick={handleRecordBtnClick} />
+        <RenderEvents />
+        <RenderedComponents />
+        <ComponentsRanked />
+        <ComponentTree /> */}
       </Context.Provider>
     </div>
-    // <RenderEvents />
   );
 }
 

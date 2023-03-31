@@ -10,16 +10,9 @@ import ReactFlow, {
   edgeStyle,
 } from 'reactflow';
 
-// For testing purposes:
-import Tree from '../tree';
-
 /**
  * Dummy data to be used for creating our tree traversal
  */
-const createTree = (fiberObj) => {
-  const tree = new Tree(fiberObj);
-  return tree;
-};
 
 const childNode13 = {
   data: { name: 'Box 9' },
@@ -118,9 +111,6 @@ const fiberRoot = {
   sibling: null,
   id: 0,
 };
-
-const testDataTree = createTree(fiberRoot);
-console.log(testDataTree);
 
 const edges = [
   {

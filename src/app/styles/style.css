@@ -12,6 +12,7 @@
   /* flex-direction: row; */
 }
 
+/* Graph display on dashboard */
 #tree-component-container {
   position: absolute;
   bottom: 0;
@@ -56,6 +57,7 @@
   border-radius: 10px;
 }
 
+/* Navbar */
 #main-nav {
   position: sticky;
   width: 2rem;
@@ -82,4 +84,23 @@
 .main-nav-btn :hover {
   box-shadow: 0 0 3px;
   cursor: pointer;
+}
+
+/* Start View & Session Recording in Progress */
+.start-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  gap: 8px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: linear-gradient(219.43deg, #22223b 30.07%, #4a4e69 100.23%);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+}
+
+.start-text {
+  font-size: 30px;
+  color: white;
 }

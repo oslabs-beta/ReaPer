@@ -2,12 +2,12 @@ import React from 'react';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 
-function RenderEvents() {
+const ComponentsRanked = () => {
   const data = {
     labels: ['12:1719.41', '+00:02.19', '+00:01.41', '+00:01.54', '+08:20.14'],
     datasets: [
       {
-        label: 'Render Events',
+        label: 'Components Ranked by Render Time',
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(255, 159, 64, 0.2)',
@@ -24,14 +24,16 @@ function RenderEvents() {
         ],
         borderWidth: 1,
         data: [0.3, 0.1, 0.55, 0.6, 0.7, 0.4],
+        fill: false,
       },
     ],
   };
 
   const options = {
+    indexAxis: 'y',
     title: {
       display: true,
-      text: 'Render Events and Duration',
+      text: 'Components Ranked by Render Time',
       fontSize: 20,
     },
     legend: {
@@ -49,10 +51,10 @@ function RenderEvents() {
   };
 
   return (
-    <div className='render-events'>
+    <div className='comp-ranked'>
       <Bar data={data} options={options} />
     </div>
   );
-}
+};
 
-export default RenderEvents;
+export default ComponentsRanked;
