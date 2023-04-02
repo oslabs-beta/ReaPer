@@ -1,6 +1,3 @@
-import { startReaperSession } from '../backend/rdtFiber';
-import types from '../backend/types';
-
 let currentTab;
 let bgPort;
 class Tab {
@@ -31,10 +28,27 @@ const onMessageFromDevTool = msg => {
   console.log('background.js received a message from the dev tool:', msg);
 
   switch (msg.type) {
-    case types.START_RECORDING:
-      startReaperSession();
+    case 'START_RECORDING':
+      const injectScript = (file, tab) => {
+        try {
+          const htmlBody = document.getElementsByTagName('body')[0];
+          const script = document.createElement('script');
+          script.setAttribute('type', 'text/javascript');
+          script.setAttribute('src', file);
+          htmlBody.appendChild(script);
+        } catch (error) {
+          console.log('background error:', error.message);
+        }
+      };
+      const tmpTabId = currentTab.tabId;
+      chrome.scripting.executeScript({
+        target: { tabId: tmpTabId },
+        function: injectScript,
+        args: [chrome.runtime.getURL('bundles/backend.bundle.js'), tmpTabId],
+        injectImmediately: true,
+      });
       break;
-    case types.END_RECORDING:
+    case 'END_RECORDING':
       break;
     default:
       console.log('Background Script: ERROR - Unknown message type!', msg.type);
@@ -85,4 +99,3 @@ chrome.runtime.onConnect.addListener(port => {
 Set up listener for messages from content script
 */
 chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
-
