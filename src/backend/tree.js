@@ -110,10 +110,14 @@ class Tree {
 
 
 // Function to create a tree
-export const createTree = (fiberObj) => {
+const createTree = (fiberObj) => {
   const tree = new Tree(fiberObj);
+  console.log('CreateTree: fiberObj=', fiberObj);
+  console.log('CreateTree: tree=', tree);
   return tree;
 };
+
+export default createTree;
 
 // Hard-coded tests
 // const childNode13 = {
