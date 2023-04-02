@@ -27,5 +27,15 @@
                 "contentScript.js"
             ]
         }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "bundles/backend.bundle.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
     ]
 }
