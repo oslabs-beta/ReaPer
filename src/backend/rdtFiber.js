@@ -24,6 +24,22 @@ const updateRenderEvent = (fiberRootNode) => {
   reaperSession.addRenderEvent(newRenderEvent);
 };
 
+// Limits calls made on a function (new render event) in a period of time
+const throttle = (func, delay) => {
+  let shouldWait = false;
+
+  // return function that takes new render event's fiber node arg
+  return (arg) => {
+    if (shouldWait) return;
+
+    func(arg);
+    shouldWait = true;
+    setTimeout(() => {
+      shouldWait = false;
+    }, delay);
+  };
+};
+
 // Connect to React DevTools global hook
 function connectToReact() {
   // __REACT_DEVTOOLS_GLOBAL_HOOK__ is a global object installed
@@ -43,6 +59,15 @@ function connectToReact() {
 
   // get fiberNode information and intercept
   // rdtFiberRootNode = rdt.getFiberRoots(1).values().next().value;
+  /*
+  NY:
+  let rdtFiberRootNode; // WHERE SHOULD throttleRenderEvent BE DECLARED? WHY?
+  I placed it inside connectToReact because we would only need to check it
+  when React is being used, but should it be closer to it's invocation?
+  */
+
+  // throttle render events
+  const throttleRenderEvent = throttle(() => { updateRenderEvent(rdtFiberRootNode); }, 100);
 
   // intercept the original onCommitFiberRoot
   const intercept = function (originalOnCommitFiberRootFn) {
@@ -53,6 +78,8 @@ function connectToReact() {
       const rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
       // Invoke updateRenderEvent
       updateRenderEvent(rdtFiberRootNode);
+      // throttle renders
+      throttleRenderEvent();
       // return RDT's onCommitFiberRoot with its args
       return originalOnCommitFiberRootFn(...args);
     };
