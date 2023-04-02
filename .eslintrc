@@ -13,7 +13,10 @@
   "rules": {
     "indent": [
       "warn",
-      2
+      2,
+      {
+        "SwitchCase": 1
+      }
     ],
     "arrow-parens": "off",
     "consistent-return": "off",
