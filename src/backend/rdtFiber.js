@@ -27,6 +27,7 @@ const updateRenderEvent = (fiberRootNode) => {
 
 // Connect to React DevTools global hook
 function connectToReact() {
+  console.log('rdtFiber connectToReact() invoked');
   // __REACT_DEVTOOLS_GLOBAL_HOOK__ is a global object installed
   // by React Devtools (RDT) extension's content script that gives access to React fiber nodes
   rdt = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -69,13 +70,17 @@ function connectToReact() {
 
 // When a user starts a record session startReaperSession will be invoked in the background script
 export const startReaperSession = () => {
-  console.log('rdtFiber: startReaperSession() invoked');
-  // check current value of sessionInProgress
-  if (!sessionInProgress) {
-    console.log('rdtFiber startReaperSession: starting reaper session');
-    sessionInProgress = true;
-    reaperSession = new ReaperSession();
-    connectToReact();
+  try {
+    console.log('rdtFiber: startReaperSession() invoked');
+    // check current value of sessionInProgress
+    if (!sessionInProgress) {
+      console.log('rdtFiber startReaperSession: starting reaper session');
+      sessionInProgress = true;
+      reaperSession = new ReaperSession();
+      connectToReact();
+    }
+  } catch (error) {
+    console.log('rdtFiber startReaperSession error:', error.message);
   }
 };
 
