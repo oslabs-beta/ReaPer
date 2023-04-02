@@ -29,24 +29,7 @@ const onMessageFromDevTool = msg => {
 
   switch (msg.type) {
     case 'START_RECORDING':
-      const injectScript = (file, tab) => {
-        try {
-          const htmlBody = document.getElementsByTagName('body')[0];
-          const script = document.createElement('script');
-          script.setAttribute('type', 'text/javascript');
-          script.setAttribute('src', file);
-          htmlBody.appendChild(script);
-        } catch (error) {
-          console.log('background error:', error.message);
-        }
-      };
-      const tmpTabId = currentTab.tabId;
-      chrome.scripting.executeScript({
-        target: { tabId: tmpTabId },
-        function: injectScript,
-        args: [chrome.runtime.getURL('bundles/backend.bundle.js'), tmpTabId],
-        injectImmediately: true,
-      });
+      injectScriptToStartReaperSession();
       break;
     case 'END_RECORDING':
       break;
@@ -79,6 +62,33 @@ const sendMessageToContentScript = msg => {
   }
   console.log('background.js sending message to content.js:', msg);
   chrome.tabs.sendMessage(currentTab.tabId, msg);
+};
+
+/*
+- This function will inject backend/index.js into the current tab.
+- When backend/index.js runs, it will run the imported startReaperSession() from rdtFiber,
+which will connect to the react devtools global hook for the user's current tab.
+- This seems to be the ONLY way to connect to the react devtools global hook
+*/
+const injectScriptToStartReaperSession = () => {
+  const injectScript = (file, tab) => {
+    try {
+      const htmlBody = document.getElementsByTagName('body')[0];
+      const script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', file);
+      htmlBody.appendChild(script);
+    } catch (error) {
+      console.log('background error:', error.message);
+    }
+  };
+  const tmpTabId = currentTab.tabId;
+  chrome.scripting.executeScript({
+    target: { tabId: tmpTabId },
+    function: injectScript,
+    args: [chrome.runtime.getURL('bundles/backend.bundle.js'), tmpTabId],
+    injectImmediately: true,
+  });
 };
 
 /**
