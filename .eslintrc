@@ -13,7 +13,10 @@
   "rules": {
     "indent": [
       "warn",
-      2
+      2,
+      {
+        "SwitchCase": 1
+      }
     ],
     "arrow-parens": "off",
     "consistent-return": "off",
@@ -37,7 +40,11 @@
     "arrow-body-style": "off",
     "import/prefer-default-export": "off",
     "lines-between-class-members": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "no-multiple-empty-lines": "off",
+    "no-underscore-dangle": "off",
+    "no-alert": "off",
+    "no-case-declarations": "off"
   },
   "env": {
     "es6": true,

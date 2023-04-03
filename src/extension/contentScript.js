@@ -17,7 +17,7 @@ const handleMessageFromBackground = msg => {
   return false;
 };
 
-// sendMessageToBackground('HELLO FROM CONTENT.JS');
+sendMessageToBackground('HELLO FROM CONTENT.JS');
 
 /**
 Set up listener for messages from the background script
