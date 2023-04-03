@@ -74,12 +74,12 @@ function App() {
     <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
         {/* <StartView /> */}
-        <SessionProgress />
-        {/* <MainNav handleRecordBtnClick={handleRecordBtnClick} />
+        {/* <SessionProgress /> */}
+        <MainNav handleRecordBtnClick={handleRecordBtnClick} />
         <RenderEvents />
         <RenderedComponents />
         <ComponentsRanked />
-        <ComponentTree /> */}
+        <ComponentTree />
       </Context.Provider>
     </div>
   );

@@ -105,12 +105,12 @@ import ReactFlow, {
 //   id: 1
 // };
 
-const fiberRoot = {
-  data: { name: 'App' },
-  child: childNode1,
-  sibling: null,
-  id: 0,
-};
+// const fiberRoot = {
+//   data: { name: 'App' },
+//   child: childNode1,
+//   sibling: null,
+//   id: 0,
+// };
 // const fiberRoot = {
 //   data: { name: 'App' },
 //   child: childNode1,
