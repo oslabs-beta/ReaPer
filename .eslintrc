@@ -1,53 +1,53 @@
-{
-  "extends": [
-    "airbnb",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "root": true,
-  "plugins": [
-    "react",
-    "react-hooks",
-    "@typescript-eslint"
-  ],
-  "rules": {
-    "indent": [
-      "warn",
-      2
-    ],
-    "arrow-parens": "off",
-    "consistent-return": "off",
-    "func-names": "off",
-    "radix": "off",
-    "no-unused-vars": [
-      "off",
-      {
-        "vars": "local"
-      }
-    ],
-    "space-infix-ops": "warn",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-    "linebreak-style": "off",
-    "no-console": "off", // Allow console.logs
-    "no-param-reassign": "off",
-    "react/function-component-definition": "off",
-    "arrow-body-style": "off",
-    "import/prefer-default-export": "off",
-    "lines-between-class-members": "off",
-    "no-use-before-define": "off"
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "webextensions": true
-  },
-  "globals": {},
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  }
-}
+// {
+//   "extends": [
+//     "airbnb",
+//     "plugin:@typescript-eslint/eslint-recommended",
+//     "plugin:@typescript-eslint/recommended"
+//   ],
+//   "root": true,
+//   "plugins": [
+//     "react",
+//     "react-hooks",
+//     "@typescript-eslint"
+//   ],
+//   "rules": {
+//     "indent": [
+//       "warn",
+//       2
+//     ],
+//     "arrow-parens": "off",
+//     "consistent-return": "off",
+//     "func-names": "off",
+//     "radix": "off",
+//     "no-unused-vars": [
+//       "off",
+//       {
+//         "vars": "local"
+//       }
+//     ],
+//     "space-infix-ops": "warn",
+//     "import/no-unresolved": "off",
+//     "import/extensions": "off",
+//     "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+//     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+//     "linebreak-style": "off",
+//     "no-console": "off", // Allow console.logs
+//     "no-param-reassign": "off",
+//     "react/function-component-definition": "off",
+//     "arrow-body-style": "off",
+//     "import/prefer-default-export": "off",
+//     "lines-between-class-members": "off",
+//     "no-use-before-define": "off"
+//   },
+//   "env": {
+//     "es6": true,
+//     "browser": true,
+//     "webextensions": true
+//   },
+//   "globals": {},
+//   "parserOptions": {
+//     "ecmaFeatures": {
+//       "jsx": true
+//     }
+//   }
+// }

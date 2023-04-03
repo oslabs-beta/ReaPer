@@ -76,10 +76,32 @@ function App() {
         {/* <StartView /> */}
         {/* <SessionProgress /> */}
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        <RenderEvents />
-        <RenderedComponents />
-        <ComponentsRanked />
-        <ComponentTree />
+        <div id='content'>
+          <div className='row'>
+            <div className='column'>
+              <div className='graph'>
+                <RenderEvents />
+              </div>
+            </div>
+            <div className='column'>
+              <div className='graph'>
+                <RenderedComponents />
+              </div>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='column'>
+              <div className='graph'>
+                <ComponentsRanked />
+              </div>
+            </div>
+            <div className='column'>
+              <div className='graph'>
+                <ComponentTree />
+              </div>
+            </div>
+          </div>
+        </div>
       </Context.Provider>
     </div>
   );
