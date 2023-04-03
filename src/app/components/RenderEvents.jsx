@@ -38,7 +38,7 @@ function RenderEvents() {
       display: false,
     },
     scales: {
-      yAxes: [
+      yAxis: [
         {
           ticks: {
             beginAtZero: true,
@@ -49,7 +49,7 @@ function RenderEvents() {
   };
 
   return (
-    <div className='render-events'>
+    <div id='render-events'>
       <Bar data={data} options={options} />
     </div>
   );

@@ -41,7 +41,7 @@ function RenderedComponents() {
   };
 
   return (
-    <div className='render-comp'>
+    <div id='render-comp'>
       <Line data={data} options={options} />
     </div>
   );

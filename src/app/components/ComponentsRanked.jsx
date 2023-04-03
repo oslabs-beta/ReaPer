@@ -51,7 +51,7 @@ const ComponentsRanked = () => {
   };
 
   return (
-    <div className='comp-ranked'>
+    <div id="comp-ranked">
       <Bar data={data} options={options} />
     </div>
   );
