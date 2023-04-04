@@ -44,7 +44,8 @@
     "no-multiple-empty-lines": "off",
     "no-underscore-dangle": "off",
     "no-alert": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "max-classes-per-file": "off"
   },
   "env": {
     "es6": true,
