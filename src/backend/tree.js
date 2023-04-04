@@ -1,3 +1,4 @@
+import { getFiberNodeTagName } from './helperFns';
 // define structure of tree
 
 /* eslint-disable */
@@ -6,6 +7,7 @@ class TreeNode {
     this.data = data;
     this.children = [];
     this.parent = null;
+    this.componentName = '';
   }
 
   addChild(newNode) {
@@ -13,6 +15,10 @@ class TreeNode {
       newNode.parent = this;
       this.children.push(newNode);
     }
+  }
+
+  setComponentName(name) {
+    this.componentName = name;
   }
 }
 
@@ -24,11 +30,46 @@ class Tree {
 
   buildTree(rootFiberNode) {
     function traverse(fiberNode, parentTreeNode) {
+      const {
+        sibling,
+        stateNode,
+        child,
+        // with memoizedState we can grab the root type and construct an Abstract Syntax Tree from the hooks structure using Acorn in order to extract the hook getters and match them with their corresponding setters in an object
+        memoizedState,
+        memoizedProps,
+        elementType,
+        tag,
+        actualDuration,
+        actualStartTime,
+        selfBaseDuration,
+        treeBaseDuration,
+        dependencies,
+        _debugHookTypes,
+      } = fiberNode;
+  
+      console.log('Tree traverse(), elementType=', elementType, ', \n', 
+      'name=', elementType ? elementType.name : 'nameless', ', \n', 
+      'tag=', getFiberNodeTagName(tag), ', \n', 
+      'actualDuration=', actualDuration, ', \n', 
+      'actualStartTime=', actualStartTime, ', \n', 
+      'selfBaseDuration=', selfBaseDuration, ', \n', 
+      'treeBaseDuration=', treeBaseDuration, ', \n', 
+      'dependencies=', dependencies, ', \n', 
+      '_debugHookTypes=', _debugHookTypes, ', \n',
+      'sibling=', sibling, ', \n',
+      'stateNode=', stateNode, ', \n',
+      'child=', child, ', \n',
+      'memoizedState=', memoizedState, ', \n',
+      'memoizedProps=', memoizedProps
+      );
+
       // Create a TreeNode using the FiberNode
       const newNode = new TreeNode(fiberNode.data);
 
       // If parentTreeNode is null, set the root of the tree
       if (!parentTreeNode) {
+        // Root node will always have the hardcoded component name 'root'
+        newNode.setComponentName('root');
         this.root = newNode;
       } else {
         // Add the new TreeNode to the parent's children array
