@@ -32,18 +32,41 @@ class Tree {
     function traverse(fiberNode, parentTreeNode) {
       const {
         sibling,
+        // stateNode = The local state associated with this fiber.
         stateNode,
         child,
-        // with memoizedState we can grab the root type and construct an Abstract Syntax Tree from the hooks structure using Acorn in order to extract the hook getters and match them with their corresponding setters in an object
+        // memoizedState = The state used to create the output
         memoizedState,
+        // memoizedProps = The props used to create the output
         memoizedProps,
         elementType,
+        // tag = Tag identifying the type of fiber (see helperFns.getFiberNodeTagName)
         tag,
+        /*
+        actualDuration = time spent rendering this Fiber and its descendants for the current update.
+        The actual duration reported by React includes time spent working on children.
+        */
         actualDuration,
+        /*
+        actualStartTime = If the Fiber is currently active in the "render" phase, it marks the time at which the work began.
+        This field is only set when the enableProfilerTimer flag is enabled.
+        */
         actualStartTime,
+        /*
+        selfBaseDuration = Duration of the most recent render time for this Fiber.
+        This value is not updated when we bailout for memoization purposes.
+        This field is only set when the enableProfilerTimer flag is enabled.
+        */
         selfBaseDuration,
+        /*
+        treeBaseDuration = Sum of base times for all descendants of this Fiber.
+        This value bubbles up during the "complete" phase.
+        This field is only set when the enableProfilerTimer flag is enabled.
+        */
         treeBaseDuration,
+        // dependencies = Dependencies (contexts, events) for this fiber, if it has any
         dependencies,
+        // _debugHookTypes = Used to verify that the order of hooks does not change between renders.
         _debugHookTypes,
       } = fiberNode;
   
@@ -64,7 +87,7 @@ class Tree {
       );
 
       // Create a TreeNode using the FiberNode
-      const newNode = new TreeNode(fiberNode.data);
+      const newNode = new TreeNode(fiberNode);
 
       // If parentTreeNode is null, set the root of the tree
       if (!parentTreeNode) {
