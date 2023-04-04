@@ -3,11 +3,52 @@ import { getFiberNodeTagName } from './helperFns';
 
 /* eslint-disable */
 class TreeNode {
-  constructor (data){
-    this.data = data;
+  constructor (fiberNode) {
+
+    const {
+      memoizedState,
+      memoizedProps,
+      elementType,
+      tag,
+      actualDuration,
+      actualStartTime,
+      selfBaseDuration,
+    } = fiberNode;
+
     this.children = [];
     this.parent = null;
-    this.componentName = '';
+
+    /*
+      - tagObj identifies the type of fiber
+      - Has two keys:
+        1. tag - the tag number from React
+        2. tagName - the name corresponding with the tag number
+    */
+    this.setTagObj(tag);
+    this.setComponentName(elementType);
+    this.setProps(memoizedProps);
+    this.setState(memoizedState);
+
+    /*
+      - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
+      - It includes time spent working on children.
+    */
+    this.setRenderDurationMS(actualDuration);
+
+    // Not sure if we need these, but saving them anyway
+
+    /*
+      - actualStartTime = If the Fiber is currently active in the "render" phase, it marks the time at which the work began.
+      - This field is only set when the enableProfilerTimer flag is enabled.
+    */
+    this.actualStartTime = actualStartTime;
+
+    /*
+      - selfBaseDuration = Duration of the most recent render time for this Fiber.
+      - This value is not updated when we bailout for memoization purposes.
+      - This field is only set when the enableProfilerTimer flag is enabled.
+    */
+    this.selfBaseDuration = selfBaseDuration;
   }
 
   addChild(newNode) {
@@ -17,8 +58,44 @@ class TreeNode {
     }
   }
 
-  setComponentName(name) {
-    this.componentName = name;
+  setComponentName(elementType) {
+    try {
+      if (elementType && Object.hasOwn(elementType, 'name')) {
+        // Root node will always have the hardcoded component name 'root'
+        this.componentName = this.tagObj.tagName === 'Host Root' ? 'Root' : elementType.name;
+      } else {
+        this.componentName = '';
+      }
+    } catch (error) {
+      console.log('tree.setComponentName error:', error.message);
+    }
+  }
+
+  setTagObj(fiberTagNum) {
+    try {   
+      if (fiberTagNum !== undefined && fiberTagNum !== null) {
+        this.tagObj = {
+          tag: fiberTagNum,
+          tagName: getFiberNodeTagName(fiberTagNum)
+        }
+      } else {
+        console.log('tree.setTagObj: fiberTagName is undefined!');
+      }
+    } catch (error) {
+      console.log('tree.setTagObj error:', error.message);
+    }
+  }
+
+  setRenderDurationMS(actualDuration) {
+    this.renderDurationMS = actualDuration;
+  }
+
+  setState(memoizedState) {
+    this.componentState = memoizedState;
+  }
+
+  setProps(memoizedProps) {
+    this.componentProps = memoizedProps;
   }
 }
 
@@ -31,77 +108,27 @@ class Tree {
   buildTree(rootFiberNode) {
     function traverse(fiberNode, parentTreeNode) {
       const {
-        sibling,
-        // stateNode = The local state associated with this fiber.
-        stateNode,
-        child,
-        // memoizedState = The state used to create the output
-        memoizedState,
-        // memoizedProps = The props used to create the output
-        memoizedProps,
-        elementType,
-        // tag = Tag identifying the type of fiber (see helperFns.getFiberNodeTagName)
-        tag,
-        /*
-        actualDuration = time spent rendering this Fiber and its descendants for the current update.
-        The actual duration reported by React includes time spent working on children.
-        */
-        actualDuration,
-        /*
-        actualStartTime = If the Fiber is currently active in the "render" phase, it marks the time at which the work began.
-        This field is only set when the enableProfilerTimer flag is enabled.
-        */
-        actualStartTime,
-        /*
-        selfBaseDuration = Duration of the most recent render time for this Fiber.
-        This value is not updated when we bailout for memoization purposes.
-        This field is only set when the enableProfilerTimer flag is enabled.
-        */
-        selfBaseDuration,
-        /*
-        treeBaseDuration = Sum of base times for all descendants of this Fiber.
-        This value bubbles up during the "complete" phase.
-        This field is only set when the enableProfilerTimer flag is enabled.
-        */
-        treeBaseDuration,
-        // dependencies = Dependencies (contexts, events) for this fiber, if it has any
-        dependencies,
-        // _debugHookTypes = Used to verify that the order of hooks does not change between renders.
-        _debugHookTypes,
+        tag
       } = fiberNode;
-  
-      console.log('Tree traverse(), elementType=', elementType, ', \n', 
-      'name=', elementType ? elementType.name : 'nameless', ', \n', 
-      'tag=', getFiberNodeTagName(tag), ', \n', 
-      'actualDuration=', actualDuration, ', \n', 
-      'actualStartTime=', actualStartTime, ', \n', 
-      'selfBaseDuration=', selfBaseDuration, ', \n', 
-      'treeBaseDuration=', treeBaseDuration, ', \n', 
-      'dependencies=', dependencies, ', \n', 
-      '_debugHookTypes=', _debugHookTypes, ', \n',
-      'sibling=', sibling, ', \n',
-      'stateNode=', stateNode, ', \n',
-      'child=', child, ', \n',
-      'memoizedState=', memoizedState, ', \n',
-      'memoizedProps=', memoizedProps
-      );
+      const tagName = getFiberNodeTagName(tag);
 
-      // Create a TreeNode using the FiberNode
-      const newNode = new TreeNode(fiberNode);
+      let newNode;
+      if (tagName === 'Function Component' || tagName === 'Class Component' || tagName === 'Host Root') {
+        // Create a TreeNode using the FiberNode
+        newNode = new TreeNode(fiberNode);
 
-      // If parentTreeNode is null, set the root of the tree
-      if (!parentTreeNode) {
-        // Root node will always have the hardcoded component name 'root'
-        newNode.setComponentName('root');
-        this.root = newNode;
-      } else {
-        // Add the new TreeNode to the parent's children array
-        parentTreeNode.addChild(newNode);
+        // If parentTreeNode is null, set the root of the tree
+        if (!parentTreeNode) {
+          this.root = newNode;
+        } else {
+          // Add the new TreeNode to the parent's children array
+          parentTreeNode.addChild(newNode);
+        }
       }
 
       // If fiberNode has a child, traverse down the tree
       if (fiberNode.child) {
-        traverse(fiberNode.child, newNode);
+        traverse(fiberNode.child, newNode ? newNode : parentTreeNode);
       }
 
       // If fiberNode has a sibling, traverse to the sibling
