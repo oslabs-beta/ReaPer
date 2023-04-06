@@ -1,11 +1,54 @@
+import { getFiberNodeTagName } from './helperFns';
 // define structure of tree
 
 /* eslint-disable */
 class TreeNode {
-  constructor (data){
-    this.data = data;
+  constructor (fiberNode) {
+
+    const {
+      memoizedState,
+      memoizedProps,
+      elementType,
+      tag,
+      actualDuration,
+      actualStartTime,
+      selfBaseDuration,
+    } = fiberNode;
+
     this.children = [];
     this.parent = null;
+
+    /*
+      - tagObj identifies the type of fiber
+      - Has two keys:
+        1. tag - the tag number from React
+        2. tagName - the name corresponding with the tag number
+    */
+    this.setTagObj(tag);
+    this.setComponentName(elementType);
+    this.setProps(memoizedProps);
+    this.setState(memoizedState);
+
+    /*
+      - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
+      - It includes time spent working on children.
+    */
+    this.setRenderDurationMS(actualDuration);
+
+    // Not sure if we need these, but saving them anyway
+
+    /*
+      - actualStartTime = If the Fiber is currently active in the "render" phase, it marks the time at which the work began.
+      - This field is only set when the enableProfilerTimer flag is enabled.
+    */
+    this.actualStartTime = actualStartTime;
+
+    /*
+      - selfBaseDuration = Duration of the most recent render time for this Fiber.
+      - This value is not updated when we bailout for memoization purposes.
+      - This field is only set when the enableProfilerTimer flag is enabled.
+    */
+    this.selfBaseDuration = selfBaseDuration;
   }
 
   addChild(newNode) {
@@ -14,64 +57,47 @@ class TreeNode {
       this.children.push(newNode);
     }
   }
+
+  setComponentName(elementType) {
+    try {
+      if (elementType && Object.hasOwn(elementType, 'name')) {
+        // Root node will always have the hardcoded component name 'root'
+        this.componentName = this.tagObj.tagName === 'Host Root' ? 'Root' : elementType.name;
+      } else {
+        this.componentName = '';
+      }
+    } catch (error) {
+      console.log('tree.setComponentName error:', error.message);
+    }
+  }
+
+  setTagObj(fiberTagNum) {
+    try {   
+      if (fiberTagNum !== undefined && fiberTagNum !== null) {
+        this.tagObj = {
+          tag: fiberTagNum,
+          tagName: getFiberNodeTagName(fiberTagNum)
+        }
+      } else {
+        console.log('tree.setTagObj: fiberTagName is undefined!');
+      }
+    } catch (error) {
+      console.log('tree.setTagObj error:', error.message);
+    }
+  }
+
+  setRenderDurationMS(actualDuration) {
+    this.renderDurationMS = actualDuration;
+  }
+
+  setState(memoizedState) {
+    this.componentState = memoizedState;
+  }
+
+  setProps(memoizedProps) {
+    this.componentProps = memoizedProps;
+  }
 }
-
-/*ITERATIVE ATTEMPT --- DOESN'T WORK */
-// class Tree {
-
-//   constructor(rootFiberNode) {
-//     this.root = null;
-//     this.buildTree(rootFiberNode);
-//   }
-
-//   buildTree(rootFiberNode) {
-//     function traverse(fiberNode, parentTreeNode, tree) {
-//       const queue = [fiberNode];
-//       const visited = new Set();
-//       let lastParentNode = parentTreeNode; //to track new parent node for child nodes more than 1 layer below root
-
-//       while (queue.length > 0) {
-//         // Pop the first FiberNode from the queue
-//         let currFiberNode = queue.shift();
-
-//         // Create a TreeNode using the FiberNode from the queue
-//         const newNode = new TreeNode(currFiberNode.data);
-
-//         // If parentTreeNode is null, set the root on the tree
-//         if (parentTreeNode === null) {
-//           tree.root = newNode;
-//           parentTreeNode = tree.root;
-//         }
-//         // Else, add the new TreeNode to the parent's children array
-//         else {
-//           parentTreeNode.addChild(newNode);
-//         }
-
-//         // Need to add all of the siblings to the queue
-//         let curSiblingFiberNode = currFiberNode.sibling;
-//         while (curSiblingFiberNode !== null && curSiblingFiberNode !== undefined) {
-//           if (!visited.has(curSiblingFiberNode)) {
-//             queue.push(curSiblingFiberNode);
-//             visited.add(curSiblingFiberNode);
-//           }
-//           curSiblingFiberNode = curSiblingFiberNode.sibling;
-//         }
-
-//         // If fiberNode has a child, add it to the queue
-//         if (currFiberNode.child) {
-//           queue.push(currFiberNode.child);
-//           lastParentNode = parentTreeNode;
-//           parentTreeNode = newNode;
-//         }
-//       }
-//     }
-
-//     traverse(rootFiberNode, null, this);
-//   }
-
-        
-// }
-
 
 class Tree {
   constructor(rootFiberNode) {
@@ -81,20 +107,28 @@ class Tree {
 
   buildTree(rootFiberNode) {
     function traverse(fiberNode, parentTreeNode) {
-      // Create a TreeNode using the FiberNode
-      const newNode = new TreeNode(fiberNode.data);
+      const {
+        tag
+      } = fiberNode;
+      const tagName = getFiberNodeTagName(tag);
 
-      // If parentTreeNode is null, set the root of the tree
-      if (!parentTreeNode) {
-        this.root = newNode;
-      } else {
-        // Add the new TreeNode to the parent's children array
-        parentTreeNode.addChild(newNode);
+      let newNode;
+      if (tagName === 'Function Component' || tagName === 'Class Component' || tagName === 'Host Root') {
+        // Create a TreeNode using the FiberNode
+        newNode = new TreeNode(fiberNode);
+
+        // If parentTreeNode is null, set the root of the tree
+        if (!parentTreeNode) {
+          this.root = newNode;
+        } else {
+          // Add the new TreeNode to the parent's children array
+          parentTreeNode.addChild(newNode);
+        }
       }
 
       // If fiberNode has a child, traverse down the tree
       if (fiberNode.child) {
-        traverse(fiberNode.child, newNode);
+        traverse(fiberNode.child, newNode ? newNode : parentTreeNode);
       }
 
       // If fiberNode has a sibling, traverse to the sibling
