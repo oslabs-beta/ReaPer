@@ -276,6 +276,9 @@ import testTicTacToeTree from '../treeTestCode';
 //   },
 // ];
 
+// also need totalRenderDurationMS
+// renderDurationMS
+
 const ComponentTree = () => {
   const nodes = [];
   const edges = [];
@@ -293,20 +296,23 @@ const ComponentTree = () => {
     const height = 100;
     let dagreGraph = new dagre.graphlib.Graph();
     dagreGraph.setGraph({});
-    dagreGraph.setDefaultEdgeLabel(function() { return {}; });
+    dagreGraph.setDefaultEdgeLabel(function () {
+      return {};
+    });
 
     let id = 1;
     // Using breadth first search to look through the tree
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
       // Create a node for the current Tree node
-      dagreGraph.setNode(id, { label: treeNode.data.name, width, height})
-        
-      if (treeNode.parent !== null && idQueue.length > 0) dagreGraph.setEdge(idQueue.shift(), id);
+      dagreGraph.setNode(id, { label: treeNode.data.name, width, height });
+
+      if (treeNode.parent !== null && idQueue.length > 0)
+        dagreGraph.setEdge(idQueue.shift(), id);
       if (treeNode.children.length > 0) {
         bfsQueue.push(...treeNode.children);
 
-        // Push ID into isQueue for the amount of children there are 
+        // Push ID into isQueue for the amount of children there are
         for (let i = 0; i < treeNode.children.length; i++) {
           idQueue.push(id);
         }
@@ -315,7 +321,7 @@ const ComponentTree = () => {
       id++;
     }
     dagre.layout(dagreGraph);
-    
+
     dagreGraph.nodes().forEach((nodeId) => {
       const node = dagreGraph.node(nodeId);
       // console.log('nodeerrrr:', node);
@@ -345,16 +351,16 @@ const ComponentTree = () => {
      */
 
     // When pushing in the children, save how many children there are for the next iteration. Maybe use a queue for this as well (push num of children numChild times)
-    // If it has a parent move it down by 100px in y. 
-    // Determine x by finding whether even or odd amount of children. 
+    // If it has a parent move it down by 100px in y.
+    // Determine x by finding whether even or odd amount of children.
     //    If odd, make children arrange in a way such that middle child is directly under parent, and leftOfMid children are evenly spread amongst themselves, same with right
     //    If even, make children arrange in a way such that middle two children directly line up sharing space with parent and nothing in middle. '' ' ' ' ' '
-    // 
+    //
   })();
   // createNodesandEdges();
 
   return (
-    <div id="tree-component-container">
+    <div id='tree-component-container'>
       <p>Virtual DOM</p>
       <ReactFlow
         nodes={nodes}

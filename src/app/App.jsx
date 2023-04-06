@@ -71,37 +71,37 @@ function App() {
   };
 
   return (
-    <div id="container">
+    <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
-        {/* <StartView /> */}
-        {/* <SessionProgress /> */}
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        <div id="content">
-          <div className="row">
-            <div className="column">
-              <div className="graph">
+        <SessionProgress />
+        {/* <StartView /> */}
+        {/* <div id='content'>
+          <div className='row'>
+            <div className='column'>
+              <div className='graph'>
                 <RenderEvents />
               </div>
             </div>
-            <div className="column">
-              <div className="graph">
+            <div className='column'>
+              <div className='graph'>
                 <RenderedComponents />
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="column">
-              <div className="graph">
+          <div className='row'>
+            <div className='column'>
+              <div className='graph'>
                 <ComponentsRanked />
               </div>
             </div>
-            <div className="column">
-              <div className="graph">
+            <div className='column'>
+              <div className='graph'>
                 <ComponentTree />
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </Context.Provider>
     </div>
   );

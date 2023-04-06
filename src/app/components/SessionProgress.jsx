@@ -5,9 +5,11 @@ import MainNav from './MainNav';
 
 function SessionProgress() {
   return (
-    <div className='start-view'>
-      <MainNav />
-      <FontAwesomeIcon icon={faReact} size='4x' color='#61DBFB' />
+    <div className='session-view'>
+      {/* <MainNav /> */}
+      <div className='react-icon-container'>
+        <FontAwesomeIcon icon={faReact} size='6x' color='#61DBFB' />
+      </div>
       <div className='start-text'>Session recording in progress</div>
     </div>
   );

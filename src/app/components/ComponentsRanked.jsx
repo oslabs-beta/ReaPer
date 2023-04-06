@@ -51,7 +51,8 @@ const ComponentsRanked = () => {
   };
 
   return (
-    <div id="comp-ranked">
+    <div id='comp-ranked'>
+      <p>Components Ranked by Render Time</p>
       <Bar data={data} options={options} />
     </div>
   );

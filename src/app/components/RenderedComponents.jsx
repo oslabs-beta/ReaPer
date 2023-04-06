@@ -42,6 +42,7 @@ function RenderedComponents() {
 
   return (
     <div id='render-comp'>
+      <p>Rendered Components</p>
       <Line data={data} options={options} />
     </div>
   );
