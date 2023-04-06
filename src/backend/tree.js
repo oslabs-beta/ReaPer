@@ -13,6 +13,7 @@ class TreeNode {
       actualDuration,
       actualStartTime,
       selfBaseDuration,
+      updateQueue
     } = fiberNode;
 
     this.children = [];
@@ -28,6 +29,11 @@ class TreeNode {
     this.setComponentName(elementType);
     this.setProps(memoizedProps);
     this.setState(memoizedState);
+    this.setQueue(updateQueue)
+    //memoizedProps shows prop names and corresponding values if applicable
+    //memoizedState shows 'baseQueue' 'baseState' 'memoizedState' 'next' and 'queue'
+    //baseState and memoizedState appear to be the same for every componentState render
+    //queue shows 'dispatch (f)' 'lastRenderedReducer' and 'lastRenderedState'
 
     /*
       - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
@@ -49,6 +55,7 @@ class TreeNode {
       - This field is only set when the enableProfilerTimer flag is enabled.
     */
     this.selfBaseDuration = selfBaseDuration;
+    
   }
 
   addChild(newNode) {
@@ -96,6 +103,9 @@ class TreeNode {
 
   setProps(memoizedProps) {
     this.componentProps = memoizedProps;
+  }
+  setQueue(updateQueue){
+    this.queue = updateQueue;
   }
 }
 
