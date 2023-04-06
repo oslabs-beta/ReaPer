@@ -276,6 +276,9 @@ import testTicTacToeTree from '../treeTestCode';
 //   },
 // ];
 
+// also need totalRenderDurationMS
+// renderDurationMS
+
 const ComponentTree = () => {
   const nodes = [];
   const edges = [];

@@ -35,20 +35,21 @@ $panel-color: rgba(255, 255, 255, 0.1);
     align-items: flex-start;
     gap: 1rem;
     position: sticky;
+    top: 0;
   }
 
   #content {
     display: flex;
     flex-direction: column;
     width: calc(100% - 2rem);
-    height: 100%;
+    height: calc(100vh - 2rem);
 
     .row {
       display: flex;
       flex-direction: row;
       flex: 1;
       height: 50%;
-      
+
       .column {
         display: flex;
         flex-direction: column;
@@ -59,12 +60,22 @@ $panel-color: rgba(255, 255, 255, 0.1);
         .graph {
           // box-sizing: border-box;
           // padding: 20px;
+          // background-color: white;
+          // height: calc(100vh - 2rem);
+          display: flex;
+          flex-direction: column;
           background-color: white;
-          height: 100%;
-          #render-comp, #render-events, #comp-ranked, #tree-component-container {
+          height: calc(100vh - 2rem);
+          border-radius: 0.5em;
+          margin: 1.5%;
+          overflow: hidden;
+          #render-comp,
+          #render-events,
+          #comp-ranked,
+          #tree-component-container {
             height: 100%;
             background: $panel-color;
-            margin: 1%;
+            // margin: 1%;
             border-radius: 0.5em;
           }
         }
@@ -135,12 +146,11 @@ $panel-color: rgba(255, 255, 255, 0.1);
 //   z-index: 1;
 // }
 
-
 .main-nav-btn {
   background: none;
   border: none;
   font-size: 1.3rem;
-  color: #D6F7FF;
+  color: #d6f7ff;
   align-items: center;
 }
 
@@ -152,20 +162,49 @@ $panel-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Start View & Session Recording in Progress */
-.start-view {
+
+.view {
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  padding: 10px;
-  gap: 8px;
-  height: 100%;
+  // padding: 10px;
+  // gap: 8px;
+  height: 100vh;
   width: 100%;
   position: relative;
   background: linear-gradient(219.43deg, #22223b 30.07%, #4a4e69 100.23%);
   border: 1.5px solid rgba(255, 255, 255, 0.12);
+
+  .start-text {
+    font-size: 1.5rem;
+    color: white;
+    width: 60vw;
+    text-align: center;
+  }
+
+  .react-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .skull-icon-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    margin-right: 1rem;
+  }
 }
 
-.start-text {
-  font-size: 30px;
-  color: white;
+.session-view {
+  @extend .view;
+  flex-direction: column;
+}
+
+.start-view {
+  @extend .view;
+  flex-direction: row;
 }

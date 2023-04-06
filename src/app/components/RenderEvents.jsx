@@ -50,6 +50,7 @@ function RenderEvents() {
 
   return (
     <div id='render-events'>
+      <p>Render Events and Duration</p>
       <Bar data={data} options={options} />
     </div>
   );
