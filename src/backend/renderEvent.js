@@ -1,7 +1,12 @@
-// define render event
-// create render event functions + other renderEvent related functions
+import createTree from './tree';
 
-// update whenever the React app gets rendered
-const createRenderEvent = () => {
-
-};
+// RenderEvent is instantiated when user starts recording
+// Class is instantiated inside of updateRenderEvent function in rdtFiber.js
+export default class RenderEvent {
+  constructor(fiberRootNode) {
+    const { current } = fiberRootNode;
+    // instantiate a Tree passing in the current property of React's FiberRootNode
+    this.tree = createTree(current);
+    this.totalRenderDurationMS = Object.hasOwn(current, 'treeBaseDuration') ? current.treeBaseDuration : -1;
+  }
+}

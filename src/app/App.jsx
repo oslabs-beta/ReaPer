@@ -63,7 +63,6 @@ function App() {
   const handleRecordBtnClick = () => {
     // We want to flip the value of sessionStatus
     // Therefore, the value of type will correspond to sessionStatus's flipped value
-    console.log('handleRecordBtnClick types:', types);
     const type = sessionStatus ? types.END_RECORDING : types.START_RECORDING;
     const msgObj = createMessageObj(type, {});
     sendMessageToBackground(msgObj);
