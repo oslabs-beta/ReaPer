@@ -32,7 +32,7 @@ const onMessageFromDevTool = msg => {
       injectScriptToStartReaperSession();
       break;
     case 'END_RECORDING':
-      injectScriptToEndReaperSession();
+      sendMessageToContentScript({ type: 'END_RECORDING', payload: {} });
       break;
     default:
       console.log('Background Script: ERROR - Unknown message type!', msg.type);
@@ -65,18 +65,6 @@ const sendMessageToContentScript = msg => {
   chrome.tabs.sendMessage(currentTab.tabId, msg);
 };
 
-const injectScript = (file) => {
-  try {
-    const htmlBody = document.getElementsByTagName('body')[0];
-    const script = document.createElement('script');
-    script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', file);
-    htmlBody.appendChild(script);
-  } catch (error) {
-    console.log('background error:', error.message);
-  }
-};
-
 /*
 - This function will inject backend/index.js into the current tab.
 - When backend/index.js runs, it will run the imported startReaperSession() from rdtFiber,
@@ -85,21 +73,24 @@ which will connect to the react devtools global hook for the user's current tab.
 */
 const injectScriptToStartReaperSession = () => {
   console.log('Background Script: injectScriptToStartReaperSession() invoked');
+
+  const injectScript = (file) => {
+    try {
+      const htmlBody = document.getElementsByTagName('body')[0];
+      const script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', file);
+      htmlBody.appendChild(script);
+    } catch (error) {
+      console.log('background error:', error.message);
+    }
+  };
+
   const tmpTabId = currentTab.tabId;
   chrome.scripting.executeScript({
     target: { tabId: tmpTabId },
     function: injectScript,
     args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
-    injectImmediately: true,
-  });
-};
-
-const injectScriptToEndReaperSession = () => {
-  console.log('Background Script: injectScriptToEndReaperSession() invoked');
-  chrome.scripting.executeScript({
-    target: { tabId: currentTab.tabId },
-    function: injectScript,
-    args: [chrome.runtime.getURL('bundles/endReaper.bundle.js')],
     injectImmediately: true,
   });
 };
