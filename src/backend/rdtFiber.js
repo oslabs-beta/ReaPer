@@ -26,18 +26,25 @@ const updateRenderEvent = (fiberRootNode) => {
 };
 
 // Limits calls made on a function (new render event) in a period of time
-const throttle = (func, delay) => {
+const throttle = (func, delayMS) => {
   let shouldWait = false;
 
   // return function that takes new render event's fiber node arg
   return (arg) => {
-    if (shouldWait) return;
+    if (shouldWait) {
+      console.log('throttle anonymous: shouldWait is true, returning....');
+      return;
+    }
 
+    console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
     func(arg);
     shouldWait = true;
+
+    console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
     setTimeout(() => {
+      console.log('setTimeout callback invoked, setting shouldWait to false');
       shouldWait = false;
-    }, delay);
+    }, delayMS);
   };
 };
 
@@ -75,7 +82,8 @@ function connectToReact() {
   */
 
   // throttle render events
-  const throttleRenderEvent = throttle((fiberNode) => { updateRenderEvent(fiberNode); }, 100);
+  // const throttleRenderEvent = throttle((fiberNode) => { updateRenderEvent(fiberNode); }, 100);
+  const throttleRenderEvent = throttle((fiberNode) => { updateRenderEvent(fiberNode); }, 20000);
 
   // intercept the original onCommitFiberRoot
   const intercept = function (originalOnCommitFiberRootFn) {
@@ -85,9 +93,9 @@ function connectToReact() {
     return function (...args) {
       const rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
       // Invoke updateRenderEvent
-      updateRenderEvent(rdtFiberRootNode);
+      // updateRenderEvent(rdtFiberRootNode);
       // throttle renders
-      throttleRenderEvent();
+      throttleRenderEvent(rdtFiberRootNode);
       // return RDT's onCommitFiberRoot with its args
       return originalOnCommitFiberRootFn(...args);
     };
