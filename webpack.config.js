@@ -7,7 +7,6 @@ module.exports = {
   entry: {
     index: path.resolve(__dirname, './src/app/index.js'),
     backend: './src/backend/index.js',
-    endReaper: './src/backend/endReaperSession.js',
   },
   output: {
     path: path.resolve(__dirname, './dist/bundles'),
