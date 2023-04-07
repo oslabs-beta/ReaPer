@@ -29,11 +29,10 @@ class TreeNode {
     this.setComponentName(elementType);
     this.setProps(memoizedProps);
     this.setState(memoizedState);
-    this.setQueue(updateQueue)
-    //memoizedProps shows prop names and corresponding values if applicable
-    //memoizedState shows 'baseQueue' 'baseState' 'memoizedState' 'next' and 'queue'
-    //baseState and memoizedState appear to be the same for every componentState render
-    //queue shows 'dispatch (f)' 'lastRenderedReducer' and 'lastRenderedState'
+    this.setQueue(updateQueue);
+   
+    
+
 
     /*
       - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
@@ -105,7 +104,22 @@ class TreeNode {
     this.componentProps = memoizedProps;
   }
   setQueue(updateQueue){
-    this.queue = updateQueue;
+    this.setQueue = updateQueue;
+  }
+
+  traverseHooks(memoizedState) {
+    const hooksStates = [];
+    while (memoizedState?.queue) {
+      if (memoizedState.memoizedState !== null) {
+        hooksStates.push({
+          component: memoizedState.queue,
+          state: memoizedState.memoizedState,
+        });
+      }
+      memoizedState = memoizedState.next !== memoizedState ? memoizedState.next : null;
+    }
+    this.hooks = hooksStates
+   
   }
 }
 
