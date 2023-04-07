@@ -10,6 +10,7 @@ import ReactFlow, {
   edgeStyle,
 } from 'reactflow';
 import dagre from 'dagre';
+
 /**
  * Dummy data to be used for creating our tree traversal
  */
