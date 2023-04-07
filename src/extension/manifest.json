@@ -31,8 +31,7 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "bundles/backend.bundle.js",
-                "bundles/endReaper.bundle.js"
+                "bundles/backend.bundle.js"
             ],
             "matches": [
                 "<all_urls>"
