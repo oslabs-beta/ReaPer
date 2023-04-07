@@ -32,6 +32,7 @@ const onMessageFromDevTool = msg => {
       injectScriptToStartReaperSession();
       break;
     case 'END_RECORDING':
+      sendMessageToContentScript({ type: 'END_RECORDING', payload: {} });
       break;
     default:
       console.log('Background Script: ERROR - Unknown message type!', msg.type);
@@ -71,7 +72,9 @@ which will connect to the react devtools global hook for the user's current tab.
 - This seems to be the ONLY way to connect to the react devtools global hook
 */
 const injectScriptToStartReaperSession = () => {
-  const injectScript = (file, tab) => {
+  console.log('Background Script: injectScriptToStartReaperSession() invoked');
+
+  const injectScript = (file) => {
     try {
       const htmlBody = document.getElementsByTagName('body')[0];
       const script = document.createElement('script');
@@ -82,11 +85,12 @@ const injectScriptToStartReaperSession = () => {
       console.log('background error:', error.message);
     }
   };
+
   const tmpTabId = currentTab.tabId;
   chrome.scripting.executeScript({
     target: { tabId: tmpTabId },
     function: injectScript,
-    args: [chrome.runtime.getURL('bundles/backend.bundle.js'), tmpTabId],
+    args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
     injectImmediately: true,
   });
 };
