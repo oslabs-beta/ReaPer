@@ -1,0 +1,210 @@
+/* @import url('./reactflow-base.css'); */
+@use './reactflow-style.css';
+// @use './_variables.scss';
+
+$background-color: rgb(58, 58, 79);
+$panel-color: rgba(255, 255, 255, 0.1);
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// #container {
+//   display: flex;
+//   background: $background-color;
+//   /* width: 90%; */
+//   /* flex-direction: row; */
+// }
+
+#container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: $background-color;
+
+  #main-nav {
+    width: 2rem;
+    background: $panel-color;
+    margin: 0.5% 0.5% 0.5% 1%;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+  }
+
+  #content {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 2rem);
+    height: calc(100vh - 2rem);
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      height: 50%;
+
+      .column {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        // margin: 1%;
+        // border-radius: 0.5em;
+
+        .graph {
+          // box-sizing: border-box;
+          // padding: 20px;
+          // background-color: white;
+          // height: calc(100vh - 2rem);
+          display: flex;
+          flex-direction: column;
+          background-color: white;
+          height: calc(100vh - 2rem);
+          border-radius: 0.5em;
+          margin: 1.5%;
+          overflow: hidden;
+          #render-comp,
+          #render-events,
+          #comp-ranked,
+          #tree-component-container {
+            height: 100%;
+            background: $panel-color;
+            // margin: 1%;
+            border-radius: 0.5em;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Graph display on dashboard */
+// #tree-component-container {
+//   position: absolute;
+//   bottom: 0;
+//   right: 0;
+//   height: 40vh;
+//   width: 45%;
+//   /* padding: 20px; */
+//   border: 30px solid $panel-color;
+//   border-radius: 10px;
+//   flex: 1;
+// }
+
+// .render-comp {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   height: 40vh;
+//   width: 45%;
+//   flex: 1;
+//   border: 30px solid $panel-color;
+//   border-radius: 10px;
+// }
+
+// .render-events {
+//   position: absolute;
+//   top: 0;
+//   right: 50%;
+//   height: 40vh;
+//   width: calc(45% - 1rem);
+//   flex: 1;
+//   /* border: 30px solid $panel-color; */
+//   /* border-radius: 10px; */
+//   background-color: white;
+// }
+// .comp-ranked {
+//   position: absolute;
+//   bottom: 0;
+//   right: 50%;
+//   height: 40vh;
+//   width: calc(45% - 1rem);
+//   flex: 1;
+//   border: 30px solid $panel-color;
+//   border-radius: 10px;
+// }
+
+/* Navbar */
+// #main-nav {
+//   position: sticky;
+//   width: 2rem;
+//   height: 100vh;
+//   padding-top: 1rem;
+//   padding-left: 1rem;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   /* position: fixed; */
+//   gap: 1rem;
+//   background-color: $panel-color;
+//   z-index: 1;
+// }
+
+.main-nav-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #d6f7ff;
+  align-items: center;
+}
+
+.main-nav-btn :hover {
+  // box-shadow: 0 0 3px;
+  cursor: pointer;
+  color: #1b8099;
+  transition: 0.2 ease;
+}
+
+/* Start View & Session Recording in Progress */
+
+.view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // padding: 10px;
+  // gap: 8px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: linear-gradient(219.43deg, #22223b 30.07%, #4a4e69 100.23%);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+
+  .start-text {
+    font-size: 1.5rem;
+    color: white;
+    width: 60vw;
+    text-align: center;
+  }
+
+  .react-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .skull-icon-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    margin-right: 1rem;
+  }
+}
+
+.session-view {
+  @extend .view;
+  flex-direction: column;
+}
+
+.start-view {
+  @extend .view;
+  flex-direction: row;
+}

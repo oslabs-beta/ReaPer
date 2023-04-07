@@ -108,4 +108,10 @@ chrome.runtime.onConnect.addListener(port => {
 /**
 Set up listener for messages from content script
 */
-chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
+try {
+  chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
+} catch (error) {
+  console.log('background.js error:', error.message);
+}
+
+console.log('background js: reached end');
