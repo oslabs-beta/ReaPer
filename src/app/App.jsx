@@ -73,9 +73,9 @@ function App() {
     <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        <SessionProgress />
+        {/* <SessionProgress /> */}
         {/* <StartView /> */}
-        {/* <div id='content'>
+        <div id='content'>
           <div className='row'>
             <div className='column'>
               <div className='graph'>
@@ -100,7 +100,7 @@ function App() {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </Context.Provider>
     </div>
   );
