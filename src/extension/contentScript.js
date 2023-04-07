@@ -14,6 +14,15 @@ const sendMessageToBackground = (msg) => {
  */
 const handleMessageFromBackground = msg => {
   console.log('contentScript.js: received message from background:', msg);
+
+  switch (msg.type) {
+    case 'END_RECORDING':
+      document.dispatchEvent(new CustomEvent('endReaperSession'));
+      break;
+    default:
+      console.log('Content Script: ERROR - Unknown message type!', msg.type);
+  }
+
   return false;
 };
 

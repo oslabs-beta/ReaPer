@@ -114,11 +114,20 @@ export const startReaperSession = () => {
 // This function undoes what intercept function does
 // It will be invoked once user stops recording session
 export const endReaperSession = () => {
-  // check if sessionInProgress is already false
-  if (sessionInProgress) {
-    sessionInProgress = false;
-    // point React DevTools's global hook's onCommitFiber method from intercept's result
-    // to point to the original method saved globally
-    rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
+  try {
+    console.log('rdtFiber: endReaperSession() invoked');
+    // check if sessionInProgress is already false
+    if (sessionInProgress) {
+      console.log('rdtFiber endReaperSession: session is in progress, stopping session now..');
+      sessionInProgress = false;
+      // point React DevTools's global hook's onCommitFiber method from intercept's result
+      // to point to the original method saved globally
+      rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
+      console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
+    } else {
+      console.log('rdtFiber endReaperSession: session not in progress, nothing to stop');
+    }
+  } catch (error) {
+    console.log('rdtFiber endReaperSession error:', error.message);
   }
 };
