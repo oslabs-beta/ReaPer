@@ -89,28 +89,18 @@ export const startReaperSession = () => {
 export const endReaperSession = () => {
   try {
     console.log('rdtFiber: endReaperSession() invoked');
-    console.log('rdtFiber endReaperSession: session is in progress, stopping session now..');
-    reallyEndTheReaperSession();
     // check if sessionInProgress is already false
-    // if (sessionInProgress) {
-    //   console.log('rdtFiber endReaperSession: session is in progress, stopping session now..');
-    //   sessionInProgress = false;
-    //   // point React DevTools's global hook's onCommitFiber method from intercept's result
-    //   // to point to the original method saved globally
-    //   rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
-    //   console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
-    // } else {
-    //   console.log('rdtFiber endReaperSession: session not in progress, nothing to stop');
-    // }
+    if (sessionInProgress) {
+      console.log('rdtFiber endReaperSession: session is in progress, stopping session now..');
+      sessionInProgress = false;
+      // point React DevTools's global hook's onCommitFiber method from intercept's result
+      // to point to the original method saved globally
+      rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
+      console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
+    } else {
+      console.log('rdtFiber endReaperSession: session not in progress, nothing to stop');
+    }
   } catch (error) {
     console.log('rdtFiber endReaperSession error:', error.message);
   }
-};
-
-const reallyEndTheReaperSession = () => {
-  console.log('rdtFiber: reallyEndTheReaperSession() invoked');
-  console.log('rdtFiber reallyEndTheReaperSession: sessionInProgress=', sessionInProgress);
-  console.log('rdtFiber reallyEndTheReaperSession: rdt=', rdt);
-  console.log('rdtFiber reallyEndTheReaperSession: onCommitFiberRoot=', rdtOnCommitFiberRoot);
-  console.log('rdtFiber reallyEndTheReaperSession: ', window.__REACT_DEVTOOLS_GLOBAL_HOOK__.onCommitFiberRoot);
 };
