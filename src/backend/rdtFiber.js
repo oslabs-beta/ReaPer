@@ -67,7 +67,7 @@ function connectToReact() {
   */
 
   // throttle render events
-  const throttleRenderEvent = throttle(() => { updateRenderEvent(rdtFiberRootNode); }, 100);
+  const throttleRenderEvent = throttle((fiberNode) => { updateRenderEvent(fiberNode); }, 100);
 
   // intercept the original onCommitFiberRoot
   const intercept = function (originalOnCommitFiberRootFn) {
