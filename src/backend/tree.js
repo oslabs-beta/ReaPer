@@ -12,8 +12,7 @@ class TreeNode {
       tag,
       actualDuration,
       actualStartTime,
-      selfBaseDuration,
-      updateQueue
+      selfBaseDuration
     } = fiberNode;
 
     this.children = [];
@@ -29,10 +28,7 @@ class TreeNode {
     this.setComponentName(elementType);
     this.setProps(memoizedProps);
     this.setState(memoizedState);
-    this.setQueue(updateQueue);
    
-    
-
 
     /*
       - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
@@ -103,24 +99,9 @@ class TreeNode {
   setProps(memoizedProps) {
     this.componentProps = memoizedProps;
   }
-  setQueue(updateQueue){
-    this.setQueue = updateQueue;
-  }
 
-  traverseHooks(memoizedState) {
-    const hooksStates = [];
-    while (memoizedState?.queue) {
-      if (memoizedState.memoizedState !== null) {
-        hooksStates.push({
-          component: memoizedState.queue,
-          state: memoizedState.memoizedState,
-        });
-      }
-      memoizedState = memoizedState.next !== memoizedState ? memoizedState.next : null;
-    }
-    this.hooks = hooksStates
-   
-  }
+
+
 }
 
 class Tree {
