@@ -4,6 +4,11 @@ import Context from './contexts/Context';
 import createMessageObj from '../backend/helperFns';
 import types from '../backend/types';
 import ComponentTree from './components/ComponentTree.jsx';
+import RenderEvents from './components/RenderEvents';
+import ComponentsRanked from './components/ComponentsRanked';
+import RenderedComponents from './components/RenderedComponents';
+import StartView from './components/StartView';
+import SessionProgress from './components/SessionProgress';
 
 function App() {
   const appRef = useRef({});
@@ -17,7 +22,10 @@ function App() {
   // Use the useCallback hook here so we can cache the function definition
   // of sendMessageTobackground
   const sendMessageToBackground = useCallback((msgObj) => {
-    console.log('dev tool front end sending message to background script:', msgObj);
+    console.log(
+      'dev tool front end sending message to background script:',
+      msgObj
+    );
     if (appRef.current.port === null || appRef.current.port === undefined) {
       console.log('No port, exiting...');
       return;
@@ -62,10 +70,37 @@ function App() {
   };
 
   return (
-    <div id="container">
+    <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        <ComponentTree />
+        {/* <SessionProgress /> */}
+        {/* <StartView /> */}
+        <div id='content'>
+          <div className='row'>
+            <div className='column'>
+              <div className='graph'>
+                <RenderEvents />
+              </div>
+            </div>
+            <div className='column'>
+              <div className='graph'>
+                <RenderedComponents />
+              </div>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='column'>
+              <div className='graph'>
+                <ComponentsRanked />
+              </div>
+            </div>
+            <div className='column'>
+              <div className='graph'>
+                <ComponentTree />
+              </div>
+            </div>
+          </div>
+        </div>
       </Context.Provider>
     </div>
   );
