@@ -26,6 +26,17 @@ const setTab = (tabTitle, tabId) => {
  */
 const onMessageFromDevTool = msg => {
   console.log('background.js received a message from the dev tool:', msg);
+
+  switch (msg.type) {
+    case 'START_RECORDING':
+      injectScriptToStartReaperSession();
+      break;
+    case 'END_RECORDING':
+      sendMessageToContentScript({ type: 'END_RECORDING', payload: {} });
+      break;
+    default:
+      console.log('Background Script: ERROR - Unknown message type!', msg.type);
+  }
 };
 
 const sendMessageToDevTool = msg => {
@@ -54,6 +65,36 @@ const sendMessageToContentScript = msg => {
   chrome.tabs.sendMessage(currentTab.tabId, msg);
 };
 
+/*
+- This function will inject backend/index.js into the current tab.
+- When backend/index.js runs, it will run the imported startReaperSession() from rdtFiber,
+which will connect to the react devtools global hook for the user's current tab.
+- This seems to be the ONLY way to connect to the react devtools global hook
+*/
+const injectScriptToStartReaperSession = () => {
+  console.log('Background Script: injectScriptToStartReaperSession() invoked');
+
+  const injectScript = (file) => {
+    try {
+      const htmlBody = document.getElementsByTagName('body')[0];
+      const script = document.createElement('script');
+      script.setAttribute('type', 'text/javascript');
+      script.setAttribute('src', file);
+      htmlBody.appendChild(script);
+    } catch (error) {
+      console.log('background error:', error.message);
+    }
+  };
+
+  const tmpTabId = currentTab.tabId;
+  chrome.scripting.executeScript({
+    target: { tabId: tmpTabId },
+    function: injectScript,
+    args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
+    injectImmediately: true,
+  });
+};
+
 /**
  * Establish connection with dev tool.
  * This will not fire until chrome.runtime.connect is invoked on the front end.
@@ -71,5 +112,10 @@ chrome.runtime.onConnect.addListener(port => {
 /**
 Set up listener for messages from content script
 */
-chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
+try {
+  chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
+} catch (error) {
+  console.log('background.js error:', error.message);
+}
 
+console.log('background js: reached end');

@@ -4,20 +4,15 @@ import ReactFlow, {
   Controls,
   Background,
   useNodesState,
+  EdgeText,
   useEdgesState,
   addEdge,
+  edgeStyle,
 } from 'reactflow';
-
-// // For testing purposes:
-// import Tree from '../tree';
-
-// /**
-//  * Dummy data to be used for creating our tree traversal
-//  */
-// const createTree = (fiberObj) => {
-//   const tree = new Tree(fiberObj);
-//   return tree;
-// };
+import dagre from 'dagre';
+/**
+ * Dummy data to be used for creating our tree traversal
+ */
 
 // const childNode13 = {
 //   data: { name: 'Box 9' },
@@ -114,90 +109,91 @@ import ReactFlow, {
 //   data: { name: 'App' },
 //   child: childNode1,
 //   sibling: null,
-//   id: 0
+//   id: 0,
 // };
 
 // const testDataTree = createTree(fiberRoot);
 // console.log(testDataTree);
 
-const edges = [{
-  id: '1-2',
-  source: '1',
-  target: '2',
-  type: 'step',
-},
-{
-  id: '2-3',
-  source: '2',
-  target: '3',
-  type: 'step',
-},
-{
-  id: '2-4',
-  source: '2',
-  target: '4',
-  type: 'step',
-},
-{
-  id: '2-5',
-  source: '2',
-  target: '5',
-  type: 'step',
-},
-{
-  id: '3-6',
-  source: '3',
-  target: '6',
-  type: 'step',
-},
-{
-  id: '3-7',
-  source: '3',
-  target: '7',
-  type: 'step',
-},
-{
-  id: '3-8',
-  source: '3',
-  target: '8',
-  type: 'step',
-},
-{
-  id: '4-9',
-  source: '4',
-  target: '9',
-  type: 'step',
-},
-{
-  id: '4-10',
-  source: '4',
-  target: '10',
-  type: 'step',
-},
-{
-  id: '4-11',
-  source: '4',
-  target: '11',
-  type: 'step',
-},
-{
-  id: '5-12',
-  source: '5',
-  target: '12',
-  type: 'step',
-},
-{
-  id: '5-13',
-  source: '5',
-  target: '13',
-  type: 'step',
-},
-{
-  id: '5-14',
-  source: '5',
-  target: '14',
-  type: 'step',
-},
+const edges = [
+  {
+    id: '1-2',
+    source: '1',
+    target: '2',
+    type: 'step',
+  },
+  {
+    id: '2-3',
+    source: '2',
+    target: '3',
+    type: 'step',
+  },
+  {
+    id: '2-4',
+    source: '2',
+    target: '4',
+    type: 'step',
+  },
+  {
+    id: '2-5',
+    source: '2',
+    target: '5',
+    type: 'step',
+  },
+  {
+    id: '3-6',
+    source: '3',
+    target: '6',
+    type: 'step',
+  },
+  {
+    id: '3-7',
+    source: '3',
+    target: '7',
+    type: 'step',
+  },
+  {
+    id: '3-8',
+    source: '3',
+    target: '8',
+    type: 'step',
+  },
+  {
+    id: '4-9',
+    source: '4',
+    target: '9',
+    type: 'step',
+  },
+  {
+    id: '4-10',
+    source: '4',
+    target: '10',
+    type: 'step',
+  },
+  {
+    id: '4-11',
+    source: '4',
+    target: '11',
+    type: 'step',
+  },
+  {
+    id: '5-12',
+    source: '5',
+    target: '12',
+    type: 'step',
+  },
+  {
+    id: '5-13',
+    source: '5',
+    target: '13',
+    type: 'step',
+  },
+  {
+    id: '5-14',
+    source: '5',
+    target: '14',
+    type: 'step',
+  },
 ];
 
 const nodes = [
@@ -277,26 +273,106 @@ const nodes = [
   },
 ];
 
+// also need totalRenderDurationMS
+// renderDurationMS
+
 const ComponentTree = () => {
-  // Breadth first search
-  // Create a node for the current tree node we're looking at
-  // Create the edge based on .parent and .data
-  // const createNodesandEdges = () => {
+  // const nodes = [];
+  // const edges = [];
+
+  // // Breadth first search
+  // // Create a node for the current tree node we're looking at
+  // // Create the edge based on .parent and .data
+  // (() => {
   //   // Traverse through the tree using breadth first search
-  //   const queue = [testDataTree.root];
+  //   const bfsQueue = [testTicTacToeTree.root];
+  //   const idQueue = [];
 
-  //   while (queue.length > 0) {
-  //     const treeNode = queue.shift();
-  //     treeNode.push(...treeNode.children);
-  //     console.log(treeNode);
+  //   // Dagre graph setup code
+  //   const width = 144;
+  //   const height = 100;
+  //   let dagreGraph = new dagre.graphlib.Graph();
+  //   dagreGraph.setGraph({});
+  //   dagreGraph.setDefaultEdgeLabel(function () {
+  //     return {};
+  //   });
+
+  //   let id = 1;
+  //   // Using breadth first search to look through the tree
+  //   while (bfsQueue.length > 0) {
+  //     const treeNode = bfsQueue.shift();
+  //     // Create a node for the current Tree node
+  //     dagreGraph.setNode(id, { label: treeNode.data.name, width, height });
+
+  //     if (treeNode.parent !== null && idQueue.length > 0)
+  //       dagreGraph.setEdge(idQueue.shift(), id);
+  //     if (treeNode.children.length > 0) {
+  //       bfsQueue.push(...treeNode.children);
+
+  //       // Push ID into isQueue for the amount of children there are
+  //       for (let i = 0; i < treeNode.children.length; i++) {
+  //         idQueue.push(id);
+  //       }
+  //     }
+
+  //     id++;
   //   }
-  // };
+  //   dagre.layout(dagreGraph);
 
+  //   dagreGraph.nodes().forEach((nodeId) => {
+  //     const node = dagreGraph.node(nodeId);
+  //     // console.log('nodeerrrr:', node);
+  //     // console.log(`x: ${node.x}, y: ${node.y}`);
+  //     nodes.push({
+  //       id: nodeId.toString(),
+  //       data: { label: node.label },
+  //       position: { x: node.x, y: node.y },
+  //     });
+  //   });
+
+  //   dagreGraph.edges().forEach((edgeObj) => {
+  //     const { v: sourceNodeId, w: targetNodeId } = edgeObj;
+  //     edges.push({
+  //       id: `${sourceNodeId}-${targetNodeId}`,
+  //       source: sourceNodeId.toString(),
+  //       target: targetNodeId.toString(),
+  //     });
+  //   });
+
+  //   /**
+  //    *   {
+  //         id: '1', // required
+  //         position: { x: 0, y: 0 }, // required
+  //         data: { label: 'App' },
+  //       },
+  //    */
+
+  //   // When pushing in the children, save how many children there are for the next iteration. Maybe use a queue for this as well (push num of children numChild times)
+  //   // If it has a parent move it down by 100px in y.
+  //   // Determine x by finding whether even or odd amount of children.
+  //   //    If odd, make children arrange in a way such that middle child is directly under parent, and leftOfMid children are evenly spread amongst themselves, same with right
+  //   //    If even, make children arrange in a way such that middle two children directly line up sharing space with parent and nothing in middle. '' ' ' ' ' '
+  //   //
+  // })();
   // createNodesandEdges();
 
   return (
-    <div id="tree-component-container">
-      <ReactFlow nodes={nodes} edges={edges}>
+    <div id='tree-component-container'>
+      <p>Virtual DOM</p>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        edgeStyle={(id, type) => {
+          return {
+            strokeWidth: 2,
+            stroke: '#000',
+            transition: 'all 0.2s ease-in-out',
+            ':hover': {
+              stroke: 'blue',
+              strokeWidth: 4,
+            },
+          };
+        }}>
         <Background />
         <Controls />
         <MiniMap />

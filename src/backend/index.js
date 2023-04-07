@@ -1,6 +1,8 @@
-import rdtFiberConnection from "./rdtFiber";
-// call the default function in rdtFiber.js to connect to react's fiber
-const rdtFiber = rdtFiberConnection();
+import { startReaperSession, endReaperSession } from './rdtFiber';
 
-// invokes default function from rdtFiber.js
-rdtFiber();
+startReaperSession();
+
+document.addEventListener('endReaperSession', (event) => {
+  console.log('endReaperSession event triggered!');
+  endReaperSession();
+});

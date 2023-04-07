@@ -4,10 +4,13 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.resolve(__dirname, './src/app/index.js'),
+  entry: {
+    index: path.resolve(__dirname, './src/app/index.js'),
+    backend: './src/backend/index.js',
+  },
   output: {
     path: path.resolve(__dirname, './dist/bundles'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -50,7 +53,11 @@ module.exports = {
       {
         test: /\.s?css/,
         exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(ts|tsx)$/,
