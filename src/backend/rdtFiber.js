@@ -119,7 +119,30 @@ export const endReaperSession = () => {
       rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
       console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
 
-      window.postMessage({ type: 'SEND_REAPER_SESSION', payload: JSON.stringify(reaperSession) }, '*');
+      // Sometimes there can be circular references within the fiber node that causes issues
+      // when trying to JSON stringify it - by passing in a custom replacer, we can just
+      // replace circular references with the string '[Circular]' and complete the JSON
+      // stringify process
+      const getCircularReplacer = () => {
+        const ancestors = [];
+        return function (key, value) {
+          if (typeof value !== 'object' || value === null) {
+            return value;
+          }
+          // `this` is the object that value is contained in,
+          // i.e., its direct parent.
+          while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+            ancestors.pop();
+          }
+          if (ancestors.includes(value)) {
+            return '[Circular]';
+          }
+          ancestors.push(value);
+          return value;
+        };
+      };
+
+      window.postMessage({ type: 'SEND_REAPER_SESSION', payload: JSON.stringify(reaperSession, getCircularReplacer()) }, '*');
     } else {
       console.log('rdtFiber endReaperSession: session not in progress, nothing to stop');
     }
