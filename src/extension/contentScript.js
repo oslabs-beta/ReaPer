@@ -39,11 +39,11 @@ const handleWindowMessages = msg => {
   }
 };
 
-sendMessageToBackground('HELLO FROM CONTENT.JS');
+// sendMessageToBackground('HELLO FROM CONTENT.JS');
 
 /**
-Set up listener for messages from the background script
-*/
+ * Set up listener for messages from the background script
+ */
 chrome.runtime.onMessage.addListener(handleMessageFromBackground);
 
 /**
