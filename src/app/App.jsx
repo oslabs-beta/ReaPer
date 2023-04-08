@@ -46,6 +46,7 @@ function App() {
       switch (request.message.type) {
         case 'SEND_REAPER_SESSION':
           const reaperSessionObj = JSON.parse(request.message.payload);
+          console.log('This is a reaperSessionObj', reaperSessionObj);
           break;
         default:
           console.log('App.jsx: unknown message type!', request.message.type);
