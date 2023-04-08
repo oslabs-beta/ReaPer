@@ -4,8 +4,6 @@ import RenderEvent from './renderEvent';
 // Set global variable to use across functions
 // for access to React DevTools global hook for before and after record session
 let rdt;
-// for access to React devTools fiber root node
-// let rdtFiberRootNode = null;
 // for access to React devTools onCommitFiberRoot method to be initialized in connectToReact,
 // and to be mutated in intercept function, and again in endReaperSession
 let rdtOnCommitFiberRoot;
@@ -23,6 +21,29 @@ const updateRenderEvent = (fiberRootNode) => {
   const newRenderEvent = new RenderEvent(fiberRootNode);
   // add newRenderEvent to RenderEventList object on ReaperSession instantiation
   reaperSession.addRenderEvent(newRenderEvent);
+};
+
+// Limits calls made on a function (new render event) in a period of time
+const throttle = (func, delayMS) => {
+  let shouldWait = false;
+
+  // return function that takes new render event's fiber node arg
+  return (arg) => {
+    if (shouldWait) {
+      // console.log('throttle anonymous: shouldWait is true, returning....');
+      return;
+    }
+
+    // console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
+    func(arg);
+    shouldWait = true;
+
+    // console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
+    setTimeout(() => {
+      // console.log('setTimeout callback invoked, setting shouldWait to false');
+      shouldWait = false;
+    }, delayMS);
+  };
 };
 
 // Connect to React DevTools global hook
@@ -49,8 +70,8 @@ function connectToReact() {
   // Pass error message to the frontend if user application is not a React app
   // TODO: use sendMessageToDevTool method
 
-  // get fiberNode information and intercept
-  // rdtFiberRootNode = rdt.getFiberRoots(1).values().next().value;
+  // throttle render events
+  const throttleRenderEvent = throttle((fiberNode) => { updateRenderEvent(fiberNode); }, 100);
 
   // intercept the original onCommitFiberRoot
   const intercept = function (originalOnCommitFiberRootFn) {
@@ -59,8 +80,8 @@ function connectToReact() {
 
     return function (...args) {
       const rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
-      // Invoke updateRenderEvent
-      updateRenderEvent(rdtFiberRootNode);
+      // throttle renders
+      throttleRenderEvent(rdtFiberRootNode);
       // return RDT's onCommitFiberRoot with its args
       return originalOnCommitFiberRootFn(...args);
     };
