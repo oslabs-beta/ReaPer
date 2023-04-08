@@ -14,11 +14,22 @@ class Tab {
  */
 const setTab = (tabTitle, tabId) => {
   if (currentTab !== undefined) {
-    console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId);
+    console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
   }
-  console.log('background.js: new tab data, tabTitle=', tabTitle, 'tabId=', tabId);
+  console.log('background.js: new tab data, tabTitle=', tabTitle, 'tabId=', tabId); // LOGS 3RD
   currentTab = new Tab(tabTitle, tabId);
 };
+
+// Retrieve the active tab from currently-focused window (or most recently-focused window)
+async function getCurrentTab() {
+  const queryOptions = { active: true, lastFocusedWindow: true };
+  // 'tab' will either be a 'tab.Tab' instance or 'undefined'
+  const [tab] = await chrome.tabs.query(queryOptions);
+  console.log('This is current tab objectd: ', tab);
+  console.log('This is current tabTitle: ', tab.tabTitle);
+  console.log('This is current tabId: ', tab.tabId);
+  return tab;
+}
 
 /**
  * Invoked when a message from the dev tool has been received.
@@ -49,11 +60,15 @@ const sendMessageToDevTool = msg => {
 };
 
 const handleMessageFromContentScript = (request, sender, sendResponse) => {
-  console.log('background.js received message:', request.message);
+  console.log('background.js received message:', request.message); // LOGS 1ST
 
-  const tabTitle = sender.tab.title;
-  const tabId = sender.tab.id;
-  setTab(tabTitle, tabId);
+  // const tabTitle = sender.tab.title;
+  // const tabId = sender.tab.id;
+  // setTab(tabTitle, tabId);
+
+  // doesn't log
+  currentTab = getCurrentTab();
+  console.log('Called getCurrentTab, and result is: ', currentTab);
 };
 
 const sendMessageToContentScript = msg => {
@@ -86,7 +101,12 @@ const injectScriptToStartReaperSession = () => {
     }
   };
 
+  // doesn't log
+  // currentTab = getCurrentTab();
+  // console.log('Inside injectScriptToStartReaperSession currentTab reassigned to getCurrentTab()', currentTab);
+
   const tmpTabId = currentTab.tabId;
+  console.log('Testing if tabId being passed into injectScript func is the same: ', tmpTabId);
   chrome.scripting.executeScript({
     target: { tabId: tmpTabId },
     function: injectScript,
@@ -118,4 +138,4 @@ try {
   console.log('background.js error:', error.message);
 }
 
-console.log('background js: reached end');
+console.log('background js: reached end'); // LOGS
