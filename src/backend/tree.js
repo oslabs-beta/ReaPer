@@ -53,7 +53,9 @@ class TreeNode {
 
   addChild(newNode) {
     if (newNode) {
-      newNode.parent = this;
+      // Don't set the parent - this causes issues when trying to invoke JSON.stringify
+      // on the ReaperSession obj.
+      //newNode.parent = this;
       this.children.push(newNode);
     }
   }
