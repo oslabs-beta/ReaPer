@@ -40,9 +40,19 @@ function App() {
    * (message: any, sender: MessageSender, sendResponse: function) => boolean | undefined
    * See: https://developer.chrome.com/docs/extensions/reference/runtime/#event-onMessage
    */
-  const handleMessageFromBackground = (msg, sender, sendResponse) => {
-    console.log('dev tool received message from background:', msg.message);
-    sendMessageToBackground('hello from App.jsx!');
+  const handleMessageFromBackground = (request, sender, sendResponse) => {
+    try {
+      console.log('dev tool received message from background:', request.message);
+      switch (request.message.type) {
+        case 'SEND_REAPER_SESSION':
+          const reaperSessionObj = JSON.parse(request.message.payload);
+          break;
+        default:
+          console.log('App.jsx: unknown message type!', request.message.type);
+      }
+    } catch (error) {
+      console.log('App.jsx error:', error.message);
+    }
   };
 
   /**
