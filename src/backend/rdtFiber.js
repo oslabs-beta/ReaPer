@@ -118,6 +118,8 @@ export const endReaperSession = () => {
       // to point to the original method saved globally
       rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
       console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
+
+      window.postMessage({ type: 'SEND_REAPER_SESSION', payload: JSON.stringify(reaperSession) }, '*');
     } else {
       console.log('rdtFiber endReaperSession: session not in progress, nothing to stop');
     }
