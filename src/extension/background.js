@@ -92,10 +92,6 @@ const handleMessageFromContentScript = (message, sender, sendResponse) => {
         break;
       default:
     }
-  } else {
-    const tabTitle = sender.tab.title;
-    const tabId = sender.tab.id;
-    setTab(tabTitle, tabId);
   }
 };
 
