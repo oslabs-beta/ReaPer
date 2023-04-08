@@ -16,19 +16,31 @@ const setTab = (tabTitle, tabId) => {
   if (currentTab !== undefined) {
     console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
   }
-  console.log('background.js: new tab data, tabTitle=', tabTitle, 'tabId=', tabId); // LOGS 3RD
+  console.log('background.js: new tab data, tabTitle=', tabTitle, 'tabId=', tabId);
   currentTab = new Tab(tabTitle, tabId);
 };
 
-// Retrieve the active tab from currently-focused window (or most recently-focused window)
-async function getCurrentTab() {
-  const queryOptions = { active: true, lastFocusedWindow: true };
-  // 'tab' will either be a 'tab.Tab' instance or 'undefined'
-  const [tab] = await chrome.tabs.query(queryOptions);
-  console.log('This is current tab objectd: ', tab);
-  console.log('This is current tabTitle: ', tab.tabTitle);
-  console.log('This is current tabId: ', tab.tabId);
-  return tab;
+function getCurrentTab(resetTab = false) {
+  try {
+    if (currentTab === undefined || resetTab) {
+      // Retrieve the active tab from currently-focused window (or most recently-focused window)
+      const queryOptions = { active: true, lastFocusedWindow: true };
+      // 'tab' will either be a 'tab.Tab' instance or 'undefined'
+      const [tab] = chrome.tabs.query(queryOptions)
+        .then(result => {
+          
+        })
+        .catch (error => console.log(error));
+      await console.log('This is current tab object: ', tab);
+      await console.log('This is current tabTitle: ', tab.title);
+      await console.log('This is current tabId: ', tab.id);
+      currentTab = new Tab(tab.title, tab.id);
+    }
+
+    return currentTab;
+  } catch (error) {
+    console.log('background getCurrentTab error:', error.message);
+  }
 }
 
 /**
@@ -61,23 +73,15 @@ const sendMessageToDevTool = msg => {
 
 const handleMessageFromContentScript = (request, sender, sendResponse) => {
   console.log('background.js received message:', request.message); // LOGS 1ST
-
-  // const tabTitle = sender.tab.title;
-  // const tabId = sender.tab.id;
-  // setTab(tabTitle, tabId);
-
-  // doesn't log
-  currentTab = getCurrentTab();
-  console.log('Called getCurrentTab, and result is: ', currentTab);
 };
 
 const sendMessageToContentScript = msg => {
-  if (currentTab === undefined) {
-    console.log('background.js: no tab to send message to');
-    return;
-  }
+  // if (currentTab === undefined) {
+  //   console.log('background.js: no tab to send message to');
+  //   return;
+  // }
   console.log('background.js sending message to content.js:', msg);
-  chrome.tabs.sendMessage(currentTab.tabId, msg);
+  chrome.tabs.sendMessage(getCurrentTab().tabId, msg);
 };
 
 /*
@@ -101,18 +105,17 @@ const injectScriptToStartReaperSession = () => {
     }
   };
 
-  // doesn't log
-  // currentTab = getCurrentTab();
-  // console.log('Inside injectScriptToStartReaperSession currentTab reassigned to getCurrentTab()', currentTab);
+  getCurrentTab(true);
 
-  const tmpTabId = currentTab.tabId;
-  console.log('Testing if tabId being passed into injectScript func is the same: ', tmpTabId);
-  chrome.scripting.executeScript({
-    target: { tabId: tmpTabId },
-    function: injectScript,
-    args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
-    injectImmediately: true,
-  });
+  // console.log('background injectScriptToStartReaperSession: result of getCurrentTab=', getCurrentTab());
+  // const tmpTabId = getCurrentTab(true).tabId;
+  // console.log('Testing if tabId being passed into injectScript func is the same: ', tmpTabId);
+  // chrome.scripting.executeScript({
+  //   target: { tabId: tmpTabId },
+  //   function: injectScript,
+  //   args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
+  //   injectImmediately: true,
+  // });
 };
 
 /**
@@ -137,5 +140,3 @@ try {
 } catch (error) {
   console.log('background.js error:', error.message);
 }
-
-console.log('background js: reached end'); // LOGS
