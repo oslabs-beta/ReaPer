@@ -19,6 +19,9 @@ const handleMessageFromBackground = msg => {
     case 'END_RECORDING':
       document.dispatchEvent(new CustomEvent('endReaperSession'));
       break;
+    case 'START_RECORDING':
+      document.dispatchEvent(new CustomEvent('startReaperSession'));
+      break;
     default:
       console.log('Content Script: ERROR - Unknown message type!', msg.type);
   }
