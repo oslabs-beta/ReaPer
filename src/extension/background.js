@@ -8,7 +8,7 @@ class Tab {
 }
 
 /**
- * Sets or updates the activeTab object
+ * Sets or updates the currentTab object
  * @param tabTitle - The title of the current tab
  * @param tabId - The id of the current tab
  */
@@ -20,24 +20,35 @@ const setTab = (tabTitle, tabId) => {
   currentTab = new Tab(tabTitle, tabId);
 };
 
-function getCurrentTab(resetTab = false) {
+/**
+ * Uses the Chrome Tabs API to get information about the current tab
+ * @param resetTab - if true, will overwrite the currentTab object
+ * with new information about the current tab
+ * @param callback - The function to invoke once the current tab data has been set
+ */
+async function getCurrentTab(resetTab = false, callback) {
   try {
     if (currentTab === undefined || resetTab) {
-      // Retrieve the active tab from currently-focused window (or most recently-focused window)
-      const queryOptions = { active: true, lastFocusedWindow: true };
-      // 'tab' will either be a 'tab.Tab' instance or 'undefined'
-      const [tab] = chrome.tabs.query(queryOptions)
-        .then(result => {
-          console.log('result received:', result);
-        })
-        .catch (error => console.log(error));
-      // await console.log('This is current tab object: ', tab);
-      // await console.log('This is current tabTitle: ', tab.title);
-      // await console.log('This is current tabId: ', tab.id);
-      // currentTab = new Tab(tab.title, tab.id);
-    }
+      // Retrieve the active tab from localhost
+      // currentWindow must be false or the dev tools window will be considered the "current window"
+      // and the tabs array will be returned as empty
+      // See bug: https://bugs.chromium.org/p/chromium/issues/detail?id=462939
+      const queryOptions = {
+        active: true,
+        currentWindow: false,
+        windowType: 'normal',
+        url: 'http://localhost/*',
+      };
+      const tabs = await chrome.tabs.query(queryOptions);
+      const tab = tabs[0];
 
-    return currentTab;
+      if (currentTab !== undefined) {
+        console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
+      }
+      console.log('background.js: new tab data, tabTitle=', tab.title, 'tabId=', tab.id);
+      currentTab = new Tab(tab.title, tab.id);
+      callback();
+    }
   } catch (error) {
     console.log('background getCurrentTab error:', error.message);
   }
@@ -52,7 +63,7 @@ const onMessageFromDevTool = msg => {
 
   switch (msg.type) {
     case 'START_RECORDING':
-      injectScriptToStartReaperSession();
+      getCurrentTab(true, injectScriptToStartReaperSession);
       break;
     case 'END_RECORDING':
       sendMessageToContentScript({ type: 'END_RECORDING', payload: {} });
@@ -76,20 +87,20 @@ const handleMessageFromContentScript = (request, sender, sendResponse) => {
 };
 
 const sendMessageToContentScript = msg => {
-  // if (currentTab === undefined) {
-  //   console.log('background.js: no tab to send message to');
-  //   return;
-  // }
+  if (currentTab === undefined) {
+    console.log('background.js: no tab to send message to');
+    return;
+  }
   console.log('background.js sending message to content.js:', msg);
-  chrome.tabs.sendMessage(getCurrentTab().tabId, msg);
+  chrome.tabs.sendMessage(currentTab.tabId, msg);
 };
 
-/*
-- This function will inject backend/index.js into the current tab.
-- When backend/index.js runs, it will run the imported startReaperSession() from rdtFiber,
-which will connect to the react devtools global hook for the user's current tab.
-- This seems to be the ONLY way to connect to the react devtools global hook
-*/
+/**
+ * - This function will inject backend/index.js into the current tab.
+ * - When backend/index.js runs, it will run the imported startReaperSession() from rdtFiber,
+ * which will connect to the react devtools global hook for the user's current tab.
+ * - This seems to be the ONLY way to connect to the react devtools global hook
+ */
 const injectScriptToStartReaperSession = () => {
   console.log('Background Script: injectScriptToStartReaperSession() invoked');
 
@@ -105,17 +116,15 @@ const injectScriptToStartReaperSession = () => {
     }
   };
 
-  getCurrentTab(true);
+  const tmpTabId = currentTab.tabId;
+  console.log('Background: injecting script into tab id', tmpTabId);
 
-  // console.log('background injectScriptToStartReaperSession: result of getCurrentTab=', getCurrentTab());
-  // const tmpTabId = getCurrentTab(true).tabId;
-  // console.log('Testing if tabId being passed into injectScript func is the same: ', tmpTabId);
-  // chrome.scripting.executeScript({
-  //   target: { tabId: tmpTabId },
-  //   function: injectScript,
-  //   args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
-  //   injectImmediately: true,
-  // });
+  chrome.scripting.executeScript({
+    target: { tabId: tmpTabId },
+    function: injectScript,
+    args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
+    injectImmediately: true,
+  });
 };
 
 /**
@@ -133,8 +142,8 @@ chrome.runtime.onConnect.addListener(port => {
 });
 
 /**
-Set up listener for messages from content script
-*/
+ * Set up listener for messages from content script
+ */
 try {
   chrome.runtime.onMessage.addListener(handleMessageFromContentScript);
 } catch (error) {
