@@ -48,12 +48,21 @@ const sendMessageToDevTool = msg => {
   bgPort.postMessage({ message: msg });
 };
 
-const handleMessageFromContentScript = (request, sender, sendResponse) => {
-  console.log('background.js received message:', request.message);
+const handleMessageFromContentScript = (message, sender, sendResponse) => {
+  console.log('background.js received message from content:', message);
 
-  const tabTitle = sender.tab.title;
-  const tabId = sender.tab.id;
-  setTab(tabTitle, tabId);
+  if (Object.hasOwn(message, 'type')) {
+    switch (message.type) {
+      case 'SEND_REAPER_SESSION':
+        sendMessageToDevTool(message);
+        break;
+      default:
+    }
+  } else {
+    const tabTitle = sender.tab.title;
+    const tabId = sender.tab.id;
+    setTab(tabTitle, tabId);
+  }
 };
 
 const sendMessageToContentScript = msg => {
@@ -117,5 +126,3 @@ try {
 } catch (error) {
   console.log('background.js error:', error.message);
 }
-
-console.log('background js: reached end');
