@@ -42,12 +42,16 @@ async function getCurrentTab(resetTab = false, callback) {
       const tabs = await chrome.tabs.query(queryOptions);
       const tab = tabs[0];
 
+      let isNewTab = currentTab === undefined;
       if (currentTab !== undefined) {
         console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
+        if (tab.id !== currentTab.tabId) {
+          isNewTab = true;
+        }
       }
       console.log('background.js: new tab data, tabTitle=', tab.title, 'tabId=', tab.id);
       currentTab = new Tab(tab.title, tab.id);
-      callback();
+      callback(isNewTab);
     }
   } catch (error) {
     console.log('background getCurrentTab error:', error.message);
@@ -109,8 +113,10 @@ const sendMessageToContentScript = msg => {
  * - When backend/index.js runs, it will run the imported startReaperSession() from rdtFiber,
  * which will connect to the react devtools global hook for the user's current tab.
  * - This seems to be the ONLY way to connect to the react devtools global hook
+ * @param isNewTab - if true, inject the script. This lets us avoid injecting the script over
+ * and over, unnecessarily.
  */
-const injectScriptToStartReaperSession = () => {
+const injectScriptToStartReaperSession = (isNewTab) => {
   console.log('Background Script: injectScriptToStartReaperSession() invoked');
 
   const injectScript = (file) => {
@@ -125,15 +131,20 @@ const injectScriptToStartReaperSession = () => {
     }
   };
 
-  const tmpTabId = currentTab.tabId;
-  console.log('Background: injecting script into tab id', tmpTabId);
+  if (isNewTab) {
+    const tmpTabId = currentTab.tabId;
+    console.log('Background: injecting script into tab id', tmpTabId);
 
-  chrome.scripting.executeScript({
-    target: { tabId: tmpTabId },
-    function: injectScript,
-    args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
-    injectImmediately: true,
-  });
+    chrome.scripting.executeScript({
+      target: { tabId: tmpTabId },
+      function: injectScript,
+      args: [chrome.runtime.getURL('bundles/backend.bundle.js')],
+      injectImmediately: true,
+    });
+  } else {
+    console.log('Background: isNewTab is false, so will skip script injection');
+    sendMessageToContentScript({ type: 'START_RECORDING', payload: {} });
+  }
 };
 
 /**
