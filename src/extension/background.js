@@ -28,13 +28,13 @@ function getCurrentTab(resetTab = false) {
       // 'tab' will either be a 'tab.Tab' instance or 'undefined'
       const [tab] = chrome.tabs.query(queryOptions)
         .then(result => {
-          
+          console.log('result received:', result);
         })
         .catch (error => console.log(error));
-      await console.log('This is current tab object: ', tab);
-      await console.log('This is current tabTitle: ', tab.title);
-      await console.log('This is current tabId: ', tab.id);
-      currentTab = new Tab(tab.title, tab.id);
+      // await console.log('This is current tab object: ', tab);
+      // await console.log('This is current tabTitle: ', tab.title);
+      // await console.log('This is current tabId: ', tab.id);
+      // currentTab = new Tab(tab.title, tab.id);
     }
 
     return currentTab;
