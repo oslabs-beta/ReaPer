@@ -19,6 +19,9 @@ const handleMessageFromBackground = msg => {
     case 'END_RECORDING':
       document.dispatchEvent(new CustomEvent('endReaperSession'));
       break;
+    case 'START_RECORDING':
+      document.dispatchEvent(new CustomEvent('startReaperSession'));
+      break;
     default:
       console.log('Content Script: ERROR - Unknown message type!', msg.type);
   }
@@ -39,11 +42,11 @@ const handleWindowMessages = msg => {
   }
 };
 
-sendMessageToBackground('HELLO FROM CONTENT.JS');
+// sendMessageToBackground('HELLO FROM CONTENT.JS');
 
 /**
-Set up listener for messages from the background script
-*/
+ * Set up listener for messages from the background script
+ */
 chrome.runtime.onMessage.addListener(handleMessageFromBackground);
 
 /**
