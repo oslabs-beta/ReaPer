@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dagre from 'dagre';
 
 import ComponentTree from './ComponentTree';
@@ -15,15 +15,31 @@ function Dashboard(props) {
   // Hold the current nodesAndEdge object that is to be displayed in the componentTree
   const [flowDisplayTree, setFlowDisplayTree] = useState({});
 
-  // // Breadth first search
-  // // Create a node for the current tree node we're looking at
-  // // Create the edge based on .parent and .data
+  useEffect(() => {
+    // console.log('Dashboard: These are the props', props.reaperSessionObj.renderEventList[0].tree);
+    // console.log('Dashboard: This is a reaper session: ', props.reaperSession);
+    const { renderEventList } = props.reaperSessionObj;
+    // console.log('Dashboard: These are the renderEventList', renderEventList);
+
+    // For the amount of renderEvents
+    for (let i = 0; i < renderEventList.length; i++) {
+      nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
+      setNodesAndEdges(nodesAndEdges);
+    }
+
+    setFlowDisplayTree(nodesAndEdges[0]);
+    // console.log('Dashboard.jsx, reaperSessionObj: ', props.reaperSessionObj);
+  }, [props]);
+
+  // Breadth first search
+  // Create a node for the current tree node we're looking at
+  // Create the edge based on .parent and .data
   const createNodesAndEdges = (root) => {
     const nodes = [];
     const edges = [];
 
     // Traverse through the tree using breadth first search
-    const bfsQueue = [root];
+    const bfsQueue = [...root.children];
     const idQueue = [];
   
     // Dagre graph setup code
@@ -39,6 +55,7 @@ function Dashboard(props) {
     // Using breadth first search to look through the tree
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
+
       // Create a node for the current Tree node
       dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
   
@@ -82,14 +99,6 @@ function Dashboard(props) {
     };
   };
 
-  const { renderEventList } = props.reaperSession;
-  // For the amount of renderEvents
-  for (let i = 0; i < renderEventList.length; i++) {
-    nodesAndEdges.push(createNodesAndEdges(renderEventList.tree));
-    setNodesAndEdges(nodesAndEdges);
-  }
-
-  // console.log('Dashboard.jsx, reaperSessionObj: ', props.reaperSessionObj);
   return (
     <div id='content'>
       <div className='row'>
