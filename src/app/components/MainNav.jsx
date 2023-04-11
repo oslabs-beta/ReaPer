@@ -8,7 +8,6 @@ import {
   faGear,
   faCircleQuestion,
 } from '@fortawesome/free-solid-svg-icons';
-// import styles from '../styles/style.scss';
 import Context from '../contexts/Context';
 
 

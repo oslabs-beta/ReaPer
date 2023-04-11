@@ -169,68 +169,68 @@ import createTree from '../test';
 // also need totalRenderDurationMS
 // renderDurationMS
 
-const ComponentTree = () => {
-  const nodes = [];
-  const edges = [];
+const ComponentTree = (props) => {
+  // const nodes = [];
+  // const edges = [];
 
   // // Breadth first search
   // // Create a node for the current tree node we're looking at
   // // Create the edge based on .parent and .data
-  (() => {
-    // Traverse through the tree using breadth first search
-    const bfsQueue = [createTree.root];
-    const idQueue = [];
+  // (() => {
+  //   // Traverse through the tree using breadth first search
+  //   const bfsQueue = [createTree.root];
+  //   const idQueue = [];
 
-    // Dagre graph setup code
-    const width = 144;
-    const height = 100;
-    let dagreGraph = new dagre.graphlib.Graph({ rankdir: 'TB' });
-    dagreGraph.setGraph({});
-    dagreGraph.setDefaultEdgeLabel(function () {
-      return {};
-    });
+  //   // Dagre graph setup code
+  //   const width = 144;
+  //   const height = 100;
+  //   let dagreGraph = new dagre.graphlib.Graph({ rankdir: 'TB' });
+  //   dagreGraph.setGraph({});
+  //   dagreGraph.setDefaultEdgeLabel(function () {
+  //     return {};
+  //   });
 
-    let id = 1;
-    // Using breadth first search to look through the tree
-    while (bfsQueue.length > 0) {
-      const treeNode = bfsQueue.shift();
-      // Create a node for the current Tree node
-      dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
+  //   let id = 1;
+  //   // Using breadth first search to look through the tree
+  //   while (bfsQueue.length > 0) {
+  //     const treeNode = bfsQueue.shift();
+  //     // Create a node for the current Tree node
+  //     dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
 
-      if (idQueue.length > 0) {
-        const parentId = idQueue.shift();
-        dagreGraph.setEdge(parentId, id);
-      }
+  //     if (idQueue.length > 0) {
+  //       const parentId = idQueue.shift();
+  //       dagreGraph.setEdge(parentId, id);
+  //     }
 
-      if (treeNode.children.length > 0) {
-        bfsQueue.push(...treeNode.children);
+  //     if (treeNode.children.length > 0) {
+  //       bfsQueue.push(...treeNode.children);
 
-        // Push ID into isQueue for the amount of children there are
-        for (let i = 0; i < treeNode.children.length; i++) {
-          idQueue.push(id);
-        }
-      }
-      id++;
-    }
-    dagre.layout(dagreGraph);
+  //       // Push ID into isQueue for the amount of children there are
+  //       for (let i = 0; i < treeNode.children.length; i++) {
+  //         idQueue.push(id);
+  //       }
+  //     }
+  //     id++;
+  //   }
+  //   dagre.layout(dagreGraph);
 
-    dagreGraph.nodes().forEach((nodeId) => {
-      const node = dagreGraph.node(nodeId);
-      nodes.push({
-        id: nodeId.toString(),
-        data: { label: node.label },
-        position: { x: node.x, y: node.y },
-      });
-    });
-    dagreGraph.edges().forEach((edgeObj) => {
-      const { v: sourceNodeId, w: targetNodeId } = edgeObj;
-      edges.push({
-        id: `${sourceNodeId}-${targetNodeId}`,
-        source: sourceNodeId.toString(),
-        target: targetNodeId.toString(),
-      });
-    });
-  })();
+  //   dagreGraph.nodes().forEach((nodeId) => {
+  //     const node = dagreGraph.node(nodeId);
+  //     nodes.push({
+  //       id: nodeId.toString(),
+  //       data: { label: node.label },
+  //       position: { x: node.x, y: node.y },
+  //     });
+  //   });
+  //   dagreGraph.edges().forEach((edgeObj) => {
+  //     const { v: sourceNodeId, w: targetNodeId } = edgeObj;
+  //     edges.push({
+  //       id: `${sourceNodeId}-${targetNodeId}`,
+  //       source: sourceNodeId.toString(),
+  //       target: targetNodeId.toString(),
+  //     });
+  //   });
+  // })();
 
   //   // When pushing in the children, save how many children there are for the next iteration. Maybe use a queue for this as well (push num of children numChild times)
   //   // If it has a parent move it down by 100px in y.
@@ -245,8 +245,8 @@ const ComponentTree = () => {
     <div id='tree-component-container'>
       <p>Virtual DOM</p>
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={props.displayTree.nodes}
+        edges={props.displayTree.edges}
         edgeStyle={(id, type) => {
           return {
             strokeWidth: 2,

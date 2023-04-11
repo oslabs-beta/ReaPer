@@ -15,7 +15,7 @@ function App() {
   const appRef = useRef({});
   // If sessionStatus is false, then no session recording is currently in progress
   const [sessionStatus, setSessionStatus] = useState(false);
-  const [reaperSession, setReaperSession] = useState();
+  const [reaperSession, setReaperSession] = useState(null);
   // let reaperSessionObj;
 
   useEffect(() => {
@@ -49,8 +49,11 @@ function App() {
       switch (request.message.type) {
         case 'SEND_REAPER_SESSION':
           // reaperSessionObj = JSON.parse(request.message.payload);
-          setReaperSession(JSON.parse(request.message.payload));
-          console.log('This is a reaperSessionObj', reaperSessionObj);
+          // setReaperSession(JSON.parse(request.message.payload));
+          // console.log('This is a reaperSessionObj', reaperSession);
+          const rs = JSON.parse(request.message.payload);
+          setReaperSession(rs);
+          console.log('This is a reaperSessionObj', reaperSession);
           break;
         default:
           console.log('App.jsx: unknown message type!', request.message.type);

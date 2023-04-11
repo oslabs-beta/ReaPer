@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dagre from 'dagre';
 
 import ComponentTree from './ComponentTree';
@@ -7,22 +7,40 @@ import ComponentsRanked from './ComponentsRanked';
 import RenderedComponents from './RenderedComponents';
 
 function Dashboard(props) {
-  // State variables
+  /**
+   * State Variables
+   */
   // This will hold nodes and edges for each renderEvent tree in the form of an object
   //  with properties nodes and edges.
   const [nodesAndEdges, setNodesAndEdges] = useState([]);
   // Hold the current nodesAndEdge object that is to be displayed in the componentTree
   const [flowDisplayTree, setFlowDisplayTree] = useState({});
+  const [renderTimes, setRenderTimes] = useState([]);
 
-  // // Breadth first search
-  // // Create a node for the current tree node we're looking at
-  // // Create the edge based on .parent and .data
+  // Update only when props is updated
+  useEffect(() => {
+    const { renderEventList } = props.reaperSessionObj;
+
+    // For the amount of renderEvents
+    for (let i = 0; i < renderEventList.length; i++) {
+      renderTimes.push(renderEventList[i].totalRenderDurationMS);
+      nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
+      setNodesAndEdges(nodesAndEdges);
+    }
+
+    // Display the first renderEvent tree by default in the flow tree chart.
+    setFlowDisplayTree(nodesAndEdges[0]);
+  }, [props]);
+
+  // Breadth first search
+  // Create a node for the current tree node we're looking at
+  // Create the edge based on .parent and .data
   const createNodesAndEdges = (root) => {
     const nodes = [];
     const edges = [];
 
     // Traverse through the tree using breadth first search
-    const bfsQueue = [root];
+    const bfsQueue = [...root.children];
     const idQueue = [];
 
     // Dagre graph setup code
@@ -38,6 +56,7 @@ function Dashboard(props) {
     // Using breadth first search to look through the tree
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
+
       // Create a node for the current Tree node
       dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
 
@@ -81,14 +100,6 @@ function Dashboard(props) {
     };
   };
 
-  const { renderEventList } = props.reaperSession;
-  // For the amount of renderEvents
-  for (let i = 0; i < renderEventList.length; i++) {
-    nodesAndEdges.push(createNodesAndEdges(renderEventList.tree));
-    setNodesAndEdges(nodesAndEdges);
-  }
-
-  // console.log('Dashboard.jsx, reaperSessionObj: ', props.reaperSessionObj);
   return (
     <div id='content'>
       <div className='row'>
@@ -97,6 +108,11 @@ function Dashboard(props) {
             <RenderEvents
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
+            />
+            <RenderEvents
+              nodesAndEdges={nodesAndEdges}
+              setFlowDisplayTree={setFlowDisplayTree}
+              renderTimes={renderTimes}
             />
           </div>
         </div>
