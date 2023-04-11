@@ -6,7 +6,6 @@ import RenderEvents from './RenderEvents';
 import ComponentsRanked from './ComponentsRanked';
 import RenderedComponents from './RenderedComponents';
 
-
 function Dashboard(props) {
   // State variables
   // This will hold nodes and edges for each renderEvent tree in the form of an object
@@ -25,7 +24,7 @@ function Dashboard(props) {
     // Traverse through the tree using breadth first search
     const bfsQueue = [root];
     const idQueue = [];
-  
+
     // Dagre graph setup code
     const width = 144;
     const height = 100;
@@ -34,22 +33,22 @@ function Dashboard(props) {
     dagreGraph.setDefaultEdgeLabel(function () {
       return {};
     });
-  
+
     let id = 1;
     // Using breadth first search to look through the tree
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
       // Create a node for the current Tree node
       dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
-  
+
       if (idQueue.length > 0) {
         const parentId = idQueue.shift();
         dagreGraph.setEdge(parentId, id);
       }
-  
+
       if (treeNode.children.length > 0) {
         bfsQueue.push(...treeNode.children);
-  
+
         // Push ID into isQueue for the amount of children there are
         for (let i = 0; i < treeNode.children.length; i++) {
           idQueue.push(id);
@@ -58,7 +57,7 @@ function Dashboard(props) {
       id++;
     }
     dagre.layout(dagreGraph);
-  
+
     dagreGraph.nodes().forEach((nodeId) => {
       const node = dagreGraph.node(nodeId);
       nodes.push({
@@ -95,7 +94,10 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <RenderEvents nodesAndEdges={nodesAndEdges} setFlowDisplayTree={setFlowDisplayTree} />
+            <RenderEvents
+              nodesAndEdges={nodesAndEdges}
+              setFlowDisplayTree={setFlowDisplayTree}
+            />
           </div>
         </div>
         <div className='column'>
@@ -122,5 +124,5 @@ function Dashboard(props) {
 
 // Maybe use state to determine whether or not we have a total of > 1 event
 // Create tree in this file
-// Then distribute to it's sub portions make up the whole! 
+// Then distribute to it's sub portions make up the whole!
 export default Dashboard;
