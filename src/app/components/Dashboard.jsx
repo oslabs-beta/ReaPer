@@ -8,27 +8,32 @@ import RenderedComponents from './RenderedComponents';
 
 
 function Dashboard(props) {
-  // State variables
+  /**
+   * State Variables
+   */
   // This will hold nodes and edges for each renderEvent tree in the form of an object
   //  with properties nodes and edges.
   const [nodesAndEdges, setNodesAndEdges] = useState([]);
   // Hold the current nodesAndEdge object that is to be displayed in the componentTree
   const [flowDisplayTree, setFlowDisplayTree] = useState({});
+  const [renderTimes, setRenderTimes] = useState([]);
 
+  // Update only when props is updated
   useEffect(() => {
-    // console.log('Dashboard: These are the props', props.reaperSessionObj.renderEventList[0].tree);
-    // console.log('Dashboard: This is a reaper session: ', props.reaperSession);
     const { renderEventList } = props.reaperSessionObj;
-    // console.log('Dashboard: These are the renderEventList', renderEventList);
+
+
+
 
     // For the amount of renderEvents
     for (let i = 0; i < renderEventList.length; i++) {
+      renderTimes.push(renderEventList[i].totalRenderDurationMS);
       nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
       setNodesAndEdges(nodesAndEdges);
     }
 
+    // Display the first renderEvent tree by default in the flow tree chart.
     setFlowDisplayTree(nodesAndEdges[0]);
-    // console.log('Dashboard.jsx, reaperSessionObj: ', props.reaperSessionObj);
   }, [props]);
 
   // Breadth first search
@@ -104,7 +109,7 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <RenderEvents nodesAndEdges={nodesAndEdges} setFlowDisplayTree={setFlowDisplayTree} />
+            <RenderEvents nodesAndEdges={nodesAndEdges} setFlowDisplayTree={setFlowDisplayTree} renderTimes={renderTimes}/>
           </div>
         </div>
         <div className='column'>

@@ -53,7 +53,7 @@ function App() {
           // console.log('This is a reaperSessionObj', reaperSession);
           const rs = JSON.parse(request.message.payload);
           setReaperSession(rs);
-          console.log('This is a reaperSessionObj', rs);
+          console.log('This is a reaperSessionObj', reaperSession);
           break;
         default:
           console.log('App.jsx: unknown message type!', request.message.type);

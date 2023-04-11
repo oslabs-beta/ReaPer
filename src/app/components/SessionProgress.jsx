@@ -6,7 +6,6 @@ import MainNav from './MainNav';
 function SessionProgress() {
   return (
     <div className='session-view'>
-      {/* <MainNav /> */}
       <div className='react-icon-container'>
         <FontAwesomeIcon icon={faReact} size='6x' color='#61DBFB' />
       </div>
