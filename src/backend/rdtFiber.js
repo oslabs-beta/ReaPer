@@ -4,8 +4,6 @@ import RenderEvent from './renderEvent';
 // Set global variable to use across functions
 // for access to React DevTools global hook for before and after record session
 let rdt;
-// for access to React devTools fiber root node
-// let rdtFiberRootNode = null;
 // for access to React devTools onCommitFiberRoot method to be initialized in connectToReact,
 // and to be mutated in intercept function, and again in endReaperSession
 let rdtOnCommitFiberRoot;
@@ -26,18 +24,25 @@ const updateRenderEvent = (fiberRootNode) => {
 };
 
 // Limits calls made on a function (new render event) in a period of time
-const throttle = (func, delay) => {
+const throttle = (func, delayMS) => {
   let shouldWait = false;
 
   // return function that takes new render event's fiber node arg
   return (arg) => {
-    if (shouldWait) return;
+    if (shouldWait) {
+      // console.log('throttle anonymous: shouldWait is true, returning....');
+      return;
+    }
 
+    // console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
     func(arg);
     shouldWait = true;
+
+    // console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
     setTimeout(() => {
+      // console.log('setTimeout callback invoked, setting shouldWait to false');
       shouldWait = false;
-    }, delay);
+    }, delayMS);
   };
 };
 
@@ -65,17 +70,8 @@ function connectToReact() {
   // Pass error message to the frontend if user application is not a React app
   // TODO: use sendMessageToDevTool method
 
-  // get fiberNode information and intercept
-  // rdtFiberRootNode = rdt.getFiberRoots(1).values().next().value;
-  /*
-  NY:
-  let rdtFiberRootNode; // WHERE SHOULD throttleRenderEvent BE DECLARED? WHY?
-  I placed it inside connectToReact because we would only need to check it
-  when React is being used, but should it be closer to it's invocation?
-  */
-
   // throttle render events
-  const throttleRenderEvent = throttle(() => { updateRenderEvent(rdtFiberRootNode); }, 100);
+  const throttleRenderEvent = throttle((fiberNode) => { updateRenderEvent(fiberNode); }, 100);
 
   // intercept the original onCommitFiberRoot
   const intercept = function (originalOnCommitFiberRootFn) {
@@ -84,10 +80,8 @@ function connectToReact() {
 
     return function (...args) {
       const rdtFiberRootNode = args[1]; // root argument (args: rendererID, root, priorityLevel)
-      // Invoke updateRenderEvent
-      updateRenderEvent(rdtFiberRootNode);
       // throttle renders
-      throttleRenderEvent();
+      throttleRenderEvent(rdtFiberRootNode);
       // return RDT's onCommitFiberRoot with its args
       return originalOnCommitFiberRootFn(...args);
     };
@@ -124,6 +118,31 @@ export const endReaperSession = () => {
       // to point to the original method saved globally
       rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
       console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
+
+      // Sometimes there can be circular references within the fiber node that causes issues
+      // when trying to JSON stringify it - by passing in a custom replacer, we can just
+      // replace circular references with the string '[Circular]' and complete the JSON
+      // stringify process
+      const getCircularReplacer = () => {
+        const ancestors = [];
+        return function (key, value) {
+          if (typeof value !== 'object' || value === null) {
+            return value;
+          }
+          // `this` is the object that value is contained in,
+          // i.e., its direct parent.
+          while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+            ancestors.pop();
+          }
+          if (ancestors.includes(value)) {
+            return '[Circular]';
+          }
+          ancestors.push(value);
+          return value;
+        };
+      };
+
+      window.postMessage({ type: 'SEND_REAPER_SESSION', payload: JSON.stringify(reaperSession, getCircularReplacer()) }, '*');
     } else {
       console.log('rdtFiber endReaperSession: session not in progress, nothing to stop');
     }

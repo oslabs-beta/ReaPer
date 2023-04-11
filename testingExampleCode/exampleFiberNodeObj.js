@@ -101,4 +101,4 @@ const fiberObj = {
   _debugSource: null
 };
 
-module.exports = fiberObj;
+export default fiberObj;

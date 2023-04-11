@@ -1,14 +1,17 @@
 /* eslint-disable */
-const makeTreeFunc = require('../src/backend/tree');
-const exampleFiberObj = require('../testingExampleCode/exampleFiberNodeObj');
-const exampleTree = require('../testingExampleCode/exampleTree');
+// const makeTreeFunc = require('../src/backend/tree');
+// const exampleFiberObj = require('../testingExampleCode/exampleFiberNodeObj');
+// const exampleTree = require('../testingExampleCode/exampleTree');
+import createTree from '../src/backend/tree';
+import exampleFiberObj from '../testingExampleCode/exampleFiberNodeObj';
+import exampleTree from '../testingExampleCode/exampleTree';
 
 test('tree.js exports a function', () => {
-  expect(typeof makeTreeFunc).toEqual('function')
+  expect(typeof createTree).toEqual('function')
 })
 
 test('Check traversal function in tree.js is correctly traversing fiberObject', () => {
-  const tree = makeTreeFunc(exampleFiberObj);
+  const tree = createTree(exampleFiberObj);
   expect(tree).toEqual(exampleTree);
 })
 
@@ -22,12 +25,12 @@ test('Does not break if a property is not present on fiber Obj', () => {
     tag: 3, 
     selfBaseDuration: 1.300000011920929
   };
-  const tree = makeTreeFunc(incompleteFiberObj);
+  const tree = createTree(incompleteFiberObj);
   expect(tree).toBeDefined;
 })
 
 test('output tree has a root property', () => {
-  const tree = makeTreeFunc(exampleFiberObj);
+  const tree = createTree(exampleFiberObj);
   expect(tree).toHaveProperty('root');
 
 })

@@ -5,7 +5,7 @@
 const sendMessageToBackground = (msg) => {
   console.log('contentScript.js: sending message to background script:', msg);
   // The parameter passed in to sendMessage must be a JSON-ifiable object.
-  chrome.runtime.sendMessage({ message: msg });
+  chrome.runtime.sendMessage(msg);
 };
 
 /**
@@ -19,6 +19,9 @@ const handleMessageFromBackground = msg => {
     case 'END_RECORDING':
       document.dispatchEvent(new CustomEvent('endReaperSession'));
       break;
+    case 'START_RECORDING':
+      document.dispatchEvent(new CustomEvent('startReaperSession'));
+      break;
     default:
       console.log('Content Script: ERROR - Unknown message type!', msg.type);
   }
@@ -26,9 +29,27 @@ const handleMessageFromBackground = msg => {
   return false;
 };
 
-sendMessageToBackground('HELLO FROM CONTENT.JS');
+const handleWindowMessages = msg => {
+  if (Object.hasOwn(msg.data, 'type')) {
+    console.log('contentScript: received message', msg.data);
+    switch (msg.data.type) {
+      case 'SEND_REAPER_SESSION':
+        const bgMsg = { type: 'SEND_REAPER_SESSION', payload: msg.data.payload };
+        sendMessageToBackground(bgMsg);
+        break;
+      default:
+    }
+  }
+};
+
+// sendMessageToBackground('HELLO FROM CONTENT.JS');
 
 /**
-Set up listener for messages from the background script
-*/
+ * Set up listener for messages from the background script
+ */
 chrome.runtime.onMessage.addListener(handleMessageFromBackground);
+
+/**
+ * Set up listener for messages from the window
+ */
+window.addEventListener('message', handleWindowMessages);

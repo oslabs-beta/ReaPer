@@ -1,9 +1,9 @@
 class ReaperSession {
   constructor() {
-    this.renderEventList = new Set();
+    this.renderEventList = [];
   }
   addRenderEvent(renderEventObj) {
-    this.renderEventList.add(renderEventObj);
+    this.renderEventList.push(renderEventObj);
   }
 }
 

@@ -47,4 +47,4 @@ const exampleTree = {
   }
 };
 
-module.exports = exampleTree;
+export default exampleTree;
