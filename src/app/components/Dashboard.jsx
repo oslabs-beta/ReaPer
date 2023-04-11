@@ -5,6 +5,7 @@ import ComponentTree from './ComponentTree';
 import RenderEvents from './RenderEvents';
 import ComponentsRanked from './ComponentsRanked';
 import RenderedComponents from './RenderedComponents';
+import { render } from 'react-dom';
 
 function Dashboard(props) {
   /**
@@ -24,6 +25,7 @@ function Dashboard(props) {
     // For the amount of renderEvents
     for (let i = 0; i < renderEventList.length; i++) {
       renderTimes.push(renderEventList[i].totalRenderDurationMS);
+      console.log('Render Times: ', renderTimes);
       nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
       setNodesAndEdges(nodesAndEdges);
     }
@@ -125,7 +127,7 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <ComponentsRanked />
+            <ComponentsRanked renderTimes={renderTimes} />
           </div>
         </div>
         <div className='column'>
