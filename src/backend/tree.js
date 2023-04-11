@@ -1,4 +1,98 @@
-import { getFiberNodeTagName } from './helperFns';
+// import { getFiberNodeTagName } from './helperFns.js';
+
+const getFiberNodeTagName = (tagNum) => {
+  let tagName = '';
+
+  switch (tagNum) {
+    case 0:
+      tagName = 'Function Component';
+      break;
+    case 1:
+      tagName = 'Class Component';
+      break;
+    case 2:
+      tagName = 'Indeterminate Component';
+      break;
+    case 3:
+      tagName = 'Host Root';
+      break;
+    case 4:
+      tagName = 'Host Portal';
+      break;
+    case 5:
+      tagName = 'Host Component';
+      break;
+    case 6:
+      tagName = 'Host Text';
+      break;
+    case 7:
+      tagName = 'Fragment';
+      break;
+    case 8:
+      tagName = 'Mode';
+      break;
+    case 9:
+      tagName = 'Context Consumer';
+      break;
+    case 10:
+      tagName = 'Context Provider';
+      break;
+    case 11:
+      tagName = 'Forward Ref';
+      break;
+    case 12:
+      tagName = 'Profiler';
+      break;
+    case 13:
+      tagName = 'Suspense Component';
+      break;
+    case 14:
+      tagName = 'Memo Component';
+      break;
+    case 15:
+      tagName = 'Simple Memo Component';
+      break;
+    case 16:
+      tagName = 'Lazy Component';
+      break;
+    case 17:
+      tagName = 'Incomplete Class Component';
+      break;
+    case 18:
+      tagName = 'Dehydrated Fragment';
+      break;
+    case 19:
+      tagName = 'Suspense List Component';
+      break;
+    case 21:
+      tagName = 'Scope Component';
+      break;
+    case 22:
+      tagName = 'Offscreen Component';
+      break;
+    case 23:
+      tagName = 'Legacy Hidden Component';
+      break;
+    case 24:
+      tagName = 'Cache Component';
+      break;
+    case 25:
+      tagName = 'Tracing Marker Component';
+      break;
+    case 26:
+      tagName = 'Host Hoistable';
+      break;
+    case 27:
+      tagName = 'Host Singleton';
+      break;
+    default:
+      console.log('helperFns getFiberNodeTagName error - unrecognized tag number ', tagNum);
+  }
+
+  return tagName;
+};
+
+
 // define structure of tree
 
 /* eslint-disable */
@@ -16,7 +110,6 @@ class TreeNode {
     } = fiberNode;
 
     this.children = [];
-    this.parent = null;
 
     /*
       - tagObj identifies the type of fiber
@@ -55,7 +148,6 @@ class TreeNode {
 
   addChild(newNode) {
     if (newNode) {
-      newNode.parent = this;
       this.children.push(newNode);
     }
   }
@@ -151,110 +243,10 @@ class Tree {
 // Function to create a tree
 const createTree = (fiberObj) => {
   const tree = new Tree(fiberObj);
-  console.log('CreateTree: fiberObj=', fiberObj);
-  console.log('CreateTree: tree=', tree);
+  // console.log('CreateTree: fiberObj=', fiberObj);
+  // console.log('CreateTree: tree=', tree);
   return tree;
 };
 
-export default createTree;
+module.exports = createTree;
 
-// Hard-coded tests
-// const childNode13 = {
-//   data: { name: 'Box 9' },
-//   child: null,
-//   sibling: null,
-//   id: 13
-// };
-
-// const childNode12 = {
-//   data: { name: 'Box 8' },
-//   child: null,
-//   sibling: childNode13,
-//   id: 12
-// };
-
-// const childNode11= {
-//   data: { name: 'Box 7' },
-//   child: null,
-//   sibling: childNode12,
-//   id: 11
-// };
-
-// const childNode10 = {
-//   data: { name: 'Box 6' },
-//   child: null,
-//   sibling: null,
-//   id: 10
-// };
-
-// const childNode9 = {
-//   data: { name: 'Box 5' },
-//   child: null,
-//   sibling: childNode10,
-//   id: 9
-// };
-
-// const childNode8 = {
-//   data: { name: 'Box 4' },
-//   child: null,
-//   sibling: childNode9,
-//   id: 8
-// };
-
-// const childNode7 = {
-//   data: { name: 'Box 3' },
-//   child: null,
-//   sibling: null,
-//   id: 7
-// };
-
-// const childNode6 = {
-//   data: { name: 'Box 2' },
-//   child: null,
-//   sibling: childNode7,
-//   id: 6
-// };
-
-// const childNode5 = {
-//   data: { name: 'Box 1' },
-//   child: null,
-//   sibling: childNode6,
-//   id: 5
-// };
-
-// const childNode4 = {
-//   data: { name: 'Row 3' },
-//   child: null,
-//   sibling: null,
-//   id: 4
-// };
-
-// const childNode3 = {
-//   data: { name: 'Row 2' },
-//   child: null,
-//   sibling: childNode4,
-//   id: 3
-// };
-
-// const childNode2 = {
-//   data: { name: 'Row 1' },
-//   child: childNode5,
-//   sibling: childNode3,
-//   id: 2
-// };
-
-// const childNode1 = {
-//   data: { name: 'Board' },
-//   child: childNode2,
-//   sibling: null,
-//   id: 1
-// };
-
-// const fiberRoot = {
-//   data: { name: 'App' },
-//   child: childNode1,
-//   sibling: null,
-//   id: 0
-// };
-
-// console.log(createTree(fiberRoot));
