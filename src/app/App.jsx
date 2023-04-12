@@ -9,11 +9,14 @@ import ComponentsRanked from './components/ComponentsRanked';
 import RenderedComponents from './components/RenderedComponents';
 import StartView from './components/StartView';
 import SessionProgress from './components/SessionProgress';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const appRef = useRef({});
   // If sessionStatus is false, then no session recording is currently in progress
   const [sessionStatus, setSessionStatus] = useState(false);
+  const [reaperSession, setReaperSession] = useState(null);
+  // let reaperSessionObj;
 
   useEffect(() => {
     connectToBackgroundScript();
@@ -45,7 +48,12 @@ function App() {
       console.log('dev tool received message from background:', request.message);
       switch (request.message.type) {
         case 'SEND_REAPER_SESSION':
-          const reaperSessionObj = JSON.parse(request.message.payload);
+          // reaperSessionObj = JSON.parse(request.message.payload);
+          // setReaperSession(JSON.parse(request.message.payload));
+          // console.log('This is a reaperSessionObj', reaperSession);
+          const rs = JSON.parse(request.message.payload);
+          setReaperSession(rs);
+          console.log('This is a reaperSessionObj', reaperSession);
           break;
         default:
           console.log('App.jsx: unknown message type!', request.message.type);
@@ -79,38 +87,24 @@ function App() {
     setSessionStatus(!sessionStatus);
   };
 
+  // Logic from line 95 - 103 is used to determine what screen will display
+  //  StartView: If there is no session recording and no reaperSession object saved
+  //  SessionProgress: If there is a session recording and no reaperSession object saved. 
+  //                   If there is a session recording and there is a reaperSession object saved.
+  //  Dashboard: If there is no session recording and there is a reaperSession object saved.
   return (
     <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} />
-        {/* <SessionProgress /> */}
-        {/* <StartView /> */}
-        <div id='content'>
-          <div className='row'>
-            <div className='column'>
-              <div className='graph'>
-                <RenderEvents />
-              </div>
-            </div>
-            <div className='column'>
-              <div className='graph'>
-                <RenderedComponents />
-              </div>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='column'>
-              <div className='graph'>
-                <ComponentsRanked />
-              </div>
-            </div>
-            <div className='column'>
-              <div className='graph'>
-                <ComponentTree />
-              </div>
-            </div>
-          </div>
-        </div>
+        {!sessionStatus && !reaperSession ? (
+            <StartView />
+          ) : 
+          (sessionStatus && !reaperSession) || (sessionStatus && reaperSession) ? (
+            <SessionProgress />
+          )  :
+          (!sessionStatus && reaperSession) && (
+            <Dashboard reaperSessionObj={reaperSession} />
+          )}
       </Context.Provider>
     </div>
   );
