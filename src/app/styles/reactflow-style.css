@@ -149,6 +149,7 @@
   cursor: grab;
   border: 1px solid black;
   padding: 5px;
+  background-color: #D9F2FF;
 }
 
 .react-flow__node.dragging {
