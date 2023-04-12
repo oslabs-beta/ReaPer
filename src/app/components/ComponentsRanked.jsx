@@ -50,13 +50,9 @@ const ComponentsRanked = (props) => {
       display: false,
     },
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
+      x: {
+        beginAtZero: true,
+      },
     },
   };
 

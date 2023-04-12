@@ -95,7 +95,7 @@ function App() {
   return (
     <div id='container'>
       <Context.Provider value={sendMessageToBackground}>
-        <MainNav handleRecordBtnClick={handleRecordBtnClick} />
+        <MainNav handleRecordBtnClick={handleRecordBtnClick} sessionStatus={sessionStatus} />
         {!sessionStatus && !reaperSession ? (
             <StartView />
           ) : 

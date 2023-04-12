@@ -30,13 +30,9 @@ function RenderedComponents() {
       fontSize: 20,
     },
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
+      y: {
+        beginAtZero: true,
+      },
     },
   };
 
