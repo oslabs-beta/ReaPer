@@ -35,7 +35,6 @@ async function getCurrentTab(resetTab = false, callback) {
       // See bug: https://bugs.chromium.org/p/chromium/issues/detail?id=462939
       const queryOptions = {
         active: true,
-        currentWindow: false,
         windowType: 'normal',
         url: 'http://localhost/*',
       };

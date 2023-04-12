@@ -25,7 +25,7 @@ function Dashboard(props) {
     // For the amount of renderEvents
     for (let i = 0; i < renderEventList.length; i++) {
       renderTimes.push(renderEventList[i].totalRenderDurationMS);
-      console.log('Render Times: ', renderTimes);
+      // console.log('Render Times: ', renderTimes);
       nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
       setNodesAndEdges(nodesAndEdges);
     }

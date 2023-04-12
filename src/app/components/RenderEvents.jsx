@@ -110,25 +110,25 @@ function RenderEvents(props) {
   //   ],
   // };
 
-  useEffect(() => {
-    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
-    const { renderTimes } = props;
-    setChartData(createDataForChart(renderTimes));
-  }, [props]);
+  // useEffect(() => {
+  //   console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
+  //   const { renderTimes } = props;
+  //   setChartData(createDataForChart(renderTimes));
+  // }, [props]);
 
-  const createDataForChart = (renderTimes) => {
-    // Create the labels for the length of renderTimes array
-    const labels = [];
-    const data = {};
-    for (let i = 0; i < renderTimes.length; i++) {
-      labels.push(`Render Event ${i + 1}`);
-    }
+  // const createDataForChart = (renderTimes) => {
+  //   // Create the labels for the length of renderTimes array
+  //   const labels = [];
+  //   const data = {};
+  //   for (let i = 0; i < renderTimes.length; i++) {
+  //     labels.push(`Render Event ${i + 1}`);
+  //   }
 
-    data.labels = labels;
-    data.datasets[0].data = renderTimes;
+  //   chartData.labels = labels;
+  //   chartData.datasets[0].data = renderTimes;
 
-    return data;
-  };
+  //   return chartData;
+  // };
 
 
   // Hard code colors and cycle through it
