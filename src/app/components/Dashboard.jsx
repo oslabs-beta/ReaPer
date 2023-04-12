@@ -17,29 +17,14 @@ function Dashboard(props) {
   const [nodesAndEdges, setNodesAndEdges] = useState([]);
   // Hold the current nodesAndEdge object that is to be displayed in the componentTree
   const [flowDisplayTree, setFlowDisplayTree] = useState({});
+
+  // Used for RenderEvents
   const [renderTimes, setRenderTimes] = useState([]);
-  // // State for componentsRanked
-  // const [compAndDuration, setCompAndDuration] = useState([]);
 
-  // function traverseNode(node) {
-  //   const nodeResult = {
-  //     componentName: node.componentName,
-  //     renderDurationMS: node.renderDurationMS,
-  //   };
-
-  //   if (node.children && node.children.length > 0) {
-  //     nodeResult.children = node.children.map((child) => traverseNode(child));
-  //   }
-  //   return nodeResult;
-  // }
-
-  // useEffect(() => {
-  //   console.log('props.reaperSessionObj changed:', props.reaperSessionObj);
-  //   const tree = props.reaperSessionObj;
-  //   if (tree) {
-  //     setCompAndDuration([traverseNode(tree.renderEventList)]);
-  //   }
-  // }, [props]);
+  // This will hold all component render times
+  const [componentRenderTimes, setComponentRenderTimes] = useState([]);
+  // Holds the current componentRenderTime object that is to be displayed in the components ranked
+  const [componentsRankedDisplay, setComponentsRankedDisplay] = useState({});
 
   // Update only when props is updated
   useEffect(() => {
@@ -47,21 +32,61 @@ function Dashboard(props) {
 
     const newRenderTimes = [];
     const newNodesAndEdges = [];
+    const newComponentRenderTimes = [];
 
-    // For the amount of renderEvents
+    console.log('Dashboard: This is our render event list! ', renderEventList);
+
+    // Deconstruct our reaperSessionObj
     for (let i = 0; i < renderEventList.length; i++) {
       newRenderTimes.push(renderEventList[i].totalRenderDurationMS);
       newNodesAndEdges.push(
         createNodesAndEdges(renderEventList[i].tree.root, i)
       );
+      newComponentRenderTimes.push(
+        getComponentRenderTimes(renderEventList[i].tree.root)
+      );
     }
 
+    setComponentRenderTimes(newComponentRenderTimes);
     setNodesAndEdges(newNodesAndEdges);
     setRenderTimes(newRenderTimes);
 
-    // Display the first renderEvent tree by default in the flow tree chart.
+    // Display the first renderEvent data by default in the corresponding charts
     setFlowDisplayTree(newNodesAndEdges[0]);
+    setComponentsRankedDisplay(newComponentRenderTimes[0]);
   }, [props]);
+
+  // const deconstructReaperSessionObj = () => {
+
+  // };
+
+  const getComponentRenderTimes = (root) => {
+    // Skip over the root component in React fiber
+    const bfsQueue = [...root.children];
+    const treeComponentRenderTimes = {};
+    let componentCounter = 1;
+
+    while (bfsQueue.length > 0) {
+      const treeNode = bfsQueue.shift();
+
+      // Key: component name
+      // Value: time it took to render the component
+      if (treeComponentRenderTimes[treeNode.componentName]) {
+        componentCounter++;
+        treeComponentRenderTimes[
+          `${treeNode.componentName}-${componentCounter}`
+        ] = treeNode.renderDurationMS;
+      } else {
+        componentCounter = 1;
+        treeComponentRenderTimes[treeNode.componentName] =
+          treeNode.renderDurationMS;
+      }
+
+      if (treeNode.children.length > 0) bfsQueue.push(...treeNode.children);
+    }
+
+    return treeComponentRenderTimes;
+  };
 
   // Breadth first search
   // Create a node for the current tree node we're looking at
@@ -71,6 +96,7 @@ function Dashboard(props) {
     const edges = [];
 
     // Traverse through the tree using breadth first search
+    // Skip over the root component in React fiber
     const bfsQueue = [...root.children];
     const idQueue = [];
 
@@ -89,7 +115,12 @@ function Dashboard(props) {
       const treeNode = bfsQueue.shift();
 
       // Create a node for the current Tree node
-      dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
+      // dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
+      dagreGraph.setNode(id, {
+        label: `${treeNode.componentName}-${index}`,
+        width,
+        height,
+      });
 
       if (idQueue.length > 0) {
         const parentId = idQueue.shift();
@@ -139,6 +170,8 @@ function Dashboard(props) {
             <RenderEvents
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
+              componentRenderTimes={componentRenderTimes}
+              setComponentsRankedDisplay={setComponentsRankedDisplay}
               renderTimes={renderTimes}
             />
           </div>
@@ -152,7 +185,9 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <ComponentsRanked renderTimes={renderTimes} />
+            <ComponentsRanked
+              componentsRankedDisplay={componentsRankedDisplay}
+            />
           </div>
         </div>
         <div className='column'>

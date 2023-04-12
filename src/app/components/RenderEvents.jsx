@@ -50,7 +50,6 @@ function RenderEvents(props) {
   const createDataForChart = (renderTimes) => {
     // Create the labels for the length of renderTimes array
     const labels = [];
-    const data = {};
     for (let i = 0; i < renderTimes.length; i++) {
       labels.push(`Render Event ${i + 1}`);
     }
@@ -90,10 +89,10 @@ function RenderEvents(props) {
     },
     onClick: (e, chartElement) => {
       if (chartElement.length > 0) {
-        const { setFlowDisplayTree, nodesAndEdges } = props;
+        const { setFlowDisplayTree, nodesAndEdges, setComponentsRankedDisplay,  componentRenderTimes} = props;
         const dataIndex = chartElement[0].index;
-
-        // TODO: This part does not seem to be working, or at least I can't tell, and wasn't able to get react flow tree chart to display extra information.
+        // Update the ComponentsRanked chart based on what bar was clicked
+        setComponentsRankedDisplay(componentRenderTimes[dataIndex]);
         // Update the flow tree chart to display based on what bar was clicked
         setFlowDisplayTree(nodesAndEdges[dataIndex]);
       }

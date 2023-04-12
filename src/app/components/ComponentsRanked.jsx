@@ -3,18 +3,12 @@ import { Chart as ChartJS } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 
 const ComponentsRanked = (props) => {
-  // const [rankData, setRankData] = useState({});
   const [rankTimes, setRankTimes] = useState({
-    labels: ['12:1719.41', '+00:02.19', '+00:01.41', '+00:01.54', '+08:20.14'],
+    labels: [],
     datasets: [
       {
         label: 'Components Ranked by Render Time',
         backgroundColor: [
-          // 'rgba(255, 99, 132, 0.2)',
-          // 'rgba(255, 159, 64, 0.2)',
-          // 'rgba(255, 205, 86, 0.2)',
-          // 'rgba(75, 192, 192, 0.2)',
-          // 'rgba(54, 162, 235, 0.2)',
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 159, 64, 0.2)',
@@ -27,11 +21,6 @@ const ComponentsRanked = (props) => {
           'rgba(92, 184, 92, 0.2)',
         ],
         borderColor: [
-          // 'rgb(255, 99, 132)',
-          // 'rgb(255, 159, 64)',
-          // 'rgb(255, 205, 86)',
-          // 'rgb(75, 192, 192)',
-          // 'rgb(54, 162, 235)',
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
           'rgb(255, 159, 64)',
@@ -44,57 +33,11 @@ const ComponentsRanked = (props) => {
           'rgb(92, 184, 92)',
         ],
         borderWidth: 1,
-        data: [0.3, 0.1, 0.55, 0.6, 0.7, 0.4],
+        data: [],
         fill: false,
       },
     ],
   });
-
-  // const data = {
-  //   labels: ['12:1719.41', '+00:02.19', '+00:01.41', '+00:01.54', '+08:20.14'],
-  //   datasets: [
-  //     {
-  //       label: 'Components Ranked by Render Time',
-  //       backgroundColor: [
-  //         // 'rgba(255, 99, 132, 0.2)',
-  //         // 'rgba(255, 159, 64, 0.2)',
-  //         // 'rgba(255, 205, 86, 0.2)',
-  //         // 'rgba(75, 192, 192, 0.2)',
-  //         // 'rgba(54, 162, 235, 0.2)',
-  //         'rgba(255, 99, 132, 0.2)',
-  //         'rgba(54, 162, 235, 0.2)',
-  //         'rgba(255, 159, 64, 0.2)',
-  //         'rgba(75, 192, 192, 0.2)',
-  //         'rgba(255, 205, 86, 0.2)',
-  //         'rgba(153, 102, 255, 0.2)',
-  //         'rgba(255, 77, 166, 0.2)',
-  //         'rgba(51, 204, 51, 0.2)',
-  //         'rgba(255, 128, 0, 0.2)',
-  //         'rgba(92, 184, 92, 0.2)',
-  //       ],
-  //       borderColor: [
-  //         // 'rgb(255, 99, 132)',
-  //         // 'rgb(255, 159, 64)',
-  //         // 'rgb(255, 205, 86)',
-  //         // 'rgb(75, 192, 192)',
-  //         // 'rgb(54, 162, 235)',
-  //         'rgb(255, 99, 132)',
-  //         'rgb(54, 162, 235)',
-  //         'rgb(255, 159, 64)',
-  //         'rgb(75, 192, 192)',
-  //         'rgb(255, 205, 86)',
-  //         'rgb(153, 102, 255)',
-  //         'rgb(255, 77, 166)',
-  //         'rgb(51, 204, 51)',
-  //         'rgb(255, 128, 0)',
-  //         'rgb(92, 184, 92)',
-  //       ],
-  //       borderWidth: 1,
-  //       data: [0.3, 0.1, 0.55, 0.6, 0.7, 0.4],
-  //       fill: false,
-  //     },
-  //   ],
-  // };
 
   const options = {
     indexAxis: 'y',
@@ -118,13 +61,35 @@ const ComponentsRanked = (props) => {
   };
 
   useEffect(() => {
-    // console.log('RenderDurationMS: ', props.renderDurationMS);
-    // const { renderDurationMS } = props;
-    // for (let i = 0; i < renderEventList.length; i++) {
-    //   rankTimes.push(renderEventList[i].renderDurationMS);
-    // console.log('RankTimes: ', rankTimes);
-    // }
+    const { componentsRankedDisplay } = props;
+    setRankTimes(createDataForChart(componentsRankedDisplay));
   }, [props]);
+
+  const createDataForChart = (renderTimes) => {
+    const labels = [];
+    const data = [];
+    console.log('ComponentsRanked: renderTimes ', renderTimes);
+
+    for (const [componentName, renderTime] of Object.entries(renderTimes)) {
+      labels.push(componentName);
+      data.push(renderTime);
+    }
+
+    const newChartData = {
+      ...rankTimes,
+      labels,
+      datasets: [
+        {
+          ...rankTimes.datasets[0],
+          data,
+        },
+      ],
+    };
+
+    console.log('ComponentsRanked: newChartData ', newChartData);
+    return newChartData;
+  };
+
   return (
     <div id='comp-ranked'>
       <p>Components Ranked by Render Time</p>
