@@ -50,13 +50,9 @@ function RenderEvents(props) {
       display: false,
     },
     scales: {
-      yAxis: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
+      y: {
+        beginAtZero: true,
+      },
     },
     onClick: (e, chartElement) => {
       if (chartElement.length > 0) {
