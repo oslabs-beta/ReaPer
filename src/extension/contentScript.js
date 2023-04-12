@@ -3,7 +3,7 @@
  * @param {string} msg - Message to send to background.js
  */
 const sendMessageToBackground = (msg) => {
-  // console.log('contentScript.js: sending message to background script:', msg);
+  console.log('contentScript.js: sending message to background script:', msg);
   // The parameter passed in to sendMessage must be a JSON-ifiable object.
   chrome.runtime.sendMessage(msg);
 };
@@ -13,7 +13,7 @@ const sendMessageToBackground = (msg) => {
  * @param {object} msg - The message from background.js
  */
 const handleMessageFromBackground = msg => {
-  // console.log('contentScript.js: received message from background:', msg);
+  console.log('contentScript.js: received message from background:', msg);
 
   switch (msg.type) {
     case 'END_RECORDING':
@@ -31,7 +31,7 @@ const handleMessageFromBackground = msg => {
 
 const handleWindowMessages = msg => {
   if (Object.hasOwn(msg.data, 'type')) {
-    // console.log('contentScript: received message', msg.data);
+    console.log('contentScript: received message', msg.data);
     switch (msg.data.type) {
       case 'SEND_REAPER_SESSION':
         const bgMsg = { type: 'SEND_REAPER_SESSION', payload: msg.data.payload };
