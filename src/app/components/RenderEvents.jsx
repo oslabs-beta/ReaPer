@@ -67,12 +67,14 @@ function RenderEvents(props) {
   };
 
   useEffect(() => {
-    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
-    const { renderTimes } = props;
-    setChartData(createDataForChart(renderTimes));
+    createDataForChart();
+    // const { renderTimes } = props;
+    // setChartData(createDataForChart(renderTimes));
   }, [props]);
 
-  const createDataForChart = (renderTimes) => {
+  const createDataForChart = () => {
+    const { renderTimes } = props;
+
     // Create the labels for the length of renderTimes array
     const labels = [];
     for (let i = 0; i < renderTimes.length; i++) {
@@ -91,7 +93,8 @@ function RenderEvents(props) {
     };
 
     console.log('RenderEvents: Updated chartData: ', chartData);
-    return newChartData;
+    setChartData(newChartData);
+    // return newChartData;
   };
 
 
