@@ -26,6 +26,10 @@ function Dashboard(props) {
   // Holds the current componentRenderTime object that is to be displayed in the components ranked
   const [componentsRankedDisplay, setComponentsRankedDisplay] = useState({});
 
+  //State to store data for RenderedComponents
+  const [componentRenderData, setComponentRenderData] = useState([]);
+
+  // State to hold RenderedComponents Data (componentName, occurrence, avg RenderDurationMS)
   // Update only when props is updated
   useEffect(() => {
     const { renderEventList } = props.reaperSessionObj;
@@ -33,6 +37,8 @@ function Dashboard(props) {
     const newRenderTimes = [];
     const newNodesAndEdges = [];
     const newComponentRenderTimes = [];
+
+    const newComponentRenderData = [];
 
     console.log('Dashboard: This is our render event list! ', renderEventList);
 
@@ -45,6 +51,19 @@ function Dashboard(props) {
       newComponentRenderTimes.push(
         getComponentRenderTimes(renderEventList[i].tree.root)
       );
+
+      for (let i = 0; i < renderEventList.length; i++) {
+        const counts = {};
+        const durations = {};
+        const componentData = traverse(
+          renderEventList[i].tree.root,
+          counts,
+          durations
+        );
+        newComponentRenderData.push(componentData);
+      }
+
+      setComponentRenderData(newComponentRenderData);
     }
 
     setComponentRenderTimes(newComponentRenderTimes);
@@ -59,6 +78,39 @@ function Dashboard(props) {
   // const deconstructReaperSessionObj = () => {
 
   // };
+
+  // function to traverse tree to get componentName, its occurrences, and avg renderDurationMS
+  const traverse = (node, counts, durations) => {
+    if (!node) {
+      return [];
+    }
+
+    // node.renderDurationMS
+    const { componentName, renderDurationMS, children } = node;
+
+    // Update counts and durations for current component
+    counts[componentName] = (counts[componentName] || 0) + 1;
+    durations[componentName] =
+      (durations[componentName] || 0) + renderDurationMS;
+
+    // Recursively traverse children
+    let childData = [];
+    if (children && children.length > 0) {
+      for (const child of children) {
+        childData = childData.concat(traverse(child, counts, durations));
+      }
+    }
+
+    const count = counts[componentName];
+    const avgDuration = durations[componentName] / count;
+    const componentData = {
+      label: componentName,
+      renderedCount: count,
+      averageTimeRendered: avgDuration,
+    };
+
+    return [componentData, ...childData];
+  };
 
   const getComponentRenderTimes = (root) => {
     // Skip over the root component in React fiber
@@ -178,7 +230,7 @@ function Dashboard(props) {
         </div>
         <div className='column'>
           <div className='graph'>
-            <RenderedComponents />
+            <RenderedComponents componentRenderData={componentRenderData} />
           </div>
         </div>
       </div>

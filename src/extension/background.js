@@ -14,9 +14,19 @@ class Tab {
  */
 const setTab = (tabTitle, tabId) => {
   if (currentTab !== undefined) {
-    console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
+    console.log(
+      'background.js: Existing tab data being overwritten: tabTitle=',
+      currentTab.tabTitle,
+      'tabId=',
+      currentTab.tabId
+    ); // LOGS 2ND
   }
-  console.log('background.js: new tab data, tabTitle=', tabTitle, 'tabId=', tabId);
+  console.log(
+    'background.js: new tab data, tabTitle=',
+    tabTitle,
+    'tabId=',
+    tabId
+  );
   currentTab = new Tab(tabTitle, tabId);
 };
 
@@ -50,12 +60,22 @@ async function getCurrentTab(resetTab = false, callback) {
 
       let isNewTab = currentTab === undefined;
       if (currentTab !== undefined) {
-        console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
+        console.log(
+          'background.js: Existing tab data being overwritten: tabTitle=',
+          currentTab.tabTitle,
+          'tabId=',
+          currentTab.tabId
+        ); // LOGS 2ND
         if (tab.id !== currentTab.tabId) {
           isNewTab = true;
         }
       }
-      console.log('background.js: new tab data, tabTitle=', tab.title, 'tabId=', tab.id);
+      console.log(
+        'background.js: new tab data, tabTitle=',
+        tab.title,
+        'tabId=',
+        tab.id
+      );
       currentTab = new Tab(tab.title, tab.id);
       callback(isNewTab);
     }
@@ -68,7 +88,7 @@ async function getCurrentTab(resetTab = false, callback) {
  * Invoked when a message from the dev tool has been received.
  * @param msg (object)
  */
-const onMessageFromDevTool = msg => {
+const onMessageFromDevTool = (msg) => {
   console.log('background.js received a message from the dev tool:', msg);
 
   switch (msg.type) {
@@ -83,7 +103,7 @@ const onMessageFromDevTool = msg => {
   }
 };
 
-const sendMessageToDevTool = msg => {
+const sendMessageToDevTool = (msg) => {
   if (bgPort === undefined) {
     console.log('background.js: no port to send message to!');
     return;
@@ -105,7 +125,7 @@ const handleMessageFromContentScript = (message, sender, sendResponse) => {
   }
 };
 
-const sendMessageToContentScript = msg => {
+const sendMessageToContentScript = (msg) => {
   if (currentTab === undefined) {
     console.log('background.js: no tab to send message to');
     return;
@@ -124,7 +144,7 @@ const sendMessageToContentScript = msg => {
  */
 const injectScriptToStartReaperSession = (isNewTab) => {
   console.log('Background Script: injectScriptToStartReaperSession() invoked');
-
+  //add isnewtab true
   const injectScript = (file) => {
     try {
       const htmlBody = document.getElementsByTagName('body')[0];
@@ -157,7 +177,7 @@ const injectScriptToStartReaperSession = (isNewTab) => {
  * Establish connection with dev tool.
  * This will not fire until chrome.runtime.connect is invoked on the front end.
  */
-chrome.runtime.onConnect.addListener(port => {
+chrome.runtime.onConnect.addListener((port) => {
   // Attach an event listener to each port for messages from the dev tool
   port.onMessage.addListener(onMessageFromDevTool);
 
