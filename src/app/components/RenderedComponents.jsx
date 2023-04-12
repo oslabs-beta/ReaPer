@@ -3,6 +3,7 @@ import { Chart as ChartJS } from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
+import createTree from '../test';
 
 function RenderedComponents() {
   const data = {
@@ -42,16 +43,47 @@ function RenderedComponents() {
     },
   };
 
-  // node.renderDurationMS
-  const totalRendered = data.datasets[0].data.reduce(
-    (acc, curr) => acc + curr,
-    0
-  );
+  function traverse(node, counts, durations) {
+    if (!node) {
+      return;
+    }
 
-  const componentData = data.labels.map((label, index) => {
-    const renderedCount = data.datasets[0].data[index];
-    const averageTimeRendered = Math.floor(Math.random() * 100); // replace with actual data
-    return { label, renderedCount, averageTimeRendered };
+    // node.renderDurationMS
+    const { componentName, renderDurationMS, children } = node;
+
+    // Update counts and durations for current component
+    counts[componentName] = (counts[componentName] || 0) + 1;
+    durations[componentName] =
+      (durations[componentName] || 0) + renderDurationMS;
+
+    // Recursively traverse children
+    if (children && children.length > 0) {
+      for (const child of children) {
+        traverse(child, counts, durations);
+      }
+    }
+  }
+
+  const counts = {};
+  const durations = {};
+
+  traverse(createTree.root, counts, durations);
+
+  // Output componentName, number of occurrences, and average renderDurationMS
+  for (const [componentName, count] of Object.entries(counts)) {
+    const avgDuration = durations[componentName] / count;
+    console.log(
+      `${componentName}: ${count} occurrences, average renderDurationMS: ${avgDuration}`
+    );
+  }
+
+  const componentData = Object.entries(counts).map(([componentName, count]) => {
+    const avgDuration = durations[componentName] / count;
+    return {
+      label: componentName,
+      renderedCount: count,
+      averageTimeRendered: avgDuration,
+    };
   });
 
   return (
@@ -83,13 +115,13 @@ function RenderedComponents() {
             )
           )}
         </tbody>
-        <tfoot>
+        {/* <tfoot>
           <tr>
             <td className='component-table-footer'>Total</td>
-            <td className='component-table-footer'>{totalRendered}</td>
+            <td className='component-table-footer'>--</td>
             <td className='component-table-footer'>--</td>
           </tr>
-        </tfoot>
+        </tfoot> */}
       </table>
     </div>
   );

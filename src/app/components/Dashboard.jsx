@@ -152,7 +152,7 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <ComponentsRanked />
+            <ComponentsRanked renderTimes={renderTimes} />
           </div>
         </div>
         <div className='column'>
