@@ -87,6 +87,11 @@ function App() {
     setSessionStatus(!sessionStatus);
   };
 
+  // Logic from line 95 - 103 is used to determine what screen will display
+  //  StartView: If there is no session recording and no reaperSession object saved
+  //  SessionProgress: If there is a session recording and no reaperSession object saved. 
+  //                   If there is a session recording and there is a reaperSession object saved.
+  //  Dashboard: If there is no session recording and there is a reaperSession object saved.
   return (
     <div id='container'>
       <Context.Provider value={sendMessageToBackground}>

@@ -1,4 +1,6 @@
-import { getFiberNodeTagName } from './helperFns';
+import { getFiberNodeTagName } from './helperFns.js';
+
+
 // define structure of tree
 
 /* eslint-disable */
@@ -12,11 +14,10 @@ class TreeNode {
       tag,
       actualDuration,
       actualStartTime,
-      selfBaseDuration,
+      selfBaseDuration
     } = fiberNode;
 
     this.children = [];
-    this.parent = null;
 
     /*
       - tagObj identifies the type of fiber
@@ -28,6 +29,7 @@ class TreeNode {
     this.setComponentName(elementType);
     this.setProps(memoizedProps);
     this.setState(memoizedState);
+   
 
     /*
       - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
@@ -49,6 +51,7 @@ class TreeNode {
       - This field is only set when the enableProfilerTimer flag is enabled.
     */
     this.selfBaseDuration = selfBaseDuration;
+    
   }
 
   addChild(newNode) {
@@ -99,6 +102,9 @@ class TreeNode {
   setProps(memoizedProps) {
     this.componentProps = memoizedProps;
   }
+
+
+
 }
 
 class Tree {
@@ -148,110 +154,10 @@ class Tree {
 // Function to create a tree
 const createTree = (fiberObj) => {
   const tree = new Tree(fiberObj);
-  console.log('CreateTree: fiberObj=', fiberObj);
-  console.log('CreateTree: tree=', tree);
+  // console.log('CreateTree: fiberObj=', fiberObj);
+  // console.log('CreateTree: tree=', tree);
   return tree;
 };
 
 export default createTree;
 
-// Hard-coded tests
-// const childNode13 = {
-//   data: { name: 'Box 9' },
-//   child: null,
-//   sibling: null,
-//   id: 13
-// };
-
-// const childNode12 = {
-//   data: { name: 'Box 8' },
-//   child: null,
-//   sibling: childNode13,
-//   id: 12
-// };
-
-// const childNode11= {
-//   data: { name: 'Box 7' },
-//   child: null,
-//   sibling: childNode12,
-//   id: 11
-// };
-
-// const childNode10 = {
-//   data: { name: 'Box 6' },
-//   child: null,
-//   sibling: null,
-//   id: 10
-// };
-
-// const childNode9 = {
-//   data: { name: 'Box 5' },
-//   child: null,
-//   sibling: childNode10,
-//   id: 9
-// };
-
-// const childNode8 = {
-//   data: { name: 'Box 4' },
-//   child: null,
-//   sibling: childNode9,
-//   id: 8
-// };
-
-// const childNode7 = {
-//   data: { name: 'Box 3' },
-//   child: null,
-//   sibling: null,
-//   id: 7
-// };
-
-// const childNode6 = {
-//   data: { name: 'Box 2' },
-//   child: null,
-//   sibling: childNode7,
-//   id: 6
-// };
-
-// const childNode5 = {
-//   data: { name: 'Box 1' },
-//   child: null,
-//   sibling: childNode6,
-//   id: 5
-// };
-
-// const childNode4 = {
-//   data: { name: 'Row 3' },
-//   child: null,
-//   sibling: null,
-//   id: 4
-// };
-
-// const childNode3 = {
-//   data: { name: 'Row 2' },
-//   child: null,
-//   sibling: childNode4,
-//   id: 3
-// };
-
-// const childNode2 = {
-//   data: { name: 'Row 1' },
-//   child: childNode5,
-//   sibling: childNode3,
-//   id: 2
-// };
-
-// const childNode1 = {
-//   data: { name: 'Board' },
-//   child: childNode2,
-//   sibling: null,
-//   id: 1
-// };
-
-// const fiberRoot = {
-//   data: { name: 'App' },
-//   child: childNode1,
-//   sibling: null,
-//   id: 0
-// };
-
-// console.log(createTree(fiberRoot));
