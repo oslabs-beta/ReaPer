@@ -34,12 +34,6 @@ async function getCurrentTab(resetTab = false, callback) {
       // and the tabs array will be returned as empty
       // See bug: https://bugs.chromium.org/p/chromium/issues/detail?id=462939
       // Do not use the currentWindow query option
-      // const queryOptions = {
-      //   active: true,
-      //   currentWindow: false,
-      //   windowType: 'normal',
-      //   url: 'http://localhost/*',
-      // };
       const queryOptions = {
         active: true,
         windowType: 'normal',
