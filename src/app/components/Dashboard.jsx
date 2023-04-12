@@ -21,23 +21,26 @@ function Dashboard(props) {
   // Update only when props is updated
   useEffect(() => {
     const { renderEventList } = props.reaperSessionObj;
+    const newRenderTimes = [];
+    const newNodesAndEdges = [];
 
     // For the amount of renderEvents
     for (let i = 0; i < renderEventList.length; i++) {
-      renderTimes.push(renderEventList[i].totalRenderDurationMS);
-      // console.log('Render Times: ', renderTimes);
-      nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
-      setNodesAndEdges(nodesAndEdges);
+      newRenderTimes.push(renderEventList[i].totalRenderDurationMS);
+      newNodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root, i));
     }
+    
+    setNodesAndEdges(newNodesAndEdges);
+    setRenderTimes(newRenderTimes);
 
     // Display the first renderEvent tree by default in the flow tree chart.
-    setFlowDisplayTree(nodesAndEdges[0]);
+    setFlowDisplayTree(newNodesAndEdges[0]);
   }, [props]);
 
   // Breadth first search
   // Create a node for the current tree node we're looking at
   // Create the edge based on .parent and .data
-  const createNodesAndEdges = (root) => {
+  const createNodesAndEdges = (root, index) => {
     const nodes = [];
     const edges = [];
 
@@ -107,10 +110,6 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <RenderEvents
-              nodesAndEdges={nodesAndEdges}
-              setFlowDisplayTree={setFlowDisplayTree}
-            />
             <RenderEvents
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
