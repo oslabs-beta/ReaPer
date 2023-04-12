@@ -189,7 +189,7 @@ const ComponentTree = (props) => {
         }}>
         <Background />
         <Controls />
-        <MiniMap />
+        <MiniMap pannable />
       </ReactFlow>
     </div>
   );
