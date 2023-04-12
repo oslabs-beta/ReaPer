@@ -1,27 +1,30 @@
 {
-    "description": "CHANGE THIS TEXT",
+    "description": "Visualize your React app's performance in the browser",
     "manifest_version": 3,
     "name": "ReaPer",
     "version": "1.0.0",
     "author": "ReaPer Team",
-    "icons": {},
+    "icons": {
+        "16": "./assets/reaper-16.png",
+        "48": "./assets/reaper-48.png", 
+        "128": "./assets/reaper-128.png"
+    },
     "background": {
         "service_worker": "background.js"
     },
     "permissions": [
-        "contextMenus",
         "tabs",
         "activeTab",
         "scripting"
     ],
     "host_permissions": [
-        "<all_urls>"
+        "http://localhost/*"
     ],
     "devtools_page": "/devtools/devtools.html",
     "content_scripts": [
         {
             "matches": [
-                "<all_urls>"
+                "http://localhost/*"
             ],
             "js": [
                 "contentScript.js"
