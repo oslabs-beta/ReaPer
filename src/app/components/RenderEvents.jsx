@@ -40,34 +40,6 @@ function RenderEvents(props) {
     ],
   });
 
-  useEffect(() => {
-    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
-    const { renderTimes } = props;
-    setChartData(createDataForChart(renderTimes));
-  }, [props]);
-
-  const createDataForChart = (renderTimes) => {
-    // Create the labels for the length of renderTimes array
-    const labels = [];
-    for (let i = 0; i < renderTimes.length; i++) {
-      labels.push(`Render Event ${i + 1}`);
-    }
-
-    const newChartData = {
-      ...chartData,
-      labels,
-      datasets: [
-        {
-          ...chartData.datasets[0],
-          data: renderTimes,
-        },
-      ],
-    };
-
-    console.log('RenderEvents: Updated chartData: ', chartData);
-    return newChartData;
-  };
-
   const options = {
     title: {
       display: true,
@@ -97,6 +69,36 @@ function RenderEvents(props) {
       }
     },
   };
+
+  useEffect(() => {
+    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
+    const { renderTimes } = props;
+    setChartData(createDataForChart(renderTimes));
+  }, [props]);
+
+  const createDataForChart = (renderTimes) => {
+    // Create the labels for the length of renderTimes array
+    const labels = [];
+    for (let i = 0; i < renderTimes.length; i++) {
+      labels.push(`Render Event ${i + 1}`);
+    }
+
+    const newChartData = {
+      ...chartData,
+      labels,
+      datasets: [
+        {
+          ...chartData.datasets[0],
+          data: renderTimes,
+        },
+      ],
+    };
+
+    console.log('RenderEvents: Updated chartData: ', chartData);
+    return newChartData;
+  };
+
+
 
   return (
     <div id='render-events'>
