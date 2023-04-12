@@ -101,6 +101,15 @@ function Dashboard(props) {
     });
 
     let id = 1;
+    /**
+     * - dagreTreeNodeInfo is an object:
+     *    key: dagreNode ID
+     *    value: the info we want to save from the TreeNode obj
+     * - dagre graph nodes don't allow other info to be stored on it, but we
+     *   need to save the TreeNode info for the React Flow graph, so we'll use
+     *   dagreTreeNodeInfo for this purpose
+    */
+    let dagreTreeNodeInfo = {};
     // Using breadth first search to look through the tree
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
@@ -108,6 +117,10 @@ function Dashboard(props) {
       // Create a node for the current Tree node
       // dagreGraph.setNode(id, { label: treeNode.componentName, width, height });
       dagreGraph.setNode(id, { label: `${treeNode.componentName}-${index}`, width, height });
+      dagreTreeNodeInfo[id] = {
+        componentProps: treeNode.componentProps,
+        componentState: treeNode.componentState,
+      };
 
       if (idQueue.length > 0) {
         const parentId = idQueue.shift();
@@ -130,8 +143,13 @@ function Dashboard(props) {
       const node = dagreGraph.node(nodeId);
       nodes.push({
         id: nodeId.toString(),
-        data: { label: node.label },
+        data: {
+          label: node.label,
+          componentProps: dagreTreeNodeInfo[nodeId].componentProps,
+          componentState: dagreTreeNodeInfo[nodeId].componentState,
+        },
         position: { x: node.x, y: node.y },
+        type: 'reaperFlowNode',
       });
     });
     dagreGraph.edges().forEach((edgeObj) => {
