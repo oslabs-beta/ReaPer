@@ -61,18 +61,18 @@ const ComponentsRanked = (props) => {
   };
 
   useEffect(() => {
-    const { componentsRankedDisplay } = props;
-    setRankTimes(createDataForChart(componentsRankedDisplay));
+    createDataForChart();
   }, [props]);
 
-  const createDataForChart = (renderTimes) => {
+  const createDataForChart = () => {
+    const { componentsRankedDisplay } = props;
     const labels = [];
     const data = [];
-    console.log('ComponentsRanked: renderTimes ', renderTimes);
+    console.log('ComponentsRanked: renderTimes ', componentsRankedDisplay);
 
-    for (const [componentName, renderTime] of Object.entries(renderTimes)) {
+    for (const [componentName, componentRenderTimes] of Object.entries(componentsRankedDisplay)) {
       labels.push(componentName);
-      data.push(renderTime);
+      data.push(componentRenderTimes);
     }
 
     const newChartData = {
@@ -87,7 +87,8 @@ const ComponentsRanked = (props) => {
     };
 
     console.log('ComponentsRanked: newChartData ', newChartData);
-    return newChartData;
+    // return newChartData;
+    setRankTimes(newChartData);
   };
 
   return (
