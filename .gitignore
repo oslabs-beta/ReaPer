@@ -1,0 +1,13 @@
+# General
+.DS_Store
+
+# Dependencies
+node_modules
+
+# Output from webpack
+dist/
+
+package-lock.json
+
+# User VScode preferences
+.vscode

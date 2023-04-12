@@ -1,0 +1,17 @@
+/* Error: Undefined variable.
+ *    ,
+ * 55 |     background-color: $background-color;
+ *    |                       ^^^^^^^^^^^^^^^^^
+ *    '
+ *   style-grid.scss 55:23  root stylesheet */
+
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined variable.\a    \2577 \a 55 \2502      background-color: $background-color;\a    \2502                        ^^^^^^^^^^^^^^^^^\a    \2575 \a   style-grid.scss 55:23  root stylesheet";
+}
