@@ -2,9 +2,18 @@
 
 <a name="logo" href="http://getreaper.io"><img align="center" src="src/extension/assets/reaper-banner.png" alt="ReaPer Logo (Home)" style="width:100%;height:100%"/></a>
   <br /><br /><strong>[ReaPer](#reaper)</strong>
+  
 </h1>
+<div align="center"> 
 
-[![Latest release](https://img.shields.io/github/v/release/oslabs-beta/ReaPer?label=Latest%20release&style=social)](https://github.com/oslabs-beta/ReaPer/)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![SASS](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+
+[![Latest release](https://img.shields.io/github/v/release/oslabs-beta/ReaPer?label=Latest%20release&style=social)](https://github.com/oslabs-beta/ReaPer/releases/tag/v1.0.0)
 [![Stars](https://img.shields.io/github/stars/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/stargazers)
 [![Fork](https://img.shields.io/github/forks/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/network/members)
 [![Watchers](https://img.shields.io/github/watchers/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/watchers)
@@ -26,7 +35,7 @@ Quick Links
 ---
 
 ## What is ReaPer?
-**ReaPer** is an open-source developer tool used for analyzing the performance of user interface and single-page applications based on the React.js frontend library. ReaPer offers comprehensive insights into React application efficiency in development. React is often used for building complex user interfaces that require a high degree of interactivity and responsiveness. It is important to know where performance weaknesses and strengths are to deliver optimal user experience. ReaPer brings a set of tools to improve the developer's diagnostic process. It creates a graphical analysis of component render events, their duration and their rank by render time. ReaPer starts a session and records data of render times to demonstrate how the virtual DOM and each component's props and state change over time. The platform also presents a visual spread of the virtual DOM that can be traversed.
+**ReaPer** is an open-source developer tool used for analyzing the performance of user interface and single-page applications based on the React frontend library. ReaPer offers comprehensive insights into React application efficiency in development. React is often used for building complex user interfaces that require a high degree of interactivity and responsiveness. It is important to know where performance weaknesses and strengths are to deliver optimal user experience. ReaPer brings a set of tools to improve the developer's diagnostic process. It creates a graphical analysis of component render events, their duration and their rank by render time. ReaPer starts a session and records render event data to demonstrate how the virtual DOM and each component's props and state change over time. The platform also presents a visual spread of the virtual DOM that can be traversed.
 
 ---
 
@@ -53,7 +62,7 @@ Quick Links
 
 ## [Motivation](#motivation)
 
-There are several strategies developers can leverage to improve the performance of their React applications, but it can be challenging to measurably assess the impact on performance resulting from these changes. React Dev Tool was the first inspiration for this product and a catalyst for further probing questions. While it is possible to determine which specific props and state have triggered a render event using React Dev Tools Profiler and Components, our engineers wondered if it would be possible to visual how the virtual DOM and each component's props and state change over time with the render analysis on a single panel for a seamless workflow.
+There are several strategies developers can leverage to improve the performance of their React applications, but it can be challenging to measurably assess the impact on performance resulting from these changes. React Dev Tool was the first inspiration for this product and a catalyst for further probing questions. While it is possible to determine which specific props and state have triggered a render event using React Dev Tools Profiler and Components, our engineers wondered if it would be possible to visualize how the virtual DOM and each component's props and state change over time with the render analysis on a single panel for a seamless workflow.
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
@@ -61,7 +70,6 @@ There are several strategies developers can leverage to improve the performance 
 
 ## [Key Features](#key-features)
 
-(Panel gifs/videos in this section)
 
 ReaPer allows developers to start and end a session to record render event data so that it can provide a visualization that details render times and information on how the virtual DOM and each component's performance changes during a session.
 (Start recording session visual)
