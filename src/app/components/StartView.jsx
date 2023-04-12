@@ -6,7 +6,6 @@ import MainNav from './MainNav';
 function StartView() {
   return (
     <div className='start-view'>
-      {/* <MainNav /> */}
       <div className='skull-icon-container'>
         <FontAwesomeIcon icon={faSkull} size='4x' color='white' />
       </div>
