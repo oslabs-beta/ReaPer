@@ -17,16 +17,19 @@ function Dashboard(props) {
   // Hold the current nodesAndEdge object that is to be displayed in the componentTree
   const [flowDisplayTree, setFlowDisplayTree] = useState({});
   const [renderTimes, setRenderTimes] = useState([]);
+  // const [renderDuration, setRenderDuration] = useState([]);
 
   // Update only when props is updated
   useEffect(() => {
     const { renderEventList } = props.reaperSessionObj;
+    // const { totalRenderDurationMS } = props.reaperSessionObj;
 
     // For the amount of renderEvents
     for (let i = 0; i < renderEventList.length; i++) {
       renderTimes.push(renderEventList[i].totalRenderDurationMS);
-      // console.log('Render Times: ', renderTimes);
       nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
+      // renderDuration.push(renderEventList[i].renderDurationMS[i]);
+      // console.log('render Dur: ', renderDuration);
       setNodesAndEdges(nodesAndEdges);
     }
 
@@ -107,10 +110,10 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <RenderEvents
+            {/* <RenderEvents
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
-            />
+            /> */}
             <RenderEvents
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
@@ -127,7 +130,11 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <ComponentsRanked renderTimes={renderTimes} />
+            <ComponentsRanked
+              renderTimes={renderTimes}
+              nodesAndEdges={nodesAndEdges}
+              setFlowDisplayTree={setFlowDisplayTree}
+            />
           </div>
         </div>
         <div className='column'>

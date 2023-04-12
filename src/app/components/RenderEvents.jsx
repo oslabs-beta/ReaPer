@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { render } from 'react-dom';
 
 function RenderEvents(props) {
+  console.log(props);
   const [clickedBarData, setClickedBarData] = useState(null);
   const [chartData, setChartData] = useState({
     labels: [],
@@ -129,7 +130,6 @@ function RenderEvents(props) {
 
   //   return chartData;
   // };
-
 
   // Hard code colors and cycle through it
   // Only thing that needs to be updated is data
