@@ -5,25 +5,24 @@ const ReaperStateProps = (props) => {
   let componentStateArr = [];
   const componentPropsArr = [];
 
-  if (props !== undefined && Object.hasOwn(props, 'data')) {
-    if (props.data.componentState === null) {
-      componentStateArr.push(<li>null</li>);
-    } else if (Object.keys(props.data.componentState).length === 0) {
-      // componentState is an empty obj
-      componentStateArr.push('none');
+  const setData = (targetArr, propsInfo) => {
+    if (propsInfo === null) {
+      targetArr.push(<li>null</li>);
+    } else if (Object.keys(propsInfo).length === 0) {
+      // Empty object
+      targetArr.push('none');
     } else {
-      for (const [key, val] of Object.entries(props.data.componentState)) {
-        componentPropsArr.push(
+      for (const [key, val] of Object.entries(propsInfo)) {
+        targetArr.push(
           <li>{key}: {JSON.stringify(val)}</li>
         );
       }
     }
+  };
 
-    for (const [key, val] of Object.entries(props.data.componentProps)) {
-      componentPropsArr.push(
-        <li>{key}: {val.toString()}</li>
-      );
-    }
+  if (props !== undefined && Object.hasOwn(props, 'data')) {
+    setData(componentStateArr, props.data.componentState);
+    setData(componentPropsArr, props.data.componentProps);
   }
 
   return (
