@@ -26,7 +26,7 @@ Quick Links
   <br /><br />
 </p>
 <p align="center" style="font-size: 1em">
-<a name="" href="">Website</a>
+<a name="" href="https://getreaper.io/">Website</a>
 <a name="" href="">Medium</a>
 <a name="" href="">Product Hunt</a>
 </p>
@@ -223,7 +223,9 @@ The “startReaperSession” and “endReaperSession” events are created and d
 
 ## [Call to Action](#call-to-action)
 
-We encourage you to submit issues for any bugs or ideas for enhancements. Please feel free to fork this repo and submit pull requests to contribute as well. Also follow ReaPer on [LinkedIn](https://www.linkedin.com/company/react-perf/) for more updates. Some ideas for future contributions include:
+We encourage you to submit issues for any bugs or ideas for enhancements. Please feel free to fork this repo and submit pull requests to contribute as well. Also visit our [website](https://getreaper.io/) and follow ReaPer on [LinkedIn](https://www.linkedin.com/company/react-perf/) for more updates. 
+
+Contribution Ideas:
 - The ability to analyze the state properties of functional components
 - Allow users to save session data and compare it to the current data (overlay bar graph and display time difference)
 - Support collecting data for React Native so that developers can evaluate performance on mobile devices
@@ -231,6 +233,9 @@ We encourage you to submit issues for any bugs or ideas for enhancements. Please
 - Displaying a bar graph and render time for a selected component 
 - Vigorous testing
 - Conversion to TypeScript
+
+Bug to Fix:
+- Currently, when the extension is reloaded into the Chrome Web Store, the ReaPer user must either hard refresh or close and reopen the target application tab. This issue occurs randomly, but when it does, the ReaPer user sees the notice, "No session data to display" instead of the data that is collected.
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
@@ -281,7 +286,7 @@ This product would not have been possible with extensive work done by the follow
 ---
 
 ## [License](#license)
-- ReaPer is a free and open-sourced software licensed under the [MIT licensed](https://github.com/oslabs-beta/ReaPer/blob/main/LICENSE.md).
+ReaPer is a free and open-sourced software licensed under the [MIT licensed](https://github.com/oslabs-beta/ReaPer/blob/main/LICENSE.md).
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
