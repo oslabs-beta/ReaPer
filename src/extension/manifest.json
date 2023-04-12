@@ -13,19 +13,18 @@
         "service_worker": "background.js"
     },
     "permissions": [
-        "contextMenus",
         "tabs",
         "activeTab",
         "scripting"
     ],
     "host_permissions": [
-        "<all_urls>"
+        "http://localhost/*"
     ],
     "devtools_page": "/devtools/devtools.html",
     "content_scripts": [
         {
             "matches": [
-                "<all_urls>"
+                "http://localhost/*"
             ],
             "js": [
                 "contentScript.js"

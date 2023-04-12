@@ -41,7 +41,7 @@ function RenderEvents(props) {
   });
 
   useEffect(() => {
-    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
+    // console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
     const { renderTimes } = props;
     setChartData(createDataForChart(renderTimes));
   }, [props]);
@@ -65,7 +65,7 @@ function RenderEvents(props) {
       ],
     };
 
-    console.log('RenderEvents: Updated chartData: ', chartData);
+    // console.log('RenderEvents: Updated chartData: ', chartData);
     return newChartData;
   };
 
@@ -101,7 +101,7 @@ function RenderEvents(props) {
 
   return (
     <div id='render-events'>
-      <p>Render Events and Duration</p>
+      <p>Render Events and Duration (ms)</p>
       <Bar data={chartData} options={options} />
     </div>
   );

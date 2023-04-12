@@ -6,7 +6,7 @@ const ComponentsRanked = (props) => {
   // const [rankData, setRankData] = useState({});
   const [rankTimes, setRankTimes] = useState([]);
   const data = {
-    labels: ['12:1719.41', '+00:02.19', '+00:01.41', '+00:01.54', '+08:20.14'],
+    labels: ['1:1019.41', '+00:08.19', '+00:08.41', '+00:07.54', '+00:06.14', '+00:09.04', '+00:06.28', '+00:05.37', '+00:05.22', '+00:03.89', '+00:03.15', '+00:01.92', '+00:01.67', '+00:01.31'],
     datasets: [
       {
         label: 'Components Ranked by Render Time',
@@ -45,7 +45,7 @@ const ComponentsRanked = (props) => {
           'rgb(92, 184, 92)',
         ],
         borderWidth: 1,
-        data: [0.3, 0.1, 0.55, 0.6, 0.7, 0.4],
+        data: [1.1, 0.9, 0.8, 0.8, 0.7, 0.6, 0.6, 0.5, 0.5, 0.3, 0.3, 0.3, 0.2, 0.1],
         fill: false,
       },
     ],
