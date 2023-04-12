@@ -1,10 +1,10 @@
 <h1 align="center" style="display: block; font-size: 2.5em; font-weight: bold; margin-block-start: 1em; margin-block-end: 1em;">
 
-<a name="logo" href=""><img align="center" src="" alt="ReaPer Logo (Home)" style="width:100%;height:100%"/></a>
+<a name="logo" href="http://getreaper.io"><img align="center" src="src/extension/assets/dark_reaper.png" alt="ReaPer Logo (Home)" style="width:80%;height:80%"/></a>
   <br /><br /><strong>[ReaPer](#reaper)</strong>
 </h1>
 
-[![Latest release](https://img.shields.io/github/v/release/oslabs-beta/ReaPer?label=Latest%20release&style=social)](https://github.com/oslabs-beta/ReaPer/releases/tag/v1.0.0)
+[![Latest release](https://img.shields.io/github/v/release/oslabs-beta/ReaPer?label=Latest%20release&style=social)](https://github.com/oslabs-beta/ReaPer/)
 [![Stars](https://img.shields.io/github/stars/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/stargazers)
 [![Fork](https://img.shields.io/github/forks/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/network/members)
 [![Watchers](https://img.shields.io/github/watchers/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/watchers)
