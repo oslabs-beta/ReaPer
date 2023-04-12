@@ -14,10 +14,7 @@ import Context from '../contexts/Context';
 const MainNav = (props) => {
   const context = useContext(Context);
 
-  // useEffect(() => {
-
-  // }, [props]);
-
+  // When a reaper session is recording, recording will be true and the button will flash based on css
   return (
     <nav id="main-nav">
       <button type="button" className="main-nav-btn record" onClick={() => props.handleRecordBtnClick()} recording={`${props.sessionStatus === true}`}>
