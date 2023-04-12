@@ -8,6 +8,7 @@ import RenderedComponents from './RenderedComponents';
 import { render } from 'react-dom';
 
 function Dashboard(props) {
+  console.log('props: ', props.reaperSessionObj);
   /**
    * State Variables
    */
@@ -17,30 +18,55 @@ function Dashboard(props) {
   // Hold the current nodesAndEdge object that is to be displayed in the componentTree
   const [flowDisplayTree, setFlowDisplayTree] = useState({});
   const [renderTimes, setRenderTimes] = useState([]);
-  // const [renderDuration, setRenderDuration] = useState([]);
+  // // State for componentsRanked
+  // const [compAndDuration, setCompAndDuration] = useState([]);
+
+  // function traverseNode(node) {
+  //   const nodeResult = {
+  //     componentName: node.componentName,
+  //     renderDurationMS: node.renderDurationMS,
+  //   };
+
+  //   if (node.children && node.children.length > 0) {
+  //     nodeResult.children = node.children.map((child) => traverseNode(child));
+  //   }
+  //   return nodeResult;
+  // }
+
+  // useEffect(() => {
+  //   console.log('props.reaperSessionObj changed:', props.reaperSessionObj);
+  //   const tree = props.reaperSessionObj;
+  //   if (tree) {
+  //     setCompAndDuration([traverseNode(tree.renderEventList)]);
+  //   }
+  // }, [props]);
 
   // Update only when props is updated
   useEffect(() => {
     const { renderEventList } = props.reaperSessionObj;
-    // const { totalRenderDurationMS } = props.reaperSessionObj;
+
+    const newRenderTimes = [];
+    const newNodesAndEdges = [];
 
     // For the amount of renderEvents
     for (let i = 0; i < renderEventList.length; i++) {
-      renderTimes.push(renderEventList[i].totalRenderDurationMS);
-      nodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root));
-      // renderDuration.push(renderEventList[i].renderDurationMS[i]);
-      // console.log('render Dur: ', renderDuration);
-      setNodesAndEdges(nodesAndEdges);
+      newRenderTimes.push(renderEventList[i].totalRenderDurationMS);
+      newNodesAndEdges.push(
+        createNodesAndEdges(renderEventList[i].tree.root, i)
+      );
     }
 
+    setNodesAndEdges(newNodesAndEdges);
+    setRenderTimes(newRenderTimes);
+
     // Display the first renderEvent tree by default in the flow tree chart.
-    setFlowDisplayTree(nodesAndEdges[0]);
+    setFlowDisplayTree(newNodesAndEdges[0]);
   }, [props]);
 
   // Breadth first search
   // Create a node for the current tree node we're looking at
   // Create the edge based on .parent and .data
-  const createNodesAndEdges = (root) => {
+  const createNodesAndEdges = (root, index) => {
     const nodes = [];
     const edges = [];
 
@@ -110,10 +136,6 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            {/* <RenderEvents
-              nodesAndEdges={nodesAndEdges}
-              setFlowDisplayTree={setFlowDisplayTree}
-            /> */}
             <RenderEvents
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
@@ -130,11 +152,7 @@ function Dashboard(props) {
       <div className='row'>
         <div className='column'>
           <div className='graph'>
-            <ComponentsRanked
-              renderTimes={renderTimes}
-              nodesAndEdges={nodesAndEdges}
-              setFlowDisplayTree={setFlowDisplayTree}
-            />
+            <ComponentsRanked />
           </div>
         </div>
         <div className='column'>

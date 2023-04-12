@@ -3,8 +3,6 @@ import { Chart as ChartJS } from 'chart.js/auto';
 import { Bar } from 'react-chartjs-2';
 
 const ComponentsRanked = (props) => {
-  console.log('hi nancy');
-  console.log('this is props', props);
   // const [rankData, setRankData] = useState({});
   const [rankTimes, setRankTimes] = useState({
     labels: ['12:1719.41', '+00:02.19', '+00:01.41', '+00:01.54', '+08:20.14'],
