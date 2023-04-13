@@ -16,7 +16,7 @@ let sessionInProgress = false;
 // and add to reaperSession's renderEventList
 // To be invoked in intercept function's return function
 const updateRenderEvent = (fiberRootNode) => {
-  console.log('rdtFiber updateRenderEvent: received fiberRootNode', fiberRootNode);
+  // console.log('rdtFiber updateRenderEvent: received fiberRootNode', fiberRootNode);
   // intantiate RenderEvent
   const newRenderEvent = new RenderEvent(fiberRootNode);
   // add newRenderEvent to RenderEventList object on ReaperSession instantiation
@@ -34,13 +34,13 @@ const throttle = (func, delayMS) => {
       return;
     }
 
-    console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
+    // console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
     func(arg);
     shouldWait = true;
 
-    console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
+    // console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
     setTimeout(() => {
-      console.log('setTimeout callback invoked, setting shouldWait to false');
+      // console.log('setTimeout callback invoked, setting shouldWait to false');
       shouldWait = false;
     }, delayMS);
   };
@@ -48,7 +48,7 @@ const throttle = (func, delayMS) => {
 
 // Connect to React DevTools global hook
 function connectToReact() {
-  console.log('rdtFiber connectToReact() invoked');
+  // console.log('rdtFiber connectToReact() invoked');
   // __REACT_DEVTOOLS_GLOBAL_HOOK__ is a global object installed
   // by React Devtools (RDT) extension's content script that gives access to React fiber nodes
   rdt = window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
@@ -92,10 +92,10 @@ function connectToReact() {
 // When a user starts a record session startReaperSession will be invoked in the background script
 export const startReaperSession = () => {
   try {
-    console.log('rdtFiber: startReaperSession() invoked');
+    // console.log('rdtFiber: startReaperSession() invoked');
     // check current value of sessionInProgress
     if (!sessionInProgress) {
-      console.log('rdtFiber startReaperSession: starting reaper session');
+      // console.log('rdtFiber startReaperSession: starting reaper session');
       sessionInProgress = true;
       reaperSession = new ReaperSession();
       connectToReact();
@@ -109,15 +109,15 @@ export const startReaperSession = () => {
 // It will be invoked once user stops recording session
 export const endReaperSession = () => {
   try {
-    console.log('rdtFiber: endReaperSession() invoked');
+    // console.log('rdtFiber: endReaperSession() invoked');
     // check if sessionInProgress is already false
     if (sessionInProgress) {
-      console.log('rdtFiber endReaperSession: session is in progress, stopping session now..');
+      // console.log('rdtFiber endReaperSession: session is in progress, stopping session now..');
       sessionInProgress = false;
       // point React DevTools's global hook's onCommitFiber method from intercept's result
       // to point to the original method saved globally
       rdt.onCommitFiberRoot = rdtOnCommitFiberRoot;
-      console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
+      // console.log('rdtFiber endReaperSession: session stopped, monkey patching undone');
 
       // Sometimes there can be circular references within the fiber node that causes issues
       // when trying to JSON stringify it - by passing in a custom replacer, we can just

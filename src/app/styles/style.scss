@@ -10,18 +10,14 @@ $panel-color: rgba(255, 255, 255, 0.1);
   padding: 0;
 }
 
-// #container {
-//   display: flex;
-//   background: $background-color;
-//   /* width: 90%; */
-//   /* flex-direction: row; */
-// }
 
 #container {
   display: flex;
   flex-direction: row;
   height: 100vh;
   background-color: $background-color;
+  color: rgb(26, 26, 26);
+  font-family: 'Noto Sans', sans-serif;
 
   #main-nav {
     width: 2rem;
@@ -69,6 +65,7 @@ $panel-color: rgba(255, 255, 255, 0.1);
           border-radius: 0.5em;
           margin: 1.5%;
           overflow: hidden;
+          padding: 3px;
           #render-comp,
           #render-events,
           #comp-ranked,
@@ -186,9 +183,10 @@ $panel-color: rgba(255, 255, 255, 0.1);
   .component-table-header {
     font-weight: bold;
     text-align: left;
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid #232334;
     padding: 0.5rem;
-    background-color: rgba(123, 123, 123, 0.825);
+    margin-top: 5px;
+    background-color: #e7fafe;
   }
 
   tbody {
@@ -197,7 +195,7 @@ $panel-color: rgba(255, 255, 255, 0.1);
   }
 
   .component-table-row {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #1b8099;
     border-radius: 10px;
 
     // &:last-child {
@@ -207,7 +205,7 @@ $panel-color: rgba(255, 255, 255, 0.1);
 
   .component-table-data {
     padding: 0.5rem;
-    background-color: rgba(123, 120, 120, 0.2);
+    background-color: rgb(255, 255, 255);
 
     .puzzle-icon {
       color: #70b0c0;
