@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+
+// TODO: create a line chart which uses live data and is changed based on what is clicked inside of the table
 // import { Chart as ChartJS } from 'chart.js/auto';
 // import { Line } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +12,10 @@ function RenderedComponents(props) {
   const [averageRenderDuration, setAverageRenderDuration] = useState([]);
 
   useEffect(() => {
+    deconstructComponentRenderData();
+  }, [props]);
+
+  const deconstructComponentRenderData = () => {
     const { componentRenderData } = props;
     
     const newLabel = [];
@@ -26,7 +32,8 @@ function RenderedComponents(props) {
     setLabel(newLabel);
     setRenderCount(newRenderCount);
     setAverageRenderDuration(newAverageRenderDuration);
-  }, [props]);
+  };
+
 
   return (
     <div id='render-comp'>

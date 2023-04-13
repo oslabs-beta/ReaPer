@@ -31,16 +31,15 @@ function Dashboard(props) {
   // State to hold RenderedComponents Data (componentName, occurrence, avg RenderDurationMS)
   // Update only when props is updated
   useEffect(() => {
+    deconstructReaperSessionObj();
+  }, [props]);
+
+  const deconstructReaperSessionObj = () => {
     const { renderEventList } = props.reaperSessionObj;
-  
 
     const newRenderTimes = [];
     const newNodesAndEdges = [];
     const newComponentRenderTimes = [];
-
-    const newComponentRenderData = [];
-
-    console.log('Dashboard: This is our render event list! ', renderEventList);
 
     // Deconstruct our reaperSessionObj
     for (let i = 0; i < renderEventList.length; i++) {
@@ -55,14 +54,12 @@ function Dashboard(props) {
     setNodesAndEdges(newNodesAndEdges);
     setRenderTimes(newRenderTimes);
 
+    console.log('Dashboard: in deconstruct, compRenderTimes ', newComponentRenderTimes);
+
     // Display the first renderEvent data by default in the corresponding charts
     setFlowDisplayTree(newNodesAndEdges[0]);
     setComponentsRankedDisplay(newComponentRenderTimes[0]);
-  }, [props]);
-
-  // const deconstructReaperSessionObj = () => {
-
-  // };
+  };
 
   const createComponentRenderData = (renderEvents) => {
     const totalComponentStats = {};
@@ -105,32 +102,14 @@ function Dashboard(props) {
     // Skip over the root component in React fiber
     const bfsQueue = [...root.children];
     const treeComponentRenderTimes = {};
-    // let componentCounter = 1;
 
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
 
       // Key: component name
+      //  - If the key on the node is filled then tack it onto the component name
       // Value: time it took to render the component
-      if (treeComponentRenderTimes[treeNode.componentName]) {
-        componentCounter++;
-        treeComponentRenderTimes[
-          `${treeNode.componentName}-${componentCounter}`
-        ] = treeNode.renderDurationMS;
-      } else {
-        componentCounter = 1;
-        treeComponentRenderTimes[treeNode.componentName] =
-          treeNode.renderDurationMS;
-      }
-      // if (treeComponentRenderTimes[treeNode.componentName]) {
-      //   componentCounter++;
-      //   treeComponentRenderTimes[`${treeNode.componentName}-${componentCounter}`] = treeNode.renderDurationMS;
-      // } else {
-      //   componentCounter = 1;
-      //   treeComponentRenderTimes[treeNode.componentName] = treeNode.renderDurationMS;
-      // }
-
-      treeNode.key ? treeComponentRenderTimes[`${treeNode.componentName}-${treeNode.key}`] = treeNode.renderDurationMS : treeComponentRenderTimes[treeNode.componentName] = treeNode.renderDurationMS;
+      treeComponentRenderTimes[`${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`] = treeNode.renderDurationMS;
 
       if (treeNode.children.length > 0) bfsQueue.push(...treeNode.children);
     }
