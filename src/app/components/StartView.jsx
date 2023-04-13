@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSkull } from '@fortawesome/free-solid-svg-icons';
-import reaperLogo from './reaper-128.png';
+import reaperLogo from '../../extension/assets/reaper-128.png';
 
 function StartView() {
   return (
