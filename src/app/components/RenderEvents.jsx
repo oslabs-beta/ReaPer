@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { render } from 'react-dom';
 
 function RenderEvents(props) {
+  console.log(props);
   const [clickedBarData, setClickedBarData] = useState(null);
   const [chartData, setChartData] = useState({
     labels: [],
@@ -57,6 +58,7 @@ function RenderEvents(props) {
     onClick: (e, chartElement) => {
       if (chartElement.length > 0) {
         const { setFlowDisplayTree, nodesAndEdges, setComponentsRankedDisplay,  componentRenderTimes} = props;
+        // Get the index of what 
         const dataIndex = chartElement[0].index;
         // Update the ComponentsRanked chart based on what bar was clicked
         setComponentsRankedDisplay(componentRenderTimes[dataIndex]);

@@ -13,7 +13,6 @@
 ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
-[![Latest release](https://img.shields.io/github/v/release/oslabs-beta/ReaPer?label=Latest%20release&style=social)](https://github.com/oslabs-beta/ReaPer/releases/tag/v1.0.0)
 [![Stars](https://img.shields.io/github/stars/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/stargazers)
 [![Fork](https://img.shields.io/github/forks/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/network/members)
 [![Watchers](https://img.shields.io/github/watchers/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/watchers)
@@ -26,11 +25,13 @@ Quick Links
   <br /><br />
 </p>
 <p align="center" style="font-size: 1em">
-<a name="" href="">Website</a>
-<a name="" href="">Medium</a>
-<a name="" href="">Product Hunt</a>
+<a name="website" href="https://getreaper.io/">Website</a>
+<a name="medium" href="https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de">Medium</a>
+<a name="product-hunt" href="https://www.producthunt.com/@react_performance">Product Hunt</a>
 </p>
 <br /><br />
+
+</div>
 
 ---
 
@@ -70,32 +71,62 @@ There are several strategies developers can leverage to improve the performance 
 
 ## [Key Features](#key-features)
 
-
 ReaPer allows developers to start and end a session to record render event data so that it can provide a visualization that details render times and information on how the virtual DOM and each component's performance changes during a session.
-(Start recording session visual)
+
+<img
+  align="center"
+  src="./assets/dash-start_recording.png"
+  alt="recording"
+  title="recording"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 ReaPer's dashboard then displays four sets of data to analyze the render events.
 
-(Visual for entire dashboard)
+<img
+  align="center"
+  src="./assets/dashboard.png"
+  alt="dashboard"
+  title="dashboard"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
 Developers have a bar graph of render events and event durations. 
 
-(Visual of graph populating)
+<img
+  align="center"
+  src="./assets/dash-render_duration.png"
+  alt="duration"
+  title="duration"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
-There is another graph of components ranked by their render time to see which costs the most to least time to render. 
+Another graph displays the render time for each component during a specific render event.
 
-(Visual of graph populating)
+<img
+  align="center"
+  src="./assets/dash-component_render.png"
+  alt="componeent"
+  title="component"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
-** THIS MAY CHANGED BASED ON FRONT END [The last graph is a line graph of each component extracted to display and compare their individual render times.]
+This list holds all the components re-rendered during a session. It displays the number of times that component was re-rendered along with the average render duration.
 
-(Visual of graph populating)
+<img
+  align="center"
+  src="./assets/dash-render_list.png"
+  alt="list"
+  title="list"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 By traversing the React Fiber tree, a visual of the React virtual DOM is created and displayed, allowing developers to see how the virtual DOM and components’ state and props change over time. 
 
-(Visual of DOM tree)
+<img
+  align="center"
+  src="./assets/dash-DOM.png"
+  alt="DOM"
+  title="DOM"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
@@ -215,13 +246,52 @@ To gain access to the user’s target website’s DOM and its React Dev Tools gl
 
 The “startReaperSession” and “endReaperSession” events are created and dispatched by the content script via `document.dispatchEvent`.
 
+<img
+  align="center"
+  src="./assets/Backend_Flow_1.jpg"
+  alt="flow1"
+  title="flow1"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_2.jpg"
+  alt="flow2"
+  title="flow2"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_3.jpg"
+  alt="flow3"
+  title="flow3"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_4.jpg"
+  alt="flow4"
+  title="flow4"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_5.jpg"
+  alt="flow5"
+  title="flow5"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
 ---
 
 ## [Call to Action](#call-to-action)
 
-We encourage you to submit issues for any bugs or ideas for enhancements. Please feel free to fork this repo and submit pull requests to contribute as well. Also follow ReaPer on [LinkedIn](https://www.linkedin.com/company/react-perf/) for more updates. Some ideas for future contributions include:
+If you would like to read more about ReaPer, checkout the [Medium](https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de) article.
+
+We encourage you to submit issues for any bugs or ideas for enhancements. Please feel free to fork this repo and submit pull requests to contribute as well. Also visit our [website](https://getreaper.io/) and follow ReaPer on [LinkedIn](https://www.linkedin.com/company/react-perf/) for more updates. 
+
+Contribution Ideas:
 - The ability to analyze the state properties of functional components
 - Allow users to save session data and compare it to the current data (overlay bar graph and display time difference)
 - Support collecting data for React Native so that developers can evaluate performance on mobile devices
@@ -229,6 +299,9 @@ We encourage you to submit issues for any bugs or ideas for enhancements. Please
 - Displaying a bar graph and render time for a selected component 
 - Vigorous testing
 - Conversion to TypeScript
+
+Bug to Fix:
+- Currently, when the extension is reloaded into the Chrome Web Store, the ReaPer user must either hard refresh or close and reopen the target application tab. This issue occurs randomly, but when it does, the ReaPer user sees the notice, "No session data to display" instead of the data that is collected.
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
@@ -251,6 +324,8 @@ This product would not have been possible with extensive work done by the follow
 
 **Star** ⭐ and **fork** 🔱 ReaPer's repository. <br/>
 **Follow us** at [![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-ReaPer-blue?style=flat&logo=linkedin&logoColor=b0c0c0&labelColor=363D44)](https://www.linkedin.com/company/react-perf/)
+
+**Clap** 👏 ReaPer's [Medium](https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de) article if you enjoyed it!
 
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
@@ -279,7 +354,7 @@ This product would not have been possible with extensive work done by the follow
 ---
 
 ## [License](#license)
-- ReaPer is a free and open-sourced software licensed under the [MIT licensed](https://github.com/oslabs-beta/ReaPer/blob/main/LICENSE.md).
+ReaPer is a free and open-sourced software licensed under the [MIT licensed](https://github.com/oslabs-beta/ReaPer/blob/main/LICENSE.md).
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
