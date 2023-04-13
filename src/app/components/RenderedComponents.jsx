@@ -1,53 +1,70 @@
-import React from 'react';
-import { Chart as ChartJS } from 'chart.js/auto';
-import { Line } from 'react-chartjs-2';
+import React, { useState, useEffect } from 'react';
 
-function RenderedComponents() {
-  const data = {
-    labels: [
-      'App',
-      'Board',
-      'Row1',
-      'Row2',
-      'Row3',
-      'Box1',
-      'Box2',
-      'Box3',
-      'Box4',
-      'Box5',
-      'Box6',
-      'Box7',
-      'Box8',
-      'Box9',
-    ],
-    datasets: [
-      {
-        label: 'Rendered Components',
-        data: [10, 8, 8, 7, 6, 9, 6, 5, 5, 3, 3, 2, 1, 1],
-        fill: false,
-        borderColor: 'rgb(255, 205, 86)',
-        tension: 0.1,
-      },
-    ],
+// TODO: create a line chart which uses live data and is changed based on what is clicked inside of the table
+// import { Chart as ChartJS } from 'chart.js/auto';
+// import { Line } from 'react-chartjs-2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
+import '../styles/style.scss';
+
+function RenderedComponents(props) {
+  const [label, setLabel] = useState([]);
+  const [renderCount, setRenderCount] = useState([]);
+  const [averageRenderDuration, setAverageRenderDuration] = useState([]);
+
+  useEffect(() => {
+    deconstructComponentRenderData();
+  }, [props]);
+
+  const deconstructComponentRenderData = () => {
+    const { componentRenderData } = props;
+    
+    const newLabel = [];
+    const newRenderCount = [];
+    const newAverageRenderDuration = [];
+
+    // Destructure our componentRenderData into it's part for use in rendering
+    for (const [componentName, componentStats] of Object.entries(componentRenderData)) {
+      newLabel.push(componentName);
+      newRenderCount.push(componentStats.timesRendered);
+      newAverageRenderDuration.push(componentStats.avgRenderDuration)
+    }
+
+    setLabel(newLabel);
+    setRenderCount(newRenderCount);
+    setAverageRenderDuration(newAverageRenderDuration);
   };
 
-  const options = {
-    title: {
-      display: true,
-      text: 'Rendered Components Over Time',
-      fontSize: 20,
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
 
   return (
     <div id='render-comp'>
       <p>Rendered Components</p>
-      <Line data={data} options={options} />
+      {/* <Line data={componentData} options={options} /> */}
+      <table id='component-table'>
+        <thead>
+          <tr>
+            <th className='component-table-header'>Component</th>
+            <th className='component-table-header'>Number of Times Rendered</th>
+            <th className='component-table-header'>
+              Average Time Rendered in MS
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {label.map((componentName, index) => (
+            <tr className='component-table-row' key={componentName}>
+              <td className='component-table-data'>{componentName}</td>
+              <td className='component-table-data'>
+                <FontAwesomeIcon icon={faPuzzlePiece} className='puzzle-icon' />
+                {renderCount[index]}
+              </td>
+              <td className='component-table-data'>
+                {averageRenderDuration[index]}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

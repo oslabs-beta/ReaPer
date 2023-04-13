@@ -68,8 +68,8 @@ async function getCurrentTab(resetTab = false, callback) {
  * Invoked when a message from the dev tool has been received.
  * @param msg (object)
  */
-const onMessageFromDevTool = msg => {
-  console.log('background.js received a message from the dev tool:', msg);
+const onMessageFromDevTool = (msg) => {
+  // console.log('background.js received a message from the dev tool:', msg);
 
   switch (msg.type) {
     case 'START_RECORDING':
@@ -83,17 +83,17 @@ const onMessageFromDevTool = msg => {
   }
 };
 
-const sendMessageToDevTool = msg => {
+const sendMessageToDevTool = (msg) => {
   if (bgPort === undefined) {
     console.log('background.js: no port to send message to!');
     return;
   }
-  console.log('background.js sending message to dev tool:', msg);
+  // console.log('background.js sending message to dev tool:', msg);
   bgPort.postMessage({ message: msg });
 };
 
 const handleMessageFromContentScript = (message, sender, sendResponse) => {
-  console.log('background.js received message from content:', message);
+  // console.log('background.js received message from content:', message);
 
   if (Object.hasOwn(message, 'type')) {
     switch (message.type) {
@@ -105,12 +105,12 @@ const handleMessageFromContentScript = (message, sender, sendResponse) => {
   }
 };
 
-const sendMessageToContentScript = msg => {
+const sendMessageToContentScript = (msg) => {
   if (currentTab === undefined) {
     console.log('background.js: no tab to send message to');
     return;
   }
-  console.log('background.js sending message to content.js:', msg);
+  // console.log('background.js sending message to content.js:', msg);
   chrome.tabs.sendMessage(currentTab.tabId, msg);
 };
 
@@ -123,8 +123,8 @@ const sendMessageToContentScript = msg => {
  * and over, unnecessarily.
  */
 const injectScriptToStartReaperSession = (isNewTab) => {
-  console.log('Background Script: injectScriptToStartReaperSession() invoked');
-
+  // console.log('Background Script: injectScriptToStartReaperSession() invoked');
+  //add isnewtab true
   const injectScript = (file) => {
     try {
       const htmlBody = document.getElementsByTagName('body')[0];
@@ -139,7 +139,7 @@ const injectScriptToStartReaperSession = (isNewTab) => {
 
   if (isNewTab) {
     const tmpTabId = currentTab.tabId;
-    console.log('Background: injecting script into tab id', tmpTabId);
+    // console.log('Background: injecting script into tab id', tmpTabId);
 
     chrome.scripting.executeScript({
       target: { tabId: tmpTabId },
@@ -157,7 +157,7 @@ const injectScriptToStartReaperSession = (isNewTab) => {
  * Establish connection with dev tool.
  * This will not fire until chrome.runtime.connect is invoked on the front end.
  */
-chrome.runtime.onConnect.addListener(port => {
+chrome.runtime.onConnect.addListener((port) => {
   // Attach an event listener to each port for messages from the dev tool
   port.onMessage.addListener(onMessageFromDevTool);
 

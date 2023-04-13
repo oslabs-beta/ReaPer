@@ -10,18 +10,14 @@ $panel-color: rgba(255, 255, 255, 0.1);
   padding: 0;
 }
 
-// #container {
-//   display: flex;
-//   background: $background-color;
-//   /* width: 90%; */
-//   /* flex-direction: row; */
-// }
 
 #container {
   display: flex;
   flex-direction: row;
   height: 100vh;
   background-color: $background-color;
+  color: rgb(26, 26, 26);
+  font-family: 'Noto Sans', sans-serif;
 
   #main-nav {
     width: 2rem;
@@ -69,6 +65,7 @@ $panel-color: rgba(255, 255, 255, 0.1);
           border-radius: 0.5em;
           margin: 1.5%;
           overflow: hidden;
+          padding: 3px;
           #render-comp,
           #render-events,
           #comp-ranked,
@@ -77,6 +74,7 @@ $panel-color: rgba(255, 255, 255, 0.1);
             background: $panel-color;
             // margin: 1%;
             border-radius: 0.5em;
+            overflow-y: auto;
           }
         }
       }
@@ -171,4 +169,55 @@ $panel-color: rgba(255, 255, 255, 0.1);
 .start-view {
   @extend .view;
   flex-direction: row;
+}
+
+// RenderedComponents Table
+#component-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow-y: auto;
+  overflow-x: auto;
+  max-width: 100%;
+
+  .component-table-header {
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 1px solid #232334;
+    padding: 0.5rem;
+    margin-top: 5px;
+    background-color: #e7fafe;
+  }
+
+  tbody {
+    max-height: 100%; /* set the height to a fixed value to enable scrolling */
+    overflow-y: auto;
+  }
+
+  .component-table-row {
+    border-bottom: 1px solid #1b8099;
+    border-radius: 10px;
+
+    // &:last-child {
+    //   border-bottom: none;
+    // }
+  }
+
+  .component-table-data {
+    padding: 0.5rem;
+    background-color: rgb(255, 255, 255);
+
+    .puzzle-icon {
+      color: #70b0c0;
+      margin-right: 1.5em;
+      align-items: center;
+    }
+  }
+
+  .component-table-footer {
+    font-weight: bold;
+    text-align: left;
+    border-top: 2px solid black;
+    padding: 0.5rem;
+  }
 }

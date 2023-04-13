@@ -4,35 +4,34 @@ import { Bar } from 'react-chartjs-2';
 import { render } from 'react-dom';
 
 function RenderEvents(props) {
-  const [clickedBarData, setClickedBarData] = useState(null);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
         label: 'Render Events',
         backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(255, 205, 86, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 77, 166, 0.2)',
-          'rgba(51, 204, 51, 0.2)',
-          'rgba(255, 128, 0, 0.2)',
-          'rgba(92, 184, 92, 0.2)',
+          'rgb(231, 250, 254, 0.8)',
+          'rgb(122, 180, 192, 0.5)',
+          'rgb(253, 242, 255, 0.5)',
+          'rgb(179, 165, 200, 0.5)',
+          'rgb(142, 114, 140, 0.5)',
+          'rgb(127, 81, 97, 0.5)',
+          'rgb(106, 111, 158, 0.5)',
+          'rgb(65, 130, 175, 0.5)',
+          'rgb(0, 147, 174, 0.5)',
+          'rgb(0, 162, 156, 0.5)',
         ],
         borderColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 159, 64)',
-          'rgb(75, 192, 192)',
-          'rgb(255, 205, 86)',
-          'rgb(153, 102, 255)',
-          'rgb(255, 77, 166)',
-          'rgb(51, 204, 51)',
-          'rgb(255, 128, 0)',
-          'rgb(92, 184, 92)',
+          'rgb(192, 252, 247)',
+          'rgb(122, 180, 192)',
+          'rgb(253, 242, 255)',
+          'rgb(179, 165, 200)',
+          'rgb(142, 114, 140)',
+          'rgb(127, 81, 97)',
+          'rgb(106, 111, 158)',
+          'rgb(65, 130, 175)',
+          'rgb(0, 147, 174)',
+          'rgb(0, 162, 156)',
         ],
         borderWidth: 1,
         data: [],
@@ -57,6 +56,7 @@ function RenderEvents(props) {
     onClick: (e, chartElement) => {
       if (chartElement.length > 0) {
         const { setFlowDisplayTree, nodesAndEdges, setComponentsRankedDisplay,  componentRenderTimes} = props;
+        // Get the index of what bar was clicked on
         const dataIndex = chartElement[0].index;
         // Update the ComponentsRanked chart based on what bar was clicked
         setComponentsRankedDisplay(componentRenderTimes[dataIndex]);
@@ -67,12 +67,12 @@ function RenderEvents(props) {
   };
 
   useEffect(() => {
-    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
-    const { renderTimes } = props;
-    setChartData(createDataForChart(renderTimes));
+    createDataForChart();
   }, [props]);
 
-  const createDataForChart = (renderTimes) => {
+  const createDataForChart = () => {
+    const { renderTimes } = props;
+
     // Create the labels for the length of renderTimes array
     const labels = [];
     for (let i = 0; i < renderTimes.length; i++) {
@@ -90,11 +90,8 @@ function RenderEvents(props) {
       ],
     };
 
-    console.log('RenderEvents: Updated chartData: ', chartData);
-    return newChartData;
+    setChartData(newChartData);
   };
-
-
 
   return (
     <div id='render-events'>

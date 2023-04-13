@@ -147,9 +147,9 @@
   box-sizing: border-box;
   cursor: -webkit-grab;
   cursor: grab;
-  border: 1px solid black;
+  border: 1px solid #0c0c13;
   padding: 5px;
-  background-color: #D9F2FF;
+  background-color: #e7fafe;
 }
 
 .react-flow__node.dragging {
