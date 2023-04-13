@@ -30,17 +30,17 @@ const throttle = (func, delayMS) => {
   // return function that takes new render event's fiber node arg
   return (arg) => {
     if (shouldWait) {
-      // console.log('throttle anonymous: shouldWait is true, returning....');
+      console.log('throttle anonymous: shouldWait is true, returning....');
       return;
     }
 
-    // console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
+    console.log('throttle anonymous: shouldWait is false, invoking func now with arg', arg);
     func(arg);
     shouldWait = true;
 
-    // console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
+    console.log('throttle anonymous: invoking setTimeout with delay value', delayMS);
     setTimeout(() => {
-      // console.log('setTimeout callback invoked, setting shouldWait to false');
+      console.log('setTimeout callback invoked, setting shouldWait to false');
       shouldWait = false;
     }, delayMS);
   };
