@@ -69,7 +69,7 @@ async function getCurrentTab(resetTab = false, callback) {
  * @param msg (object)
  */
 const onMessageFromDevTool = (msg) => {
-  console.log('background.js received a message from the dev tool:', msg);
+  // console.log('background.js received a message from the dev tool:', msg);
 
   switch (msg.type) {
     case 'START_RECORDING':
@@ -88,12 +88,12 @@ const sendMessageToDevTool = (msg) => {
     console.log('background.js: no port to send message to!');
     return;
   }
-  console.log('background.js sending message to dev tool:', msg);
+  // console.log('background.js sending message to dev tool:', msg);
   bgPort.postMessage({ message: msg });
 };
 
 const handleMessageFromContentScript = (message, sender, sendResponse) => {
-  console.log('background.js received message from content:', message);
+  // console.log('background.js received message from content:', message);
 
   if (Object.hasOwn(message, 'type')) {
     switch (message.type) {
@@ -110,7 +110,7 @@ const sendMessageToContentScript = (msg) => {
     console.log('background.js: no tab to send message to');
     return;
   }
-  console.log('background.js sending message to content.js:', msg);
+  // console.log('background.js sending message to content.js:', msg);
   chrome.tabs.sendMessage(currentTab.tabId, msg);
 };
 
@@ -123,7 +123,7 @@ const sendMessageToContentScript = (msg) => {
  * and over, unnecessarily.
  */
 const injectScriptToStartReaperSession = (isNewTab) => {
-  console.log('Background Script: injectScriptToStartReaperSession() invoked');
+  // console.log('Background Script: injectScriptToStartReaperSession() invoked');
   //add isnewtab true
   const injectScript = (file) => {
     try {
@@ -139,7 +139,7 @@ const injectScriptToStartReaperSession = (isNewTab) => {
 
   if (isNewTab) {
     const tmpTabId = currentTab.tabId;
-    console.log('Background: injecting script into tab id', tmpTabId);
+    // console.log('Background: injecting script into tab id', tmpTabId);
 
     chrome.scripting.executeScript({
       target: { tabId: tmpTabId },

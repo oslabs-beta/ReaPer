@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // import { Line } from 'react-chartjs-2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
+import '../styles/style.scss';
 
 function RenderedComponents(props) {
   const [label, setLabel] = useState([]);

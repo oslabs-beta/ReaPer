@@ -4,7 +4,7 @@ import { Bar } from 'react-chartjs-2';
 import { render } from 'react-dom';
 
 function RenderEvents(props) {
-  console.log(props);
+  // console.log(props);
   const [clickedBarData, setClickedBarData] = useState(null);
   const [chartData, setChartData] = useState({
     labels: [],
@@ -69,7 +69,7 @@ function RenderEvents(props) {
   };
 
   useEffect(() => {
-    console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
+    // console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
     const { renderTimes } = props;
     setChartData(createDataForChart(renderTimes));
   }, [props]);
@@ -92,7 +92,7 @@ function RenderEvents(props) {
       ],
     };
 
-    console.log('RenderEvents: Updated chartData: ', chartData);
+    // console.log('RenderEvents: Updated chartData: ', chartData);
     return newChartData;
   };
 

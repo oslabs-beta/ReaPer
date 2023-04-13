@@ -40,7 +40,7 @@ function Dashboard(props) {
 
     const newComponentRenderData = [];
 
-    console.log('Dashboard: This is our render event list! ', renderEventList);
+    // console.log('Dashboard: This is our render event list! ', renderEventList);
 
     // Deconstruct our reaperSessionObj
     for (let i = 0; i < renderEventList.length; i++) {
