@@ -33,6 +33,7 @@ function Dashboard(props) {
   // Update only when props is updated
   useEffect(() => {
     const { renderEventList } = props.reaperSessionObj;
+    console.log('renderEventList: ', renderEventList);
 
     const newRenderTimes = [];
     const newNodesAndEdges = [];
@@ -52,18 +53,26 @@ function Dashboard(props) {
         getComponentRenderTimes(renderEventList[i].tree.root)
       );
     }
-    for (let i = 0; i < renderEventList.length; i++) {
-      const counts = {};
-      const durations = {};
-      const componentData = traverse(
-        renderEventList[i].tree.root,
-        counts,
-        durations
-      );
-      newComponentRenderData.push(componentData);
-    }
+    // Skip the root
+    // Make the array only hold onto one set of components with everything math'd out
+    // for (let i = 0; i < renderEventList.length; i++) {
+    //   const counts = {};
+    //   const durations = {};
+    //   const keys = {};
+    //   const componentData = traverse(
+    //     renderEventList[i].tree.root,
+    //     counts,
+    //     durations,
+    //     keys
+    //   );
+    //   newComponentRenderData.push(componentData);
+    // }
 
-    setComponentRenderData(newComponentRenderData);
+    // setComponentRenderData(newComponentRenderData);
+    console.log(
+      'Dashboard: renderedComponentsData ',
+      traverse(renderEventList)
+    );
 
     setComponentRenderTimes(newComponentRenderTimes);
     setNodesAndEdges(newNodesAndEdges);
@@ -79,38 +88,58 @@ function Dashboard(props) {
   // };
 
   // function to traverse tree to get componentName, its occurrences, and avg renderDurationMS
-  const traverse = (node, counts, durations) => {
-    if (!node) {
-      return [];
-    }
 
-    // node.renderDurationMS
-    const { componentName, renderDurationMS, children } = node;
+  // render events: [1, 2, 3]
+  //            app
+  //            /  \
+  //          row-0   row-1
+  // 2.3 2.5 2.7
+  const traverse = (renderEvents) => {
+    const totalComponentStats = {};
 
-    // Update counts and durations for current component
-    // counts[componentName] = (counts[componentName] || 0) + 1;
-    // durations[componentName] =
-    //   (durations[componentName] || 0) + renderDurationMS;
+    const bfs = (...componentTree) => {
+      const bfsQueue = [...componentTree];
 
-    counts[componentName] = 1;
-    durations[componentName] = renderDurationMS;
-    //Recursively traverse children
-    let childData = [];
-    if (children && children.length > 0) {
-      for (const child of children) {
-        childData = childData.concat(traverse(child, counts, durations));
+      while (bfsQueue.length > 0) {
+        const treeNode = bfsQueue.shift();
+        // Create a property with key; componentName. If the key on component is filled in, then include in the key name otherwise don't.
+        if (
+          Object.hasOwn(
+            totalComponentStats,
+            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
+          )
+        ) {
+          totalComponentStats[
+            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
+          ].timesRendered++;
+          totalComponentStats[
+            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
+          ].avgRenderDuration += treeNode.renderDurationMS;
+        } else {
+          totalComponentStats[
+            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
+          ] = {
+            timesRendered: 1,
+            avgRenderDuration: treeNode.renderDurationMS,
+          };
+        }
+
+        if (treeNode.children.length > 0) bfsQueue.push(...treeNode.children);
       }
-    }
-
-    const count = counts[componentName];
-    const avgDuration = durations[componentName] / count;
-    const componentData = {
-      label: componentName,
-      renderedCount: count,
-      averageTimeRendered: avgDuration,
     };
 
-    return [componentData, ...childData];
+    // For the amount of renderEvents go through each tree and get the stats for each component
+    for (const renderEvent of renderEvents) {
+      bfs(...renderEvent.tree.root.children);
+    }
+
+    // Get the avg for each component
+    for (const component in totalComponentStats) {
+      totalComponentStats[component].avgRenderDuration /=
+        totalComponentStats[component].timesRendered;
+    }
+
+    return totalComponentStats;
   };
 
   const getComponentRenderTimes = (root) => {
@@ -275,3 +304,37 @@ function Dashboard(props) {
 // Create tree in this file
 // Then distribute to it's sub portions make up the whole!
 export default Dashboard;
+
+//   if (!node) {
+//     return [];
+//   }
+
+//   // node.renderDurationMS
+//   const { componentName, renderDurationMS, children, key } = node;
+
+//   // Update counts and durations for current component
+//   // counts[componentName] = (counts[componentName] || 0) + 1;
+//   // durations[componentName] =
+//   //   (durations[componentName] || 0) + renderDurationMS;
+
+//   counts[componentName] = 1;
+//   durations[componentName] = renderDurationMS;
+//   keys[componentName] = key;
+//   //Recursively traverse children
+//   let childData = [];
+//   if (children && children.length > 0) {
+//     for (const child of children) {
+//       childData = childData.concat(traverse(child, counts, durations, keys));
+//     }
+//   }
+
+//   const count = counts[componentName];
+//   const avgDuration = durations[componentName] / count;
+//   const componentData = {
+//     label: componentName,
+//     renderedCount: count,
+//     averageTimeRendered: avgDuration,
+//   };
+
+//   return [componentData, ...childData];
+// };
