@@ -5,7 +5,6 @@ import ComponentTree from './ComponentTree';
 import RenderEvents from './RenderEvents';
 import ComponentsRanked from './ComponentsRanked';
 import RenderedComponents from './RenderedComponents';
-import { render } from 'react-dom';
 
 function Dashboard(props) {
   /**
@@ -54,13 +53,12 @@ function Dashboard(props) {
     setNodesAndEdges(newNodesAndEdges);
     setRenderTimes(newRenderTimes);
 
-    console.log('Dashboard: in deconstruct, compRenderTimes ', newComponentRenderTimes);
-
     // Display the first renderEvent data by default in the corresponding charts
     setFlowDisplayTree(newNodesAndEdges[0]);
     setComponentsRankedDisplay(newComponentRenderTimes[0]);
   };
 
+  // Used for RenderedComponents
   const createComponentRenderData = (renderEvents) => {
     const totalComponentStats = {};
 
@@ -98,6 +96,7 @@ function Dashboard(props) {
     setComponentRenderData(totalComponentStats);
   };
 
+  // Used for ComponentsRanked
   const getComponentRenderTimes = (root) => {
     // Skip over the root component in React fiber
     const bfsQueue = [...root.children];
@@ -117,9 +116,7 @@ function Dashboard(props) {
     return treeComponentRenderTimes;
   };
 
-  // Breadth first search
-  // Create a node for the current tree node we're looking at
-  // Create the edge based on .parent and .data
+  // Used within ComponentTree, sets up nodes and edges for each renderEvent
   const createNodesAndEdges = (root, index) => {
     const nodes = [];
     const edges = [];

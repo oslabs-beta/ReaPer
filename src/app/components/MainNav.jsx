@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircle,
@@ -9,7 +9,6 @@ import {
   faCircleQuestion,
 } from '@fortawesome/free-solid-svg-icons';
 import Context from '../contexts/Context';
-
 
 const MainNav = (props) => {
   const context = useContext(Context);
