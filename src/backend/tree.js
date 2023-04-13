@@ -14,7 +14,8 @@ class TreeNode {
       tag,
       actualDuration,
       actualStartTime,
-      selfBaseDuration
+      selfBaseDuration,
+      key
     } = fiberNode;
 
     this.children = [];
@@ -29,8 +30,8 @@ class TreeNode {
     this.setComponentName(elementType);
     this.setProps(memoizedProps);
     this.setState(memoizedState);
-   
-
+    this.setKey(key);
+    
     /*
       - The actual duration is the time spent rendering this Fiber and its descendants for the current update.
       - It includes time spent working on children.
@@ -51,7 +52,6 @@ class TreeNode {
       - This field is only set when the enableProfilerTimer flag is enabled.
     */
     this.selfBaseDuration = selfBaseDuration;
-    
   }
 
   addChild(newNode) {
@@ -103,7 +103,12 @@ class TreeNode {
     this.componentProps = memoizedProps;
   }
 
-
+  setKey(key) {
+    // The key is (or should be) provided by the developer to help differentiate components
+    // of the same type
+    // ReaPer uses this to help differentiate components for the graphs in the dashboard
+    this.key = key;
+  }
 
 }
 
