@@ -64,6 +64,18 @@ module.exports = {
         exclude: /node_modules/,
         use: 'ts-loader',
       },
+      {
+        test: /\.png$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images/', // Specify the output directory for the images
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {

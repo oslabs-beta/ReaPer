@@ -5,7 +5,6 @@ import ComponentTree from './ComponentTree';
 import RenderEvents from './RenderEvents';
 import ComponentsRanked from './ComponentsRanked';
 import RenderedComponents from './RenderedComponents';
-import { render } from 'react-dom';
 
 function Dashboard(props) {
   /**
@@ -31,16 +30,15 @@ function Dashboard(props) {
   // State to hold RenderedComponents Data (componentName, occurrence, avg RenderDurationMS)
   // Update only when props is updated
   useEffect(() => {
+    deconstructReaperSessionObj();
+  }, [props]);
+
+  const deconstructReaperSessionObj = () => {
     const { renderEventList } = props.reaperSessionObj;
-  
 
     const newRenderTimes = [];
     const newNodesAndEdges = [];
     const newComponentRenderTimes = [];
-
-    const newComponentRenderData = [];
-
-    // console.log('Dashboard: This is our render event list! ', renderEventList);
 
     // Deconstruct our reaperSessionObj
     for (let i = 0; i < renderEventList.length; i++) {
@@ -58,12 +56,9 @@ function Dashboard(props) {
     // Display the first renderEvent data by default in the corresponding charts
     setFlowDisplayTree(newNodesAndEdges[0]);
     setComponentsRankedDisplay(newComponentRenderTimes[0]);
-  }, [props]);
+  };
 
-  // const deconstructReaperSessionObj = () => {
-
-  // };
-
+  // Used for RenderedComponents
   const createComponentRenderData = (renderEvents) => {
     const totalComponentStats = {};
 
@@ -101,27 +96,19 @@ function Dashboard(props) {
     setComponentRenderData(totalComponentStats);
   };
 
+  // Used for ComponentsRanked
   const getComponentRenderTimes = (root) => {
     // Skip over the root component in React fiber
     const bfsQueue = [...root.children];
     const treeComponentRenderTimes = {};
-    let componentCounter = 1;
 
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
 
       // Key: component name
+      //  - If the key on the node is filled then tack it onto the component name
       // Value: time it took to render the component
-      if (treeComponentRenderTimes[treeNode.componentName]) {
-        componentCounter++;
-        treeComponentRenderTimes[
-          `${treeNode.componentName}-${componentCounter}`
-        ] = treeNode.renderDurationMS;
-      } else {
-        componentCounter = 1;
-        treeComponentRenderTimes[treeNode.componentName] =
-          treeNode.renderDurationMS;
-      }
+      treeComponentRenderTimes[`${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`] = treeNode.renderDurationMS;
 
       if (treeNode.children.length > 0) bfsQueue.push(...treeNode.children);
     }
@@ -129,9 +116,7 @@ function Dashboard(props) {
     return treeComponentRenderTimes;
   };
 
-  // Breadth first search
-  // Create a node for the current tree node we're looking at
-  // Create the edge based on .parent and .data
+  // Used within ComponentTree, sets up nodes and edges for each renderEvent
   const createNodesAndEdges = (root, index) => {
     const nodes = [];
     const edges = [];
