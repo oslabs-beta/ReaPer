@@ -26,9 +26,9 @@ Quick Links
   <br /><br />
 </p>
 <p align="center" style="font-size: 1em">
-<a name="" href="https://getreaper.io/">Website</a>
-<a name="" href="">Medium</a>
-<a name="" href="https://www.producthunt.com/@react_performance">Product Hunt</a>
+<a name="website" href="https://getreaper.io/">Website</a>
+<a name="medium" href="https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de">Medium</a>
+<a name="product-hunt" href="https://www.producthunt.com/@react_performance">Product Hunt</a>
 </p>
 <br /><br />
 
@@ -111,7 +111,7 @@ Another graph displays the render time for each component during a specific rend
   style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
-** THIS MAY CHANGED BASED ON FRONT END [The last graph is a line graph of each component extracted to display and compare their individual render times.]
+This list holds all the components re-rendered during a session. It displays the number of times that component was re-rendered along with the average render duration.
 
 <img
   align="center"
@@ -288,6 +288,8 @@ The “startReaperSession” and “endReaperSession” events are created and d
 
 ## [Call to Action](#call-to-action)
 
+If you would like to read more about ReaPer, checkout the [Medium](https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de) article.
+
 We encourage you to submit issues for any bugs or ideas for enhancements. Please feel free to fork this repo and submit pull requests to contribute as well. Also visit our [website](https://getreaper.io/) and follow ReaPer on [LinkedIn](https://www.linkedin.com/company/react-perf/) for more updates. 
 
 Contribution Ideas:
@@ -323,6 +325,8 @@ This product would not have been possible with extensive work done by the follow
 
 **Star** ⭐ and **fork** 🔱 ReaPer's repository. <br/>
 **Follow us** at [![Follow us on LinkedIn](https://img.shields.io/badge/LinkedIn-ReaPer-blue?style=flat&logo=linkedin&logoColor=b0c0c0&labelColor=363D44)](https://www.linkedin.com/company/react-perf/)
+
+**Clap** 👏 ReaPer's [Medium](https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de) article if you enjoyed it!
 
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
