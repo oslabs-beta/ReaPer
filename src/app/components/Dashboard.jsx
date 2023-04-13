@@ -88,11 +88,13 @@ function Dashboard(props) {
     const { componentName, renderDurationMS, children } = node;
 
     // Update counts and durations for current component
-    counts[componentName] = (counts[componentName] || 0) + 1;
-    durations[componentName] =
-      (durations[componentName] || 0) + renderDurationMS;
+    // counts[componentName] = (counts[componentName] || 0) + 1;
+    // durations[componentName] =
+    //   (durations[componentName] || 0) + renderDurationMS;
 
-    // Recursively traverse children
+    counts[componentName] = 1;
+    durations[componentName] = renderDurationMS;
+    //Recursively traverse children
     let childData = [];
     if (children && children.length > 0) {
       for (const child of children) {
