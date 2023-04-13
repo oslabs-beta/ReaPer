@@ -85,68 +85,6 @@ $panel-color: rgba(255, 255, 255, 0.1);
   }
 }
 
-/* Graph display on dashboard */
-// #tree-component-container {
-//   position: absolute;
-//   bottom: 0;
-//   right: 0;
-//   height: 40vh;
-//   width: 45%;
-//   /* padding: 20px; */
-//   border: 30px solid $panel-color;
-//   border-radius: 10px;
-//   flex: 1;
-// }
-
-// .render-comp {
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   height: 40vh;
-//   width: 45%;
-//   flex: 1;
-//   border: 30px solid $panel-color;
-//   border-radius: 10px;
-// }
-
-// .render-events {
-//   position: absolute;
-//   top: 0;
-//   right: 50%;
-//   height: 40vh;
-//   width: calc(45% - 1rem);
-//   flex: 1;
-//   /* border: 30px solid $panel-color; */
-//   /* border-radius: 10px; */
-//   background-color: white;
-// }
-// .comp-ranked {
-//   position: absolute;
-//   bottom: 0;
-//   right: 50%;
-//   height: 40vh;
-//   width: calc(45% - 1rem);
-//   flex: 1;
-//   border: 30px solid $panel-color;
-//   border-radius: 10px;
-// }
-
-/* Navbar */
-// #main-nav {
-//   position: sticky;
-//   width: 2rem;
-//   height: 100vh;
-//   padding-top: 1rem;
-//   padding-left: 1rem;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   /* position: fixed; */
-//   gap: 1rem;
-//   background-color: $panel-color;
-//   z-index: 1;
-// }
-
 .main-nav-btn {
   background: none;
   border: none;
@@ -160,6 +98,22 @@ $panel-color: rgba(255, 255, 255, 0.1);
   cursor: pointer;
   color: #1b8099;
   transition: 0.2 ease;
+}
+
+@keyframes flashing {
+  0% {
+    color: #FF0000;
+  }
+  50% {
+    color: #d6f7ff;
+  }
+  100% {
+    color: #FF0000;
+  }
+}
+
+.record[recording="true"] {
+  animation: flashing 3500ms linear infinite;
 }
 
 /* Start View & Session Recording in Progress */
@@ -183,12 +137,22 @@ $panel-color: rgba(255, 255, 255, 0.1);
     text-align: center;
   }
 
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
   .react-icon-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 4rem;
     margin-bottom: 1rem;
+    animation: spin 5s infinite linear;
   }
 
   .skull-icon-container {

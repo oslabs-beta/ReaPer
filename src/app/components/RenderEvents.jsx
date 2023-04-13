@@ -41,6 +41,32 @@ function RenderEvents(props) {
     ],
   });
 
+  const options = {
+    title: {
+      display: true,
+      text: 'Render Events and Duration',
+      fontSize: 20,
+    },
+    legend: {
+      display: false,
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    onClick: (e, chartElement) => {
+      if (chartElement.length > 0) {
+        const { setFlowDisplayTree, nodesAndEdges, setComponentsRankedDisplay,  componentRenderTimes} = props;
+        const dataIndex = chartElement[0].index;
+        // Update the ComponentsRanked chart based on what bar was clicked
+        setComponentsRankedDisplay(componentRenderTimes[dataIndex]);
+        // Update the flow tree chart to display based on what bar was clicked
+        setFlowDisplayTree(nodesAndEdges[dataIndex]);
+      }
+    },
+  };
+
   useEffect(() => {
     console.log('RenderEvents: These are our renderTimes,', props.renderTimes);
     const { renderTimes } = props;
@@ -69,39 +95,11 @@ function RenderEvents(props) {
     return newChartData;
   };
 
-  const options = {
-    title: {
-      display: true,
-      text: 'Render Events and Duration',
-      fontSize: 20,
-    },
-    legend: {
-      display: false,
-    },
-    scales: {
-      yAxis: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
-    },
-    onClick: (e, chartElement) => {
-      if (chartElement.length > 0) {
-        const { setFlowDisplayTree, nodesAndEdges, setComponentsRankedDisplay,  componentRenderTimes} = props;
-        const dataIndex = chartElement[0].index;
-        // Update the ComponentsRanked chart based on what bar was clicked
-        setComponentsRankedDisplay(componentRenderTimes[dataIndex]);
-        // Update the flow tree chart to display based on what bar was clicked
-        setFlowDisplayTree(nodesAndEdges[dataIndex]);
-      }
-    },
-  };
+
 
   return (
     <div id='render-events'>
-      <p>Render Events and Duration</p>
+      <p>Render Events and Duration (ms)</p>
       <Bar data={chartData} options={options} />
     </div>
   );

@@ -14,19 +14,9 @@ class Tab {
  */
 const setTab = (tabTitle, tabId) => {
   if (currentTab !== undefined) {
-    console.log(
-      'background.js: Existing tab data being overwritten: tabTitle=',
-      currentTab.tabTitle,
-      'tabId=',
-      currentTab.tabId
-    ); // LOGS 2ND
+    // console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
   }
-  console.log(
-    'background.js: new tab data, tabTitle=',
-    tabTitle,
-    'tabId=',
-    tabId
-  );
+  // console.log('background.js: new tab data, tabTitle=', tabTitle, 'tabId=', tabId);
   currentTab = new Tab(tabTitle, tabId);
 };
 
@@ -60,22 +50,12 @@ async function getCurrentTab(resetTab = false, callback) {
 
       let isNewTab = currentTab === undefined;
       if (currentTab !== undefined) {
-        console.log(
-          'background.js: Existing tab data being overwritten: tabTitle=',
-          currentTab.tabTitle,
-          'tabId=',
-          currentTab.tabId
-        ); // LOGS 2ND
+        // console.log('background.js: Existing tab data being overwritten: tabTitle=', currentTab.tabTitle, 'tabId=', currentTab.tabId); // LOGS 2ND
         if (tab.id !== currentTab.tabId) {
           isNewTab = true;
         }
       }
-      console.log(
-        'background.js: new tab data, tabTitle=',
-        tab.title,
-        'tabId=',
-        tab.id
-      );
+      // console.log('background.js: new tab data, tabTitle=', tab.title, 'tabId=', tab.id);
       currentTab = new Tab(tab.title, tab.id);
       callback(isNewTab);
     }
