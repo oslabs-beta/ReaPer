@@ -77,6 +77,7 @@ $panel-color: rgba(255, 255, 255, 0.1);
             background: $panel-color;
             // margin: 1%;
             border-radius: 0.5em;
+            overflow-y: auto;
           }
         }
       }
@@ -171,4 +172,54 @@ $panel-color: rgba(255, 255, 255, 0.1);
 .start-view {
   @extend .view;
   flex-direction: row;
+}
+
+// RenderedComponents Table
+#component-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  overflow-y: auto;
+  overflow-x: auto;
+  max-width: 100%;
+
+  .component-table-header {
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 2px solid black;
+    padding: 0.5rem;
+    background-color: rgba(123, 123, 123, 0.825);
+  }
+
+  tbody {
+    max-height: 100%; /* set the height to a fixed value to enable scrolling */
+    overflow-y: auto;
+  }
+
+  .component-table-row {
+    border-bottom: 1px solid gray;
+    border-radius: 10px;
+
+    // &:last-child {
+    //   border-bottom: none;
+    // }
+  }
+
+  .component-table-data {
+    padding: 0.5rem;
+    background-color: rgba(123, 120, 120, 0.2);
+
+    .puzzle-icon {
+      color: #70b0c0;
+      margin-right: 1.5em;
+      align-items: center;
+    }
+  }
+
+  .component-table-footer {
+    font-weight: bold;
+    text-align: left;
+    border-top: 2px solid black;
+    padding: 0.5rem;
+  }
 }
