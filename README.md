@@ -163,7 +163,7 @@ Add ReaPer to your Chrome extensions.
 
 **Note**: ReaPer is intended for analyzing and debugging React applications __in development mode__ running on __local host__, and **not** for production websites or production versions with minimized and compressed files.
 
-**Note**: This version of ReaPer currently only supports __class components__. 
+**Note**: This version of ReaPer only fully supports __class components__. For functional components, state and props information is incomplete.
 
 Open up your project in Google Chrome. 
 
