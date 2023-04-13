@@ -1,9 +1,9 @@
 <h1 align="center" style="display: block; font-size: 2.5em; font-weight: bold; margin-block-start: 1em; margin-block-end: 1em;">
 
-<a name="logo" href=""><img align="center" src="./assets/dark_reaper.png" alt="ReaPer Logo (Home)" style="width:80%;height:80%"/></a>
-  <br /><br /><strong>ReaPer</strong>
+<a name="logo" href="http://getreaper.io"><img align="center" src="src/extension/assets/reaper-banner.png" alt="ReaPer Logo (Home)" style="width:100%;height:100%"/></a>
+  <br /><br /><strong>[ReaPer](#reaper)</strong>
+  
 </h1>
-
 <div align="center"> 
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
@@ -31,8 +31,6 @@ Quick Links
 <a name="" href="">Product Hunt</a>
 </p>
 <br /><br />
-
-</div>
 
 ---
 
@@ -72,8 +70,8 @@ There are several strategies developers can leverage to improve the performance 
 
 ## [Key Features](#key-features)
 
-ReaPer allows developers to start and end a session to record render event data so that it can provide a visualization that details render times and information on how the virtual DOM and each component's performance changes during a session.
 
+ReaPer allows developers to start and end a session to record render event data so that it can provide a visualization that details render times and information on how the virtual DOM and each component's performance changes during a session.
 (Start recording session visual)
 
 ReaPer's dashboard then displays four sets of data to analyze the render events.

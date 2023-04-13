@@ -101,7 +101,7 @@ function RenderEvents(props) {
 
   return (
     <div id='render-events'>
-      <p>Render Events and Duration</p>
+      <p>Render Events and Duration (ms)</p>
       <Bar data={chartData} options={options} />
     </div>
   );
