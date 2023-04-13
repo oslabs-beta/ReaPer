@@ -7,32 +7,12 @@ import createTree from '../test';
 
 function RenderedComponents(props) {
   console.log('renderedComp Props: ', props);
-  const [componentData, setComponentData] = useState([]);
-
-  useEffect(() => {
-    const componentRenderData = props.componentRenderData;
-    console.log(
-      'RenderedComponents: componentRenderData ',
-      componentRenderData
-    );
-    const data = componentRenderData.map(
-      ({ label, renderedCount, averageTimeRendered }) => {
-        console.log(
-          `label: ${label}, renderedCount: ${renderedCount}, averageTimeRendered: ${averageTimeRendered}`
-        );
-        return {
-          label,
-          renderedCount,
-          averageTimeRendered,
-        };
-      }
-    );
-    console.log('renderComp Data: ', data);
-    setComponentData(data);
-  }, [props]);
+  const [label, setLabel] = useState([]);
+  const [renderCount, setRenderCount] = useState([]);
+  const [averageRenderDuration, setAverageRenderDuration] = useState([]);
 
   // const data = {
-  //   labels: [
+  //   label: [
   //     'App',
   //     'MainContainer',
   //     'TotalsDisplay',
@@ -52,7 +32,7 @@ function RenderedComponents(props) {
   // };
 
   // const [componentData, setComponentData] = useState({
-  //   labels: [],
+  //   label: [],
   //   datasets: [
   //     {
   //       label: 'Rendered Components',
@@ -135,7 +115,7 @@ function RenderedComponents(props) {
   //   );
 
   //   setComponentData({
-  //     labels: data.map((d) => d.label),
+  //     label: data.map((d) => d.label),
   //     datasets: [
   //       {
   //         label: 'Rendered Components',
@@ -148,60 +128,57 @@ function RenderedComponents(props) {
   //   });
   // }, [props.componentRenderData]);
 
+  useEffect(() => {
+    const componentRenderData = props.componentRenderData;
+    const label = [];
+    const renderCount = [];
+    const averageTimeRendered = [];
+
+    for (let i = 0; i < componentRenderData.length; i++) {
+      const renderDataArray = componentRenderData[i];
+      for (let j = 1; j < renderDataArray.length; j++) {
+        const renderData = renderDataArray[j];
+        label.push(renderData.label);
+        renderCount.push(renderData.renderedCount);
+        averageTimeRendered.push(renderData.averageTimeRendered);
+      }
+    }
+
+    // Use the extracted data as needed
+    console.log('label: ', label);
+    console.log('renderCount: ', renderCount);
+    console.log('averageTimeRendered: ', averageTimeRendered);
+    setLabel(label);
+    setRenderCount(renderCount);
+    setAverageRenderDuration(averageTimeRendered);
+  }, [props]);
   return (
     <div id='render-comp'>
       <p>Rendered Components</p>
       {/* <Line data={componentData} options={options} /> */}
-      {/* <table id='component-table'>
-        <thead>
-          <tr>
-            <th className='component-table-header'>Component</th>
-            <th className='component-table-header'>Number of Times Rendered</th>
-            <th className='component-table-header'>Average Time Rendered</th>
-          </tr>
-        </thead>
-        <tbody>
-          {componentData.map(
-            ({ label, renderedCount, averageTimeRendered }) => (
-              <tr className='component-table-row' key={label}>
-                <td className='component-table-data'>{label}</td>
-                <td className='component-table-data'>
-                  <FontAwesomeIcon
-                    icon={faPuzzlePiece}
-                    className='puzzle-icon'
-                  />
-                  {renderedCount}
-                </td>
-                <td className='component-table-data'>{averageTimeRendered}</td>
-              </tr>
-            )
-          )}
-        </tbody>
-      </table> */}
       <table id='component-table'>
         <thead>
           <tr>
             <th className='component-table-header'>Component</th>
             <th className='component-table-header'>Number of Times Rendered</th>
-            <th className='component-table-header'>Average Time Rendered</th>
+            <th className='component-table-header'>
+              Average Time Rendered in MS
+            </th>
           </tr>
         </thead>
         <tbody>
-          {componentData.map(
-            ({ label, renderedCount, averageTimeRendered }) => (
-              <tr className='component-table-row' key={label}>
-                <td className='component-table-data'>{label}</td>
-                <td className='component-table-data'>
-                  <FontAwesomeIcon
-                    icon={faPuzzlePiece}
-                    className='puzzle-icon'
-                  />
-                  {renderedCount}
-                </td>
-                <td className='component-table-data'>{averageTimeRendered}</td>
-              </tr>
-            )
-          )}
+          {label.map((item, index) => (
+            <tr className='component-table-row' key={item}>
+              <td className='component-table-data'>{item}</td>
+              <td className='component-table-data'>
+                <FontAwesomeIcon icon={faPuzzlePiece} className='puzzle-icon' />
+                {renderCount[index]}
+              </td>
+              <td className='component-table-data'>
+                {averageRenderDuration[index]}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

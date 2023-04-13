@@ -51,20 +51,19 @@ function Dashboard(props) {
       newComponentRenderTimes.push(
         getComponentRenderTimes(renderEventList[i].tree.root)
       );
-
-      for (let i = 0; i < renderEventList.length; i++) {
-        const counts = {};
-        const durations = {};
-        const componentData = traverse(
-          renderEventList[i].tree.root,
-          counts,
-          durations
-        );
-        newComponentRenderData.push(componentData);
-      }
-
-      setComponentRenderData(newComponentRenderData);
     }
+    for (let i = 0; i < renderEventList.length; i++) {
+      const counts = {};
+      const durations = {};
+      const componentData = traverse(
+        renderEventList[i].tree.root,
+        counts,
+        durations
+      );
+      newComponentRenderData.push(componentData);
+    }
+
+    setComponentRenderData(newComponentRenderData);
 
     setComponentRenderTimes(newComponentRenderTimes);
     setNodesAndEdges(newNodesAndEdges);
