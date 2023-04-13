@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCircle,
@@ -14,9 +14,10 @@ import Context from '../contexts/Context';
 const MainNav = (props) => {
   const context = useContext(Context);
 
+  // When a reaper session is recording, recording will be true and the button will flash based on css
   return (
     <nav id="main-nav">
-      <button type="button" className="main-nav-btn" onClick={() => props.handleRecordBtnClick()}>
+      <button type="button" className="main-nav-btn record" onClick={() => props.handleRecordBtnClick()} recording={`${props.sessionStatus === true}`}>
         <FontAwesomeIcon icon={faCircle} />
       </button>
       <button type="button" className="main-nav-btn">
