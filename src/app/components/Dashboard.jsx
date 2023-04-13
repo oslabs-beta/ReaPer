@@ -58,20 +58,22 @@ function Dashboard(props) {
     // Skip over the root component in React fiber
     const bfsQueue = [...root.children];
     const treeComponentRenderTimes = {};
-    let componentCounter = 1;
+    // let componentCounter = 1;
 
     while (bfsQueue.length > 0) {
       const treeNode = bfsQueue.shift();
 
       // Key: component name
       // Value: time it took to render the component
-      if (treeComponentRenderTimes[treeNode.componentName]) {
-        componentCounter++;
-        treeComponentRenderTimes[`${treeNode.componentName}-${componentCounter}`] = treeNode.renderDurationMS;
-      } else {
-        componentCounter = 1;
-        treeComponentRenderTimes[treeNode.componentName] = treeNode.renderDurationMS;
-      }
+      // if (treeComponentRenderTimes[treeNode.componentName]) {
+      //   componentCounter++;
+      //   treeComponentRenderTimes[`${treeNode.componentName}-${componentCounter}`] = treeNode.renderDurationMS;
+      // } else {
+      //   componentCounter = 1;
+      //   treeComponentRenderTimes[treeNode.componentName] = treeNode.renderDurationMS;
+      // }
+
+      treeNode.key ? treeComponentRenderTimes[`${treeNode.componentName}-${treeNode.key}`] = treeNode.renderDurationMS : treeComponentRenderTimes[treeNode.componentName] = treeNode.renderDurationMS;
 
       if (treeNode.children.length > 0) bfsQueue.push(...treeNode.children);
     }
