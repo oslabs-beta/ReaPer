@@ -32,6 +32,8 @@ Quick Links
 </p>
 <br /><br />
 
+</div>
+
 ---
 
 ## What is ReaPer?
@@ -70,32 +72,62 @@ There are several strategies developers can leverage to improve the performance 
 
 ## [Key Features](#key-features)
 
-
 ReaPer allows developers to start and end a session to record render event data so that it can provide a visualization that details render times and information on how the virtual DOM and each component's performance changes during a session.
-(Start recording session visual)
+
+<img
+  align="center"
+  src="./assets/dash-start_recording.png"
+  alt="recording"
+  title="recording"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 ReaPer's dashboard then displays four sets of data to analyze the render events.
 
-(Visual for entire dashboard)
+<img
+  align="center"
+  src="./assets/dashboard.png"
+  alt="dashboard"
+  title="dashboard"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
 Developers have a bar graph of render events and event durations. 
 
-(Visual of graph populating)
+<img
+  align="center"
+  src="./assets/dash-render_duration.png"
+  alt="duration"
+  title="duration"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
-There is another graph of components ranked by their render time to see which costs the most to least time to render. 
+Another graph displays the render time for each component during a specific render event.
 
-(Visual of graph populating)
+<img
+  align="center"
+  src="./assets/dash-component_render.png"
+  alt="componeent"
+  title="component"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 
 ** THIS MAY CHANGED BASED ON FRONT END [The last graph is a line graph of each component extracted to display and compare their individual render times.]
 
-(Visual of graph populating)
+<img
+  align="center"
+  src="./assets/dash-render_list.png"
+  alt="list"
+  title="list"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 By traversing the React Fiber tree, a visual of the React virtual DOM is created and displayed, allowing developers to see how the virtual DOM and components’ state and props change over time. 
 
-(Visual of DOM tree)
+<img
+  align="center"
+  src="./assets/dash-DOM.png"
+  alt="DOM"
+  title="DOM"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
@@ -214,6 +246,41 @@ To gain access to the user’s target website’s DOM and its React Dev Tools gl
 - Add an event listener for a “endReaperSession” event
 
 The “startReaperSession” and “endReaperSession” events are created and dispatched by the content script via `document.dispatchEvent`.
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_1.jpg"
+  alt="flow1"
+  title="flow1"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_2.jpg"
+  alt="flow2"
+  title="flow2"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_3.jpg"
+  alt="flow3"
+  title="flow3"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_4.jpg"
+  alt="flow4"
+  title="flow4"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
+
+<img
+  align="center"
+  src="./assets/Backend_Flow_5.jpg"
+  alt="flow5"
+  title="flow5"
+  style="display: inline-block; margin: 0 auto; max-width: 500px; border-radius=10px;">
 
 <div align="right">[ <a href="#table-of-contents">↑ to top ↑</a> ]</div>
 
