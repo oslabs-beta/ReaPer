@@ -58,6 +58,7 @@ function RenderEvents(props) {
     onClick: (e, chartElement) => {
       if (chartElement.length > 0) {
         const { setFlowDisplayTree, nodesAndEdges, setComponentsRankedDisplay,  componentRenderTimes} = props;
+        // Get the index of what 
         const dataIndex = chartElement[0].index;
         // Update the ComponentsRanked chart based on what bar was clicked
         setComponentsRankedDisplay(componentRenderTimes[dataIndex]);

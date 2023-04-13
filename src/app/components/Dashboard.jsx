@@ -8,7 +8,6 @@ import RenderedComponents from './RenderedComponents';
 import { render } from 'react-dom';
 
 function Dashboard(props) {
-  console.log('props: ', props.reaperSessionObj);
   /**
    * State Variables
    */
@@ -33,7 +32,7 @@ function Dashboard(props) {
   // Update only when props is updated
   useEffect(() => {
     const { renderEventList } = props.reaperSessionObj;
-    console.log('renderEventList: ', renderEventList);
+  
 
     const newRenderTimes = [];
     const newNodesAndEdges = [];
@@ -46,33 +45,11 @@ function Dashboard(props) {
     // Deconstruct our reaperSessionObj
     for (let i = 0; i < renderEventList.length; i++) {
       newRenderTimes.push(renderEventList[i].totalRenderDurationMS);
-      newNodesAndEdges.push(
-        createNodesAndEdges(renderEventList[i].tree.root, i)
-      );
-      newComponentRenderTimes.push(
-        getComponentRenderTimes(renderEventList[i].tree.root)
-      );
+      newNodesAndEdges.push(createNodesAndEdges(renderEventList[i].tree.root, i));
+      newComponentRenderTimes.push(getComponentRenderTimes(renderEventList[i].tree.root));
     }
-    // Skip the root
-    // Make the array only hold onto one set of components with everything math'd out
-    // for (let i = 0; i < renderEventList.length; i++) {
-    //   const counts = {};
-    //   const durations = {};
-    //   const keys = {};
-    //   const componentData = traverse(
-    //     renderEventList[i].tree.root,
-    //     counts,
-    //     durations,
-    //     keys
-    //   );
-    //   newComponentRenderData.push(componentData);
-    // }
 
-    // setComponentRenderData(newComponentRenderData);
-    console.log(
-      'Dashboard: renderedComponentsData ',
-      traverse(renderEventList)
-    );
+    createComponentRenderData(renderEventList);
 
     setComponentRenderTimes(newComponentRenderTimes);
     setNodesAndEdges(newNodesAndEdges);
@@ -87,14 +64,7 @@ function Dashboard(props) {
 
   // };
 
-  // function to traverse tree to get componentName, its occurrences, and avg renderDurationMS
-
-  // render events: [1, 2, 3]
-  //            app
-  //            /  \
-  //          row-0   row-1
-  // 2.3 2.5 2.7
-  const traverse = (renderEvents) => {
+  const createComponentRenderData = (renderEvents) => {
     const totalComponentStats = {};
 
     const bfs = (...componentTree) => {
@@ -103,22 +73,11 @@ function Dashboard(props) {
       while (bfsQueue.length > 0) {
         const treeNode = bfsQueue.shift();
         // Create a property with key; componentName. If the key on component is filled in, then include in the key name otherwise don't.
-        if (
-          Object.hasOwn(
-            totalComponentStats,
-            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
-          )
-        ) {
-          totalComponentStats[
-            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
-          ].timesRendered++;
-          totalComponentStats[
-            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
-          ].avgRenderDuration += treeNode.renderDurationMS;
+        if (Object.hasOwn(totalComponentStats, `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`)) {
+          totalComponentStats[`${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`].timesRendered++;
+          totalComponentStats[`${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`].avgRenderDuration += treeNode.renderDurationMS;
         } else {
-          totalComponentStats[
-            `${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`
-          ] = {
+          totalComponentStats[`${treeNode.componentName}${treeNode.key ? `-${treeNode.key}` : ''}`] = {
             timesRendered: 1,
             avgRenderDuration: treeNode.renderDurationMS,
           };
@@ -139,7 +98,7 @@ function Dashboard(props) {
         totalComponentStats[component].timesRendered;
     }
 
-    return totalComponentStats;
+    setComponentRenderData(totalComponentStats);
   };
 
   const getComponentRenderTimes = (root) => {
@@ -212,6 +171,8 @@ function Dashboard(props) {
         width,
         height,
       });
+
+      dagreGraph.setNode(id, { label: `${treeNode.componentName}-${index}`, width, height });
       dagreTreeNodeInfo[id] = {
         componentProps: treeNode.componentProps,
         componentState: treeNode.componentState,
@@ -300,41 +261,4 @@ function Dashboard(props) {
   );
 }
 
-// Maybe use state to determine whether or not we have a total of > 1 event
-// Create tree in this file
-// Then distribute to it's sub portions make up the whole!
 export default Dashboard;
-
-//   if (!node) {
-//     return [];
-//   }
-
-//   // node.renderDurationMS
-//   const { componentName, renderDurationMS, children, key } = node;
-
-//   // Update counts and durations for current component
-//   // counts[componentName] = (counts[componentName] || 0) + 1;
-//   // durations[componentName] =
-//   //   (durations[componentName] || 0) + renderDurationMS;
-
-//   counts[componentName] = 1;
-//   durations[componentName] = renderDurationMS;
-//   keys[componentName] = key;
-//   //Recursively traverse children
-//   let childData = [];
-//   if (children && children.length > 0) {
-//     for (const child of children) {
-//       childData = childData.concat(traverse(child, counts, durations, keys));
-//     }
-//   }
-
-//   const count = counts[componentName];
-//   const avgDuration = durations[componentName] / count;
-//   const componentData = {
-//     label: componentName,
-//     renderedCount: count,
-//     averageTimeRendered: avgDuration,
-//   };
-
-//   return [componentData, ...childData];
-// };

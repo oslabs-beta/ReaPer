@@ -64,7 +64,7 @@ const ComponentsRanked = (props) => {
   const createDataForChart = (renderTimes) => {
     const labels = [];
     const data = [];
-    console.log('ComponentsRanked: renderTimes ', renderTimes);
+    // console.log('ComponentsRanked: renderTimes ', renderTimes);
 
     for (const [componentName, renderTime] of Object.entries(renderTimes)) {
       labels.push(componentName);
@@ -82,7 +82,7 @@ const ComponentsRanked = (props) => {
       ],
     };
 
-    console.log('ComponentsRanked: newChartData ', newChartData);
+    // console.log('ComponentsRanked: newChartData ', newChartData);
     return newChartData;
   };
 
