@@ -13,7 +13,6 @@
 ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
-[![Latest release](https://img.shields.io/github/v/release/oslabs-beta/ReaPer?label=Latest%20release&style=social)](https://github.com/oslabs-beta/ReaPer/releases/tag/v1.0.0)
 [![Stars](https://img.shields.io/github/stars/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/stargazers)
 [![Fork](https://img.shields.io/github/forks/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/network/members)
 [![Watchers](https://img.shields.io/github/watchers/oslabs-beta/ReaPer?style=social)](https://github.com/oslabs-beta/ReaPer/watchers)
