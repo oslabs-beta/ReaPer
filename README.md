@@ -1,6 +1,6 @@
 <h1 align="center" style="display: block; font-size: 2.5em; font-weight: bold; margin-block-start: 1em; margin-block-end: 1em;">
 
-<a name="logo" href="http://getreaper.io"><img align="center" src="src/extension/assets/reaper-banner.png" alt="ReaPer Logo (Home)" style="width:100%;height:100%"/></a>
+<a name="logo" href="http://getreaper.io"><img align="center" src="assets/reaper-banner-ev.png" alt="ReaPer Logo (Home)" style="width:100%;height:100%"/></a>
   <br /><br /><strong>[ReaPer](#reaper)</strong>
   
 </h1>
@@ -10,6 +10,7 @@
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![SASS](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)
 ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
@@ -27,7 +28,8 @@ Quick Links
 <p align="center" style="font-size: 1em">
 <a name="website" href="https://getreaper.io/">Website</a>
 <a name="medium" href="https://medium.com/@annako/reaper-an-open-source-dev-tool-to-analyze-react-application-performance-786f1d40f6de">Medium</a>
-<a name="product-hunt" href="https://www.producthunt.com/@react_performance">Product Hunt</a>
+<a name="product-hunt" href="https://www.producthunt.com/posts/reaper-2">Product Hunt</a>
+<a name="linkedin" href="https://www.linkedin.com/company/react-perf/">LinkedIn</a>
 </p>
 <br /><br />
 
