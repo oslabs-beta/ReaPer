@@ -3,10 +3,6 @@ import MainNav from './components/MainNav';
 import Context from './contexts/Context';
 import createMessageObj from '../backend/helperFns';
 import types from '../backend/types';
-import ComponentTree from './components/ComponentTree.jsx';
-import RenderEvents from './components/RenderEvents';
-import ComponentsRanked from './components/ComponentsRanked';
-import RenderedComponents from './components/RenderedComponents';
 import StartView from './components/StartView';
 import SessionProgress from './components/SessionProgress';
 import Dashboard from './components/Dashboard';
@@ -45,7 +41,10 @@ function App() {
    */
   const handleMessageFromBackground = (request, sender, sendResponse) => {
     try {
-      console.log('dev tool received message from background:', request.message);
+      console.log(
+        'dev tool received message from background:',
+        request.message
+      );
       switch (request.message.type) {
         case 'SEND_REAPER_SESSION':
           // reaperSessionObj = JSON.parse(request.message.payload);
@@ -53,7 +52,6 @@ function App() {
           // console.log('This is a reaperSessionObj', reaperSession);
           const rs = JSON.parse(request.message.payload);
           setReaperSession(rs);
-          console.log('This is a reaperSessionObj', reaperSession);
           break;
         default:
           console.log('App.jsx: unknown message type!', request.message.type);
@@ -89,7 +87,7 @@ function App() {
 
   // Logic from line 95 - 103 is used to determine what screen will display
   //  StartView: If there is no session recording and no reaperSession object saved
-  //  SessionProgress: If there is a session recording and no reaperSession object saved. 
+  //  SessionProgress: If there is a session recording and no reaperSession object saved.
   //                   If there is a session recording and there is a reaperSession object saved.
   //  Dashboard: If there is no session recording and there is a reaperSession object saved.
   return (
@@ -97,14 +95,14 @@ function App() {
       <Context.Provider value={sendMessageToBackground}>
         <MainNav handleRecordBtnClick={handleRecordBtnClick} sessionStatus={sessionStatus} />
         {!sessionStatus && !reaperSession ? (
-            <StartView />
-          ) : 
-          (sessionStatus && !reaperSession) || (sessionStatus && reaperSession) ? (
-            <SessionProgress />
-          )  :
-          (!sessionStatus && reaperSession) && (
-            <Dashboard reaperSessionObj={reaperSession} />
-          )}
+          <StartView />
+        ) : (sessionStatus && !reaperSession) ||
+          (sessionStatus && reaperSession) ? (
+          <SessionProgress />
+        ) : (
+          !sessionStatus &&
+          reaperSession && <Dashboard reaperSessionObj={reaperSession} />
+        )}
       </Context.Provider>
     </div>
   );
