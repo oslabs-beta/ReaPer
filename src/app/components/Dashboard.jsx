@@ -21,10 +21,9 @@ function Dashboard(props) {
 
   // This will hold all component render times
   const [componentRenderTimes, setComponentRenderTimes] = useState([]);
-  // Holds the current componentRenderTime object that is to be displayed in the components ranked
-  const [componentsRankedDisplay, setComponentsRankedDisplay] = useState({});
+  const [componentsRankedCurrentDisplayedData, setComponentsRankedCurrentDisplayedData] = useState({});
 
-  //State to store data for RenderedComponents
+  // State to store data for RenderedComponents
   const [componentRenderData, setComponentRenderData] = useState([]);
 
   // State to hold RenderedComponents Data (componentName, occurrence, avg RenderDurationMS)
@@ -55,7 +54,7 @@ function Dashboard(props) {
 
     // Display the first renderEvent data by default in the corresponding charts
     setFlowDisplayTree(newNodesAndEdges[0]);
-    setComponentsRankedDisplay(newComponentRenderTimes[0]);
+    setComponentsRankedCurrentDisplayedData(newComponentRenderTimes[0]);
   };
 
   // Used for RenderedComponents
@@ -217,7 +216,7 @@ function Dashboard(props) {
               nodesAndEdges={nodesAndEdges}
               setFlowDisplayTree={setFlowDisplayTree}
               componentRenderTimes={componentRenderTimes}
-              setComponentsRankedDisplay={setComponentsRankedDisplay}
+              setComponentsRankedCurrentDisplayedData={setComponentsRankedCurrentDisplayedData}
               renderTimes={renderTimes}
             />
           </div>
@@ -232,7 +231,7 @@ function Dashboard(props) {
         <div className='column'>
           <div className='graph'>
             <ComponentsRanked
-              componentsRankedDisplay={componentsRankedDisplay}
+              componentsRankedCurrentDisplayedData={componentsRankedCurrentDisplayedData}
             />
           </div>
         </div>

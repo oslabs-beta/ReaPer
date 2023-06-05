@@ -61,11 +61,11 @@ const ComponentsRanked = (props) => {
   }, [props]);
 
   const createDataForChart = () => {
-    const { componentsRankedDisplay } = props;
+    const { componentsRankedCurrentDisplayedData } = props;
     const labels = [];
     const data = [];
 
-    for (const [componentName, componentRenderTimes] of Object.entries(componentsRankedDisplay)) {
+    for (const [componentName, componentRenderTimes] of Object.entries(componentsRankedCurrentDisplayedData)) {
       labels.push(componentName);
       data.push(componentRenderTimes);
     }
