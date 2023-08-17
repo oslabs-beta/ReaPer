@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import MainNav from './components/MainNav';
-import Context from './contexts/Context';
 import createMessageObj from '../backend/helperFns';
 import types from '../backend/types';
 import StartView from './components/StartView';
@@ -92,18 +91,16 @@ function App() {
   //  Dashboard: If there is no session recording and there is a reaperSession object saved.
   return (
     <div id='container'>
-      <Context.Provider value={sendMessageToBackground}>
-        <MainNav handleRecordBtnClick={handleRecordBtnClick} sessionStatus={sessionStatus} />
-        {!sessionStatus && !reaperSession ? (
-          <StartView />
-        ) : (sessionStatus && !reaperSession) ||
-          (sessionStatus && reaperSession) ? (
-          <SessionProgress />
-        ) : (
-          !sessionStatus &&
-          reaperSession && <Dashboard reaperSessionObj={reaperSession} />
-        )}
-      </Context.Provider>
+      <MainNav handleRecordBtnClick={handleRecordBtnClick} sessionStatus={sessionStatus} />
+      {!sessionStatus && !reaperSession ? (
+        <StartView />
+      ) : (sessionStatus && !reaperSession) ||
+        (sessionStatus && reaperSession) ? (
+        <SessionProgress />
+      ) : (
+        !sessionStatus &&
+        reaperSession && <Dashboard reaperSessionObj={reaperSession} />
+      )}
     </div>
   );
 }
