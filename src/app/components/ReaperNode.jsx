@@ -2,7 +2,7 @@ import React from 'react';
 import { Handle, Position } from 'reactflow';
 
 const ReaperStateProps = (props) => {
-  let componentStateArr = [];
+  const componentStateArr = [];
   const componentPropsArr = [];
 
   const setData = (targetArr, propsInfo) => {
@@ -14,7 +14,12 @@ const ReaperStateProps = (props) => {
     } else {
       for (const [key, val] of Object.entries(propsInfo)) {
         targetArr.push(
-          <li>{key}: {JSON.stringify(val)}</li>
+          <li>
+            {key}
+            :
+            {' '}
+            {JSON.stringify(val)}
+          </li>,
         );
       }
     }
