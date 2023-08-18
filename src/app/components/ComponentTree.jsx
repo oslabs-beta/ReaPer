@@ -4,7 +4,6 @@ import ReactFlow, {
   Controls,
   Background,
 } from 'reactflow';
-import dagre from 'dagre';
 import ReaperNode from './ReaperNode';
 
 const nodeTypes = { reaperFlowNode: ReaperNode };
