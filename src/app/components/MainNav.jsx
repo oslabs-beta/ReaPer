@@ -8,11 +8,8 @@ import {
   faGear,
   faCircleQuestion,
 } from '@fortawesome/free-solid-svg-icons';
-import Context from '../contexts/Context';
 
 const MainNav = (props) => {
-  const context = useContext(Context);
-
   // When a reaper session is recording, recording will be true and the button will flash based on css
   return (
     <nav id="main-nav">

@@ -1,13 +1,10 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSkull } from '@fortawesome/free-solid-svg-icons';
 import reaperLogo from '../../extension/assets/reaper-128.png';
 
 function StartView() {
   return (
     <div className='start-view'>
       <div className='skull-icon-container'>
-        {/* <FontAwesomeIcon icon={faSkull} size='4x' color='white' /> */}
         <img src={reaperLogo} alt="reaper logo" />
       </div>
       <div className='start-text'>
